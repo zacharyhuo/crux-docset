@@ -1,0 +1,5 @@
+node_modules/
+.work/
+.DS_Store
+coverage/
+.venv/

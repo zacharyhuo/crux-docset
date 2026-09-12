@@ -1,0 +1,902 @@
+{
+  "generated_at": "2026-09-12T11:09:23.474Z",
+  "host": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "node": "v26.8.2",
+    "cpu": "Apple M3 Max",
+    "logical_cpus": 16
+  },
+  "pins": {
+    "content": "8bc4e3fe45532906246a760bff0b06b7cd105c52",
+    "fred": {
+      "version": "2.9.1",
+      "npm_gitHead": "a010ecbfec855c938d43ee1645e1d058d4c1fa0b",
+      "inspected_main": "1bd8b8ade2b798f89eca9995d71a261178a06e24"
+    },
+    "rari": {
+      "version": "0.2.34",
+      "tag_commit": "bfcea4b1e7d9df04fd35c05d3540490558154cc2",
+      "inspected_main": "4e521dbb8ccd463376e6a793d3dcefc02de6c735"
+    }
+  },
+  "npm_lock_sha256": "f7cdd2d226f9e2268f2b8e85d1eaf321eee3d807bbf8a53055f1fb6d3e32c366",
+  "rari_binary_sha256": "76a5b4935e5163c6b620be4d3383794726ef5a7f6dacaad7eb03b282d1768f62",
+  "sources": {
+    "files": [
+      {
+        "path": "files/en-us/_redirects.txt",
+        "bytes": 1768895,
+        "sha256": "8d627a1c6eff7bf8503e06d32d816c5d1d2fb203ec95f04fcd372e41d2c865c8"
+      },
+      {
+        "path": "files/en-us/web/api/index.md",
+        "bytes": 573,
+        "sha256": "297e2882c18471c600f09134832ccfc9d3eb6a32e736fd75b24ebbe60becd5d7"
+      },
+      {
+        "path": "files/en-us/web/css/index.md",
+        "bytes": 8047,
+        "sha256": "a41005dce98e9612aa97c6651ae1de21112fbcd906b3152950c34a94aa808939"
+      },
+      {
+        "path": "files/en-us/web/css/reference/index.md",
+        "bytes": 8282,
+        "sha256": "c7c3f6560fc57670ddd8f23903199fe6ee8a35a5ca33d9088f631ff4d330f032"
+      },
+      {
+        "path": "files/en-us/web/css/reference/properties/display/index.md",
+        "bytes": 23659,
+        "sha256": "54a35a02a2d614c78df928643016cb2d859a2bf8f84273f01124dea62776cec8"
+      },
+      {
+        "path": "files/en-us/web/css/reference/properties/index.md",
+        "bytes": 21269,
+        "sha256": "b2306abf0d48ae2a68308dad1f8d9574b78bfac9fd7f16bdc98d1660b4ca534a"
+      },
+      {
+        "path": "files/en-us/web/html/index.md",
+        "bytes": 9242,
+        "sha256": "7eb02a20c56391ab4317a5c3d6f4ac740b4ffcf2b2b572a436842d16e6c903fc"
+      },
+      {
+        "path": "files/en-us/web/html/reference/elements/a/index.md",
+        "bytes": 26500,
+        "sha256": "5227807f78dd1da9841b9398afa6ebd5d1622f7b435fb3ecb64acff5a9e59079"
+      },
+      {
+        "path": "files/en-us/web/html/reference/elements/index.md",
+        "bytes": 76603,
+        "sha256": "d3479b4759b4ce281f2d3d47b4d3db7481cc9a9dfbf9c6952487f98ddbdd9ec3"
+      },
+      {
+        "path": "files/en-us/web/html/reference/index.md",
+        "bytes": 1671,
+        "sha256": "331e1cedf914dc9e1a74f5e69befd4fa4572c091254db8c8091a5be107469369"
+      },
+      {
+        "path": "files/en-us/web/index.md",
+        "bytes": 5380,
+        "sha256": "fd5a0a7ba4e764cedd34914a34ed258621e3781594378420af905adf2fd8da31"
+      },
+      {
+        "path": "files/en-us/web/javascript/index.md",
+        "bytes": 8874,
+        "sha256": "430344c865b8a74ca06815255682ed0a32433e7fa1e3ddac9a11a74ffa25bfec"
+      },
+      {
+        "path": "files/en-us/web/javascript/reference/global_objects/array/index.md",
+        "bytes": 49546,
+        "sha256": "8d1ee53e743ac8d6a502aee1b4e0333b3610e3b2693c2705b1af8ddb7e554e58"
+      },
+      {
+        "path": "files/en-us/web/javascript/reference/global_objects/array/map/index.md",
+        "bytes": 10016,
+        "sha256": "ab90b8573acfd0a3baf2ed75506784b5ea9efa2598688403bb19a31e993053ed"
+      },
+      {
+        "path": "files/en-us/web/javascript/reference/global_objects/index.md",
+        "bytes": 5299,
+        "sha256": "1e27fc72af1dcccdbfc84f492454bf97c35d31cca841ce7114b0f43fb5375c4a"
+      },
+      {
+        "path": "files/en-us/web/javascript/reference/index.md",
+        "bytes": 13825,
+        "sha256": "a2a90ac90c0a4f999f4df571729ed2a99526141268fbf4c911718576b53c0d55"
+      },
+      {
+        "path": "files/jsondata/GroupData.json",
+        "bytes": 83900,
+        "sha256": "0cff7a120f34fb55b19ec4981959e8083f913e4107da43d260e67f2d55e76f52"
+      },
+      {
+        "path": "files/jsondata/InterfaceData.json",
+        "bytes": 84011,
+        "sha256": "5ada898997b4f98b4bdb265d62cb6356404dc84681e68c6a173cd63209cee61c"
+      },
+      {
+        "path": "files/jsondata/L10n-CSS.json",
+        "bytes": 3694,
+        "sha256": "a23762ebf7b3519494c237921325a04db4e7cce94f5c665366b184305e7033fa"
+      },
+      {
+        "path": "files/jsondata/L10n-CSSFormalDefinitions.json",
+        "bytes": 275079,
+        "sha256": "5b893888f6aa0d8d35ec9c28791e0a0e59fd96b2869ea82eb1c7fb44c4fc5d97"
+      },
+      {
+        "path": "files/jsondata/L10n-Common.json",
+        "bytes": 9032,
+        "sha256": "80ec2ff5e840a2bbda9280db9456394c3583c9958fe57e307c5434e48197507f"
+      },
+      {
+        "path": "files/jsondata/L10n-JavaScript.json",
+        "bytes": 410,
+        "sha256": "d2265bee880ff6f6a6922882d8531e517c33d4c9e215a17ec993a201e93833b7"
+      },
+      {
+        "path": "files/jsondata/L10n-SVG.json",
+        "bytes": 26030,
+        "sha256": "0043b7047f61fbdf741e64842011541ff6e7996df906ac7ccd505e2979d33aca"
+      },
+      {
+        "path": "files/jsondata/L10n-Template.json",
+        "bytes": 35232,
+        "sha256": "8c01cdd9118fc0695eea64fa27367710f01b112d165a832d9c38e6c369e8111b"
+      },
+      {
+        "path": "files/jsondata/SVGData.json",
+        "bytes": 38815,
+        "sha256": "9c2876df8b94145a93ceacdd946c9b6d0a82d9d70e36d10dea04481c461c5f4d"
+      },
+      {
+        "path": "files/jsondata/SpecData.json",
+        "bytes": 60047,
+        "sha256": "fca1bf8c8b512489ead9fd860ae21bf53a4a773e4dde674d007c9ed719dee959"
+      }
+    ],
+    "bytes": 2653931,
+    "tree_sha256": "59f020ffc0c0438d38a26a32e94ec2c50f14fb6b67e4d16893c694ceea01672c"
+  },
+  "rari_data": {
+    "files": [
+      {
+        "path": "@mdn/browser-compat-data/last_check.json",
+        "bytes": 86,
+        "sha256": "1a8e219117ae761045708b4b8b2ddc00438629bb0138b816fabc68d82378bd40"
+      },
+      {
+        "path": "@mdn/browser-compat-data/package/LICENSE",
+        "bytes": 6555,
+        "sha256": "36ffd9dc085d529a7e60e1276d73ae5a030b020313e6c5408593a6ae2af39673"
+      },
+      {
+        "path": "@mdn/browser-compat-data/package/README.md",
+        "bytes": 14793,
+        "sha256": "df83c8411637dda8b02b0f943b523ec90a39803c2b6a8c351258bb4b7aa91931"
+      },
+      {
+        "path": "@mdn/browser-compat-data/package/data.json",
+        "bytes": 20207952,
+        "sha256": "65d3f4d1e0d3acf4441eed690a6f7e38fce5c3d6ef4453f8e719b9970d168a14"
+      },
+      {
+        "path": "@mdn/browser-compat-data/package/import.d.mts",
+        "bytes": 215,
+        "sha256": "9a87a3d8a60924b48d3910af2ebd1b43d99d96f268cc28215b5d37db1ee386a8"
+      },
+      {
+        "path": "@mdn/browser-compat-data/package/legacynode.mjs",
+        "bytes": 230,
+        "sha256": "aae2838f01b26c3aa0235ffc10ef5d084471d1978eb54a3a451ee11c07d40f64"
+      },
+      {
+        "path": "@mdn/browser-compat-data/package/package.json",
+        "bytes": 1036,
+        "sha256": "d376ab16dba1e6ecafaa0f46c6b60a41de266b3df59357d63c3127c15f068365"
+      },
+      {
+        "path": "@mdn/browser-compat-data/package/require.d.ts",
+        "bytes": 215,
+        "sha256": "9a87a3d8a60924b48d3910af2ebd1b43d99d96f268cc28215b5d37db1ee386a8"
+      },
+      {
+        "path": "@mdn/browser-compat-data/package/types.d.ts",
+        "bytes": 6611,
+        "sha256": "427c1484aaa8fda675d25f399a7d59db25e158296a5bc08a8ff07a0b3f706080"
+      },
+      {
+        "path": "@mdn/browser-compat-data/spec_urls.json",
+        "bytes": 1987756,
+        "sha256": "7dde7be48fe18fbe93b98b235212af2ffc6cc18bfab75e6c952d25b7064b484d"
+      },
+      {
+        "path": "@webref/css/last_check.json",
+        "bytes": 86,
+        "sha256": "0431aa659b2a30bb42889d8bdf3113cc1b8993fc0e57b4276c230a288e9f6542"
+      },
+      {
+        "path": "@webref/css/package/CHANGELOG.md",
+        "bytes": 6664,
+        "sha256": "a255c1279474c319391d44469596779220dc2cf7d2dff199eff80ea5a735c59d"
+      },
+      {
+        "path": "@webref/css/package/README.md",
+        "bytes": 25141,
+        "sha256": "2e0237c49a641652a6558e99494468fc96701629b0cde2e23f17ca8cf26bcaaa"
+      },
+      {
+        "path": "@webref/css/package/css.json",
+        "bytes": 813028,
+        "sha256": "1a51cb3fbee017b0a07178be6d37a0439c22763857473f37f2e58f3f9a7f212c"
+      },
+      {
+        "path": "@webref/css/package/index.js",
+        "bytes": 1355,
+        "sha256": "e20ea01f8d2752101e337b70a31906614c8dc4014fb837936c8dd8499208aa7c"
+      },
+      {
+        "path": "@webref/css/package/package.json",
+        "bytes": 357,
+        "sha256": "697cf780322a6cf575b0cff7e6256d96419db77d21d3c820243439b664f73434"
+      },
+      {
+        "path": "@webref/css/webref_css.json",
+        "bytes": 540799,
+        "sha256": "e260ca3606de141d66dafd4f022a9d5f0ca0b424fa1e9ba0218b8bb484570476"
+      },
+      {
+        "path": "browser-specs/last_check.json",
+        "bytes": 86,
+        "sha256": "09bfa0f90108c686dcca3017a7b40d482cd062a402bb0033d75c5d05d6f9c2f4"
+      },
+      {
+        "path": "browser-specs/package/README.md",
+        "bytes": 30291,
+        "sha256": "4fe177216921af2e018ace5e0f729d6e40de66e414f4361402cc3b34f742bb72"
+      },
+      {
+        "path": "browser-specs/package/index.json",
+        "bytes": 815112,
+        "sha256": "538c167ee533276a5fae336ad09a47c3183718495e84bf02acf676bde2d0d348"
+      },
+      {
+        "path": "browser-specs/package/package.json",
+        "bytes": 444,
+        "sha256": "b6ae56fb9c8789a768e30164881b9ad5a0723dea9191793c455e1fc4f0f7dc95"
+      },
+      {
+        "path": "browser-specs/url-titles.json",
+        "bytes": 90547,
+        "sha256": "868fa436073f773663b5be03b7df5827e4f14d7ddd6c646f182ca8e4fadd8f7c"
+      },
+      {
+        "path": "developer_signals/data.json",
+        "bytes": 35825,
+        "sha256": "143bc86c3771184834054d16100b78693dd812f8df526c64720b3f39f2d99c41"
+      },
+      {
+        "path": "developer_signals/last_check.json",
+        "bytes": 56,
+        "sha256": "27fd19209863604ec6ce8bf7a586f03e740a31f04d8e15b3e25174ee734c4e7d"
+      },
+      {
+        "path": "mdn-data/last_check.json",
+        "bytes": 87,
+        "sha256": "1002869170e9471285db126880ce4221d1580d7892a5d7a51041f1ddc3e70af1"
+      },
+      {
+        "path": "mdn-data/package/LICENSE",
+        "bytes": 6555,
+        "sha256": "36ffd9dc085d529a7e60e1276d73ae5a030b020313e6c5408593a6ae2af39673"
+      },
+      {
+        "path": "mdn-data/package/README.md",
+        "bytes": 2247,
+        "sha256": "090a28736308fe12c835751580f89f020b66ad4809701f06aa8b88fb8def275f"
+      },
+      {
+        "path": "mdn-data/package/api/index.js",
+        "bytes": 62,
+        "sha256": "d64dc22bf59b522965975947a1195ea4ee3f80a9dbe77d3bea0392b9f331fc9b"
+      },
+      {
+        "path": "mdn-data/package/api/inheritance.json",
+        "bytes": 53040,
+        "sha256": "8fac43e7df024005bc38d32b39fc376cb46e45e003e3963db79ca693a5bcf264"
+      },
+      {
+        "path": "mdn-data/package/api/inheritance.schema.json",
+        "bytes": 530,
+        "sha256": "fb5d41f83d27105f12cfe26e0109c9bd113fde1d0057d8c8f9cdbb2a6b2a5c66"
+      },
+      {
+        "path": "mdn-data/package/css/at-rules.json",
+        "bytes": 19141,
+        "sha256": "6bb3e2c49df8ea151d3b13ba4c6250fb7e526ca4503200513901f7e448629dfa"
+      },
+      {
+        "path": "mdn-data/package/css/at-rules.schema.json",
+        "bytes": 3388,
+        "sha256": "9b6eadb7d8f81d3edd274564477f507a999e72f0e338214007091288f726d96e"
+      },
+      {
+        "path": "mdn-data/package/css/definitions.json",
+        "bytes": 2088,
+        "sha256": "87567688e0281fdc622fd8652e10e20f9c9027c9ed7bfa02a9a5cdb0fdca0c30"
+      },
+      {
+        "path": "mdn-data/package/css/functions.json",
+        "bytes": 25718,
+        "sha256": "08e1c8083df79f532bd2b37d03888d723d6d4850fd5ea635cd8ac628da920565"
+      },
+      {
+        "path": "mdn-data/package/css/functions.schema.json",
+        "bytes": 837,
+        "sha256": "0627dacfcb89ed17c0074963aa7e635a4a280ea767578479c5d3c870dc26c9a9"
+      },
+      {
+        "path": "mdn-data/package/css/index.js",
+        "bytes": 278,
+        "sha256": "3d884ef2d41bae9667c3f00b4928fa622287d963fbe55bfb3e649b5a45ebe99e"
+      },
+      {
+        "path": "mdn-data/package/css/properties.json",
+        "bytes": 350453,
+        "sha256": "8362b32c140c62f4a38b35941f3f1fc5c0d689a05b7d4743f6231bca5ec28e24"
+      },
+      {
+        "path": "mdn-data/package/css/properties.schema.json",
+        "bytes": 15982,
+        "sha256": "4c5e032e04b1437a31b66b9e72e3ed4783b061d3679b97be049e72df9ba3ed12"
+      },
+      {
+        "path": "mdn-data/package/css/selectors.json",
+        "bytes": 27638,
+        "sha256": "a57de64db436b7b746278cb818e7967d32d0babcc4aaf991b29db288ab4f4e5b"
+      },
+      {
+        "path": "mdn-data/package/css/selectors.schema.json",
+        "bytes": 712,
+        "sha256": "025c446cf2ae6bd8a6d3d901ce7c48812603cc19f7f527acb8f27e81dc752cb7"
+      },
+      {
+        "path": "mdn-data/package/css/syntaxes.json",
+        "bytes": 40353,
+        "sha256": "14217403b8b4909b9c9be17c6e20cdc69d56d7255c6ff2b5991767f206f07058"
+      },
+      {
+        "path": "mdn-data/package/css/syntaxes.schema.json",
+        "bytes": 230,
+        "sha256": "b2987235409052475b7438f8c5b83f826107c473f81244a0a79ca3925b760518"
+      },
+      {
+        "path": "mdn-data/package/css/types.json",
+        "bytes": 6615,
+        "sha256": "4a40765d39fbb9b37af01cefec21a63efb80e138f68a38e3873229876c7aa3db"
+      },
+      {
+        "path": "mdn-data/package/css/types.schema.json",
+        "bytes": 644,
+        "sha256": "34aae94b4283350ff44fe7ad24d38bcb0a7df2e3e37ffbf75a659aa6cad4a835"
+      },
+      {
+        "path": "mdn-data/package/css/units.json",
+        "bytes": 2836,
+        "sha256": "4034c340172ce697ef6d8f7246d788486146e8eb35735cbd9c57e6175bb8f81d"
+      },
+      {
+        "path": "mdn-data/package/css/units.schema.json",
+        "bytes": 524,
+        "sha256": "5fe33009e984b78bfad223397b6ac37e43dd6a7835efa4376a3a726832a1bee6"
+      },
+      {
+        "path": "mdn-data/package/index.js",
+        "bytes": 98,
+        "sha256": "f477203c684448b958aac1206fe3e8d40115a00c00327b406b89510f54f9238d"
+      },
+      {
+        "path": "mdn-data/package/l10n/css.json",
+        "bytes": 176390,
+        "sha256": "7aca1e67c4c4458703c5c272b2b37942e07e9b7c3c11012e423ac954f965f6f3"
+      },
+      {
+        "path": "mdn-data/package/l10n/index.js",
+        "bytes": 46,
+        "sha256": "c04e89544d584e231e4c4bef575326763c8e47eac37d8691dc31d0330e962780"
+      },
+      {
+        "path": "mdn-data/package/package.json",
+        "bytes": 763,
+        "sha256": "137b46409b05bd70775534e0f5aecd74a487d3285084c028b5531b76ff5a1d39"
+      },
+      {
+        "path": "popularities/last_check.json",
+        "bytes": 83,
+        "sha256": "61ca624716980ed1104b5a1d7eb112e18a9ea14a02ab7573f065aadb055b1bbb"
+      },
+      {
+        "path": "popularities/popularities.json",
+        "bytes": 1594597,
+        "sha256": "174e1d8c59def420419d4ce3b0efa10c8fb5b40217c73fea72f6df9b21567aeb"
+      },
+      {
+        "path": "web-features/last_check.json",
+        "bytes": 87,
+        "sha256": "36d0e55fa046a75bd1c40e2d198cfdb8562045b6fe1a473c9a12d2d74d494634"
+      },
+      {
+        "path": "web-features/package/LICENSE.txt",
+        "bytes": 11357,
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "web-features/package/README.md",
+        "bytes": 8449,
+        "sha256": "1c4f4101814a94da82e8ae58bb8a401f0098f16f20445f8ef115232450cb119b"
+      },
+      {
+        "path": "web-features/package/data.json",
+        "bytes": 4711595,
+        "sha256": "a7e5aac0c7ac62329fbc59bf0d64393206054b9a7bd746688392a643fb0766be"
+      },
+      {
+        "path": "web-features/package/data.schema.json",
+        "bytes": 9662,
+        "sha256": "7aecc939469c84ce8476bf1eb09051b575317e001ee3616934d2c6122345031f"
+      },
+      {
+        "path": "web-features/package/index.d.ts",
+        "bytes": 399,
+        "sha256": "ceb64c1d062ebaba0097e7fef4220cc5441b8a850da579de4f44e8f9f35b1732"
+      },
+      {
+        "path": "web-features/package/index.js",
+        "bytes": 314,
+        "sha256": "e63e306e9469732649c99894580338db526a89428a0497589497d778eb3c3ce9"
+      },
+      {
+        "path": "web-features/package/package.json",
+        "bytes": 788,
+        "sha256": "f227873b0afb67b2b2ffd2e62fc22a5a96e15935244afe1e758624952f7557ed"
+      },
+      {
+        "path": "web-features/package/types.d.ts",
+        "bytes": 1554,
+        "sha256": "f887a2e2b6ac8fea00717f6054039dc3e80d96afe168bb66f1528787f2fcc8e4"
+      },
+      {
+        "path": "web-features/package/types.quicktype.d.ts",
+        "bytes": 5435,
+        "sha256": "c852ffbd51e18d3c7d53e79815032216af995146349d0a2e97194ba39fb2f566"
+      },
+      {
+        "path": "web-specs/last_check.json",
+        "bytes": 87,
+        "sha256": "022ba19f2be5259700fb3740c055ed91567a2694dc5aa5cbdca33ac442745bd2"
+      },
+      {
+        "path": "web-specs/package/README.md",
+        "bytes": 30310,
+        "sha256": "903da6ac51c8958bcabe39892b65b5eef7b78676f13847e0eecba7c1d7ac15ab"
+      },
+      {
+        "path": "web-specs/package/index.json",
+        "bytes": 1038667,
+        "sha256": "9cbebeee491f03459bc9f710568461c93269f838e2f7464f75639d63c2475eef"
+      },
+      {
+        "path": "web-specs/package/package.json",
+        "bytes": 366,
+        "sha256": "fd5218a3c116e393509aa1230101e1807a0c2d78dc6420f36a8fff6b4691f35b"
+      },
+      {
+        "path": "web_ext_examples/data.json",
+        "bytes": 19817,
+        "sha256": "11a3b3301c3930a24e30dd96bfe7ebea54e7997b22f64e64e10a1149dd57274a"
+      },
+      {
+        "path": "web_ext_examples/last_check.json",
+        "bytes": 56,
+        "sha256": "539919621c82e88478ad32a17259d9347fb7c7fbb099d1d0176a7ccb8f37a0ad"
+      }
+    ],
+    "bytes": 32756118,
+    "tree_sha256": "f757d630652664602d701f290a40371e8bff870b4f70c99c5a0035f4af556d45"
+  },
+  "observations": [
+    {
+      "label": "npm-install",
+      "command": [
+        "npm",
+        "install",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "wall_seconds": 0.133,
+      "returncode": 1,
+      "log": ".work/logs/npm-install-1789210502869907000.log"
+    },
+    {
+      "label": "npm-install",
+      "command": [
+        "npm",
+        "install",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "wall_seconds": 15.713,
+      "returncode": 0,
+      "log": ".work/logs/npm-install-1789210512444006000.log"
+    },
+    {
+      "label": "rari-build-help",
+      "command": [
+        "$WORK/node_modules/@mdn/rari/bin/rari",
+        "build",
+        "--help"
+      ],
+      "wall_seconds": 0.01,
+      "returncode": 0,
+      "max_rss_bytes": 8650752,
+      "log": ".work/logs/rari-build-help-1789210917946.log"
+    },
+    {
+      "label": "rari-build",
+      "command": [
+        "$WORK/node_modules/@mdn/rari/bin/rari",
+        "build",
+        "--no-basic",
+        "--content",
+        "--issues",
+        "--json-issues",
+        "--json-live-samples"
+      ],
+      "wall_seconds": 0.01,
+      "returncode": 2,
+      "max_rss_bytes": 8601600,
+      "log": ".work/logs/rari-build-1789210929395.log"
+    },
+    {
+      "label": "rari-build",
+      "command": [
+        "$WORK/node_modules/@mdn/rari/bin/rari",
+        "build",
+        "--no-basic",
+        "--content",
+        "--issues",
+        "$WORK/issues.json",
+        "--json-issues",
+        "--json-live-samples"
+      ],
+      "wall_seconds": 20.882,
+      "returncode": 1,
+      "max_rss_bytes": 279740416,
+      "log": ".work/logs/rari-build-1789210946886.log"
+    },
+    {
+      "label": "rari-build-cached",
+      "command": [
+        "$WORK/node_modules/@mdn/rari/bin/rari",
+        "--skip-updates",
+        "build",
+        "--no-basic",
+        "--issues",
+        "$WORK/issues.json",
+        "--json-issues",
+        "--json-live-samples",
+        "$WORK/content/files/en-us/web/html/reference/elements/a/index.md",
+        "$WORK/content/files/en-us/web/css/reference/properties/display/index.md",
+        "$WORK/content/files/en-us/web/javascript/reference/global_objects/array/map/index.md"
+      ],
+      "wall_seconds": 0.083,
+      "returncode": 1,
+      "max_rss_bytes": 13041664,
+      "log": ".work/logs/rari-build-cached-1789211025449.log"
+    },
+    {
+      "label": "rari-build-cached",
+      "command": [
+        "$WORK/node_modules/@mdn/rari/bin/rari",
+        "--skip-updates",
+        "build",
+        "--no-basic",
+        "--issues",
+        "$WORK/issues.json",
+        "--json-issues",
+        "--json-live-samples",
+        "$WORK/content/files/en-us/web/html/reference/elements/a/index.md",
+        "$WORK/content/files/en-us/web/css/reference/properties/display/index.md",
+        "$WORK/content/files/en-us/web/javascript/reference/global_objects/array/map/index.md"
+      ],
+      "wall_seconds": 0.087,
+      "returncode": 1,
+      "max_rss_bytes": 20267008,
+      "log": ".work/logs/rari-build-cached-1789211075389.log"
+    },
+    {
+      "label": "rari-build-cached",
+      "command": [
+        "$WORK/node_modules/@mdn/rari/bin/rari",
+        "--skip-updates",
+        "build",
+        "--no-basic",
+        "--issues",
+        "$WORK/issues.json",
+        "--json-issues",
+        "--json-live-samples",
+        "$WORK/content/files/en-us/web/html/reference/elements/a/index.md",
+        "$WORK/content/files/en-us/web/css/reference/properties/display/index.md",
+        "$WORK/content/files/en-us/web/javascript/reference/global_objects/array/map/index.md"
+      ],
+      "wall_seconds": 0.114,
+      "returncode": 1,
+      "max_rss_bytes": 89767936,
+      "log": ".work/logs/rari-build-cached-1789211109372.log"
+    },
+    {
+      "label": "rari-build-cached",
+      "command": [
+        "$WORK/node_modules/@mdn/rari/bin/rari",
+        "--skip-updates",
+        "build",
+        "--no-basic",
+        "--issues",
+        "$WORK/issues.json",
+        "--json-issues",
+        "--json-live-samples",
+        "$WORK/content/files/en-us/web/html/reference/elements/a/index.md",
+        "$WORK/content/files/en-us/web/css/reference/properties/display/index.md",
+        "$WORK/content/files/en-us/web/javascript/reference/global_objects/array/map/index.md"
+      ],
+      "wall_seconds": 0.052,
+      "returncode": 1,
+      "max_rss_bytes": 89604096,
+      "log": ".work/logs/rari-build-cached-1789211127822.log"
+    },
+    {
+      "label": "rari-build-cached",
+      "command": [
+        "$WORK/node_modules/@mdn/rari/bin/rari",
+        "--skip-updates",
+        "build",
+        "--no-basic",
+        "--issues",
+        "$WORK/issues.json",
+        "--json-issues",
+        "--json-live-samples",
+        "$WORK/content/files/en-us/web/html/reference/elements/a/index.md",
+        "$WORK/content/files/en-us/web/css/reference/properties/display/index.md",
+        "$WORK/content/files/en-us/web/javascript/reference/global_objects/array/map/index.md"
+      ],
+      "wall_seconds": 0.054,
+      "returncode": 0,
+      "max_rss_bytes": 95698944,
+      "log": ".work/logs/rari-build-cached-1789211163026.log"
+    },
+    {
+      "label": "fred-render",
+      "command": [
+        "/opt/homebrew/Cellar/node/26.8.2/bin/node",
+        "$EXPERIMENT/render.mjs"
+      ],
+      "wall_seconds": 0.137,
+      "returncode": 0,
+      "max_rss_bytes": 97927168,
+      "log": ".work/logs/fred-render-1789211163115.log"
+    },
+    {
+      "label": "rari-build-cached",
+      "command": [
+        "$WORK/node_modules/@mdn/rari/bin/rari",
+        "--skip-updates",
+        "build",
+        "--no-basic",
+        "--issues",
+        "$WORK/issues.json",
+        "--json-issues",
+        "--json-live-samples",
+        "$WORK/content/files/en-us/web/html/reference/elements/a/index.md",
+        "$WORK/content/files/en-us/web/css/reference/properties/display/index.md",
+        "$WORK/content/files/en-us/web/javascript/reference/global_objects/array/map/index.md"
+      ],
+      "wall_seconds": 0.052,
+      "returncode": 0,
+      "max_rss_bytes": 95633408,
+      "log": ".work/logs/rari-build-cached-1789211299992.log"
+    },
+    {
+      "label": "fred-render",
+      "command": [
+        "/opt/homebrew/Cellar/node/26.8.2/bin/node",
+        "$EXPERIMENT/render.mjs"
+      ],
+      "wall_seconds": 0.116,
+      "returncode": 0,
+      "max_rss_bytes": 92913664,
+      "log": ".work/logs/fred-render-1789211300075.log"
+    },
+    {
+      "label": "rari-build-cached",
+      "command": [
+        "$WORK/node_modules/@mdn/rari/bin/rari",
+        "--skip-updates",
+        "build",
+        "--no-basic",
+        "--issues",
+        "$WORK/issues.json",
+        "--json-issues",
+        "--json-live-samples",
+        "$WORK/content/files/en-us/web/html/reference/elements/a/index.md",
+        "$WORK/content/files/en-us/web/css/reference/properties/display/index.md",
+        "$WORK/content/files/en-us/web/javascript/reference/global_objects/array/map/index.md"
+      ],
+      "wall_seconds": 0.063,
+      "returncode": 0,
+      "max_rss_bytes": 94339072,
+      "log": ".work/logs/rari-build-cached-1789211363170.log"
+    },
+    {
+      "label": "fred-render",
+      "command": [
+        "/opt/homebrew/Cellar/node/26.8.2/bin/node",
+        "$EXPERIMENT/render.mjs"
+      ],
+      "wall_seconds": 0.114,
+      "returncode": 0,
+      "max_rss_bytes": 93306880,
+      "log": ".work/logs/fred-render-1789211363265.log"
+    }
+  ],
+  "render": {
+    "generated_at": "2026-09-12T11:09:23.376Z",
+    "node": "v26.8.2",
+    "unsupported_route_bytes": 31,
+    "results": [
+      {
+        "sample": "web/html/reference/elements/a",
+        "url": "/en-US/docs/Web/HTML/Reference/Elements/a",
+        "title": "<a> HTML anchor element",
+        "render_ms": 25.567,
+        "bytes": 58779,
+        "sections": 22,
+        "code_blocks": 18,
+        "scripts": 0,
+        "iframes": 11,
+        "custom_elements": [],
+        "unresolved_macros": [],
+        "resource_refs": [
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          },
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          },
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          },
+          {
+            "attribute": "src",
+            "url": "new-tab.svg"
+          },
+          {
+            "attribute": "src",
+            "url": "powerpoint.svg"
+          },
+          {
+            "attribute": "src",
+            "url": "missing-icon.svg"
+          },
+          {
+            "attribute": "src",
+            "url": "missing-icon.svg"
+          },
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          },
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          },
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          },
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          },
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          },
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          },
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          },
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          }
+        ],
+        "root_relative_links": 90,
+        "external_links": 21,
+        "output": "rendered/a.html",
+        "context_bytes": 172924,
+        "flaw_counts": {
+          "broken_links": 50,
+          "macros": 39,
+          "unknown": 1
+        },
+        "missing_support": [
+          "io error: No such file or directory (os error 2) ($WORK/content/files/sidebars/htmlsidebar.yaml)"
+        ]
+      },
+      {
+        "sample": "web/css/reference/properties/display",
+        "url": "/en-US/docs/Web/CSS/Reference/Properties/display",
+        "title": "display CSS property",
+        "render_ms": 8.897,
+        "bytes": 68622,
+        "sections": 28,
+        "code_blocks": 15,
+        "scripts": 0,
+        "iframes": 1,
+        "custom_elements": [],
+        "unresolved_macros": [],
+        "resource_refs": [
+          {
+            "attribute": "src",
+            "url": "about:blank"
+          }
+        ],
+        "root_relative_links": 144,
+        "external_links": 13,
+        "output": "rendered/display.html",
+        "context_bytes": 237808,
+        "flaw_counts": {
+          "broken_links": 53,
+          "macros": 117,
+          "unknown": 1
+        },
+        "missing_support": [
+          "io error: No such file or directory (os error 2) ($WORK/content/files/sidebars/cssref.yaml)"
+        ]
+      },
+      {
+        "sample": "web/javascript/reference/global_objects/array/map",
+        "url": "/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+        "title": "Array.prototype.map()",
+        "render_ms": 1.804,
+        "bytes": 22388,
+        "sections": 18,
+        "code_blocks": 18,
+        "scripts": 0,
+        "iframes": 0,
+        "custom_elements": [],
+        "unresolved_macros": [],
+        "resource_refs": [],
+        "root_relative_links": 21,
+        "external_links": 5,
+        "output": "rendered/map.html",
+        "context_bytes": 37464,
+        "flaw_counts": {
+          "broken_links": 2,
+          "macros": 14
+        },
+        "missing_support": []
+      }
+    ]
+  }
+}

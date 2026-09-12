@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "python",
+  "name": "Python",
+  "bundleName": "Python",
+  "identifier": "dev.crux.python",
+  "homepage": "index.html",
+  "source": { "discoveryUrl": "https://docs.python.org/3/download.html", "strategy": "latest-stable-official-html" },
+  "builder": { "adapter": "python-intersphinx", "doc2dash": "3.1.0" },
+  "limits": { "maxBytes": 1073741824, "maxFiles": 30000 },
+  "validation": {
+    "maxDropFraction": 0.1,
+    "minimumPages": 500,
+    "minimumSymbols": 10000,
+    "requiredSymbols": ["list", "dict", "asyncio"],
+    "requiredPages": [
+      { "path": "library/functions.html", "containsText": "Built-in Functions" },
+      { "path": "license.html", "containsText": "PYTHON SOFTWARE FOUNDATION LICENSE" }
+    ]
+  },
+  "compliance": {
+    "license": "PSF-2.0",
+    "examplesLicense": "0BSD",
+    "attribution": "Python Software Foundation and Python documentation contributors",
+    "retain": ["copyright.html", "license.html"],
+    "reviewedSource": "https://docs.python.org/3/license.html"
+  }
+}

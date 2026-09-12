@@ -1,0 +1,21 @@
+{
+  "name": "@crux/docset",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "docset": "node src/cli.js"
+  },
+  "dependencies": {
+    "@xmldom/xmldom": "0.9.12",
+    "cheerio": "1.2.0",
+    "plist": "5.0.0",
+    "proper-lockfile": "4.1.2",
+    "tar": "7.5.22",
+    "yauzl": "3.4.0"
+  }
+}

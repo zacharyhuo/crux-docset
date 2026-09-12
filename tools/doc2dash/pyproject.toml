@@ -1,0 +1,5 @@
+[project]
+name = "crux-docset-builder"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = ["doc2dash==3.1.0"]
