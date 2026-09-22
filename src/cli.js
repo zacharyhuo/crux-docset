@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { fingerprint, sha256, buildCandidate } from './pipeline.js';
 import { withOfficialSource, buildPython } from './python.js';
 import { validate } from './validate.js';
+import { loadRecipeIcons } from './icons.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 try {
@@ -30,11 +31,13 @@ try {
       const work = path.resolve(values.work);
       await mkdir(work, { recursive: true });
       const code = {};
+      const icons = await loadRecipeIcons(path.dirname(path.resolve(values.recipe)));
+      code.recipeIcons = fingerprint(icons);
       for (const name of (await readdir(path.join(root, 'src'))).filter(n => n.endsWith('.js')).sort()) code[name] = await sha256(path.join(root, 'src', name));
       for (const name of ['package-lock.json', 'tools/doc2dash/uv.lock', 'tools/doc2dash/pyproject.toml']) code[name] = await sha256(path.join(root, name));
       const builder = { digest: fingerprint(code), node: process.version, platform: process.platform, arch: process.arch, doc2dash: recipe.builder.doc2dash };
       const start = performance.now();
-      const consume = async (archive, url) => buildCandidate({ work, recipe, source: { url, sha256: await sha256(archive) }, builder, validate, baseUrl: values['base-url'], build: dir => buildPython(dir, recipe, archive) });
+      const consume = async (archive, url) => buildCandidate({ work, recipe, source: { url, sha256: await sha256(archive) }, builder, validate, baseUrl: values['base-url'], build: dir => buildPython(dir, recipe, archive, icons) });
       const result = values.archive ? await consume(path.resolve(values.archive), 'local-archive') : await withOfficialSource(recipe, work, consume);
       console.log(JSON.stringify({ ...result, elapsedSeconds: Math.round((performance.now() - start) / 10) / 100 }, null, 2));
     }

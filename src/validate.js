@@ -4,6 +4,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { load } from 'cheerio';
 import { parse as parsePlist } from 'plist';
 import { DOMParser } from '@xmldom/xmldom';
+import { iconSizes, maximumIconBytes, validateIcon } from './icons.js';
 
 // Resource guards for trusted, already unpacked local v1 bundles. This is not
 // an archive sandbox: callers must not mutate the tree during validation.
@@ -79,6 +80,14 @@ export async function validate(bundle, recipe) {
   }
   for (const key of ['minimumPages', 'minimumSymbols']) {
     if (config[key] !== undefined && (!Number.isSafeInteger(config[key]) || config[key] < 0)) error(`Invalid recipe validation.${key}`);
+  }
+  if (config.requireIcons !== undefined && typeof config.requireIcons !== 'boolean') error('Invalid recipe validation.requireIcons');
+  if (config.requireIcons === true) for (const [name, size] of Object.entries(iconSizes)) {
+    try {
+      const { current, stat } = await checked(name);
+      if (stat.size > maximumIconBytes) throw new Error('icon size limit exceeded');
+      validateIcon(await readFile(current), size);
+    } catch (e) { error(`Icon ${name} validation failed: ${e.message}`); }
   }
   for (const key of ['requiredSymbols', 'requiredPages']) {
     if (config[key] !== undefined && (!Array.isArray(config[key]) || config[key].length > MAX_FILES)) error(`Invalid recipe validation.${key}`);

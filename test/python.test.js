@@ -4,7 +4,28 @@ import { mkdtemp, writeFile, readFile, mkdir, readdir, rm } from 'node:fs/promis
 import path from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
+import { load } from 'cheerio';
+import * as python from '../src/python.js';
 import { extractZip, download, documentVersion, builderEnvironment, withOfficialSource } from '../src/python.js';
+
+test('Python navigation becomes a closed native disclosure without losing links or anchors', () => {
+  const input = '<html><head></head><body><div class="document"><div class="documentwrapper"><div class="bodywrapper"><div class="body"><h1 id="topic">Topic</h1></div></div></div><div class="sphinxsidebar" role="navigation"><div class="sphinxsidebarwrapper"><a href="#topic">Topic</a><a href="../index.html">Home</a></div><div id="sidebarbutton">«</div></div></div></body></html>';
+  assert.equal(typeof python.adaptPythonNavigation, 'function');
+  const output = python.adaptPythonNavigation(input);
+  const $ = load(output);
+  const disclosure = $('details.crux-python-navigation');
+  assert.equal(disclosure.length, 1);
+  assert.equal(disclosure.attr('open'), undefined);
+  assert.equal(disclosure.children().first()[0].tagName, 'summary');
+  assert.equal(disclosure.find('a[href="#topic"]').length, 1);
+  assert.equal(disclosure.find('a[href="../index.html"]').length, 1);
+  assert.equal($('.body #topic').text(), 'Topic');
+  assert.equal($('#sidebarbutton').length, 0);
+  assert.equal($('script').length, 0);
+  assert.equal(python.adaptPythonNavigation(output), output);
+  assert.equal(python.adaptPythonNavigation('<p>No sidebar</p>'), '<p>No sidebar</p>');
+  assert.throws(() => python.adaptPythonNavigation('<div class="sphinxsidebar">Changed upstream layout</div>'), /layout/i);
+});
 
 test('builder subprocesses do not inherit credentials or arbitrary interpreter hooks', () => {
   const env = builderEnvironment({ PATH: '/bin', HOME: '/home/test', GH_TOKEN: 'secret', AWS_SECRET_ACCESS_KEY: 'secret', PYTHONPATH: '/bad', NODE_OPTIONS: '--require=bad' });

@@ -27,4 +27,12 @@ npm run docset -- build
 
 CLI/验证器使用 JS；doc2dash 仍是锁定的上游 Python 构建工具，不是自编 Python CLI。Java + Spring 后端保留在 `crux-server`，本阶段不需要常驻服务。
 
+## Recipe 图标
+
+每份 recipe 的同级 `assets/` 保存 `icon.png`（16×16）与 `icon@2x.png`（32×32），
+以及来源/商标说明。构建离线读取并复制到 docset 根目录，图标内容纳入构建指纹；
+替换图标也会触发重建。Python recipe 设置 `validation.requireIcons: true`，
+验证缺失、文件类型、大小上限、PNG 解码/CRC 和尺寸；使用锁定的 `pngjs` 解码。
+Python 原图及来源见 [assets 说明](recipes/python/assets/README.md)。
+
 Actions 工作流提供 PR 测试、main 候选构建和每日检测，只有 `contents: read` 权限。它**不会创建 Release 或提交目录元数据**；生成的 feed 在远端产物发布前不可用。跨仓库相对链接以三个仓库在同一父目录检出为前提。

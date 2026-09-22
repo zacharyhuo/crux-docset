@@ -6,6 +6,25 @@ import { join, dirname } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { DatabaseSync } from 'node:sqlite';
 import { validate } from '../src/validate.js';
+import { PNG } from 'pngjs';
+
+test('required icons must both exist, decode and have correct dimensions', async t => {
+  const { bundle } = await fixture(t);
+  const configured = { ...recipe, validation: { ...recipe.validation, requireIcons: true } };
+  await fails(bundle, /icon/i, configured);
+  for (const [name, size] of [['icon.png', 16], ['icon@2x.png', 32]]) {
+    await writeFile(join(bundle, name), PNG.sync.write(new PNG({ width: size, height: size })));
+  }
+  assert.equal((await validate(bundle, configured)).passed, true);
+  const corrupt = await readFile(join(bundle, 'icon.png'));
+  corrupt[corrupt.length - 1] ^= 1;
+  await writeFile(join(bundle, 'icon.png'), corrupt);
+  await fails(bundle, /icon/i, configured);
+  await writeFile(join(bundle, 'icon.png'), PNG.sync.write(new PNG({ width: 32, height: 32 })));
+  await fails(bundle, /icon.*16/i, configured);
+  await writeFile(join(bundle, 'icon.png'), Buffer.from('not a png'));
+  await fails(bundle, /icon/i, configured);
+});
 
 const recipe = { id: 'python', name: 'Python', bundleName: 'Python', identifier: 'dev.crux.python', homepage: 'index.html', validation: { minimumPages: 2, minimumSymbols: 3, requiredSymbols: ['list', 'dict', 'asyncio'], requiredPages: [{ path: 'library/functions.html', containsText: 'Built-in Functions' }] } };
 const info = `<?xml version="1.0"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>dev.crux.python</string><key>CFBundleName</key><string>Python</string><key>DocSetPlatformFamily</key><string>python</string><key>isDashDocset</key><true/></dict></plist>`;

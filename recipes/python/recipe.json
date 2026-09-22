@@ -9,6 +9,7 @@
   "builder": { "adapter": "python-intersphinx", "doc2dash": "3.1.0" },
   "limits": { "maxBytes": 1073741824, "maxFiles": 30000 },
   "validation": {
+    "requireIcons": true,
     "maxDropFraction": 0.1,
     "minimumPages": 500,
     "minimumSymbols": 10000,

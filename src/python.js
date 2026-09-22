@@ -13,6 +13,33 @@ import { load } from 'cheerio';
 import { safeArchivePath, discoverPython } from './pipeline.js';
 
 const execute = promisify(execFile);
+
+// Native disclosure works even when the docset's JavaScript opt-out is respected.
+export function adaptPythonNavigation(html) {
+  const $ = load(html);
+  if ($('details.crux-python-navigation').length || !$('.sphinxsidebar').length) return html;
+  const sidebar = $('.sphinxsidebar');
+  const body = $('.bodywrapper');
+  if (sidebar.length !== 1 || body.length !== 1 || !sidebar.find('.sphinxsidebarwrapper').length) {
+    throw new Error('Unsupported Python sidebar layout');
+  }
+  sidebar.find('#sidebarbutton').remove();
+  const disclosure = $('<details class="crux-python-navigation"><summary>Documentation navigation</summary></details>');
+  disclosure.append(sidebar);
+  body.prepend(disclosure);
+  $('head').append(`<style id="crux-python-navigation-style">
+div.document .bodywrapper { margin-left: 0; }
+details.crux-python-navigation { margin: 0 0 1em; padding: .5em .75em; }
+details.crux-python-navigation > summary { cursor: pointer; width: fit-content; }
+details.crux-python-navigation > summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+details.crux-python-navigation > div.sphinxsidebar {
+  display: block; position: static; float: none; width: 100%;
+  margin: .5em 0 0; max-height: none;
+}
+details.crux-python-navigation .sphinxsidebarwrapper { height: auto; max-height: 50vh; overflow: auto; }
+</style>`);
+  return $.html();
+}
 export async function withOfficialSource(recipe, work, consume, fetcher = fetch) {
   const directory = await mkdtemp(path.join(work, 'download-'));
   try {
@@ -91,7 +118,7 @@ export async function extractZip(file, destination, { maxBytes = 1024 ** 3, maxF
   } finally { zip.close(); }
 }
 
-export async function buildPython(candidate, recipe, archive) {
+export async function buildPython(candidate, recipe, archive, icons) {
   const source = path.join(candidate, 'source');
   await extractZip(archive, source, recipe.limits);
   const directories = await readdir(source, { withFileTypes: true });
@@ -103,6 +130,15 @@ export async function buildPython(candidate, recipe, archive) {
   const { stdout, stderr } = await execute('uv', ['run', '--project', builderProject, '--frozen', 'doc2dash', '-n', recipe.bundleName, '-d', candidate, '-I', recipe.homepage, htmlRoot], { env: builderEnvironment(), timeout: 600_000, maxBuffer: 4 * 1024 * 1024 });
   await writeFile(path.join(candidate, 'builder.log'), stdout + stderr);
   const bundle = path.join(candidate, `${recipe.bundleName}.docset`);
+  for (const name of ['icon.png', 'icon@2x.png']) await writeFile(path.join(bundle, name), icons[name]);
+  const documents = path.join(bundle, 'Contents', 'Resources', 'Documents');
+  for (const entry of await readdir(documents, { recursive: true, withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith('.html')) continue;
+    const file = path.join(entry.parentPath, entry.name);
+    const original = await readFile(file, 'utf8');
+    const adapted = adaptPythonNavigation(original);
+    if (adapted !== original) await writeFile(file, adapted);
+  }
   const plistPath = path.join(bundle, 'Contents', 'Info.plist');
   const info = plist.parse(await readFile(plistPath, 'utf8'));
   info.CFBundleIdentifier = recipe.identifier;
