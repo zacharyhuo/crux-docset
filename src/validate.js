@@ -168,7 +168,22 @@ export async function validate(bundle, recipe) {
   }
   try { await page(recipe.homepage); } catch (e) { error(`Homepage validation failed: ${e.message}`); }
   if (Array.isArray(config.requiredPages)) for (const item of config.requiredPages.slice(0, MAX_FILES)) {
-    try { await page(item?.path, item?.containsText); } catch (e) { error(`Required page validation failed: ${e.message}`); }
+    try {
+      const paths = item?.paths ?? [item?.path];
+      if (!Array.isArray(paths) || paths.length < 1 || paths.length > 4 || (item?.paths !== undefined && item?.path !== undefined)) {
+        throw new Error('required page must specify one path or one to four reviewed alternative paths');
+      }
+      // Validate every configured alternative before trying any of them. A
+      // good first page must not hide an unsafe later path or ambiguous rule.
+      paths.forEach(value => target(value));
+      const failures = [];
+      let found = false;
+      for (const value of paths) {
+        try { await page(value, item?.containsText); found = true; break; }
+        catch (failure) { failures.push(failure.message); }
+      }
+      if (!found) throw new Error(failures.join('; '));
+    } catch (e) { error(`Required page validation failed: ${e.message}`); }
   }
 
   let db;

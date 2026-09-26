@@ -81,6 +81,28 @@ test('schema and invalid symbol fields fail closed', async t => { const f = awai
 test('identifier mismatch and malformed plist fail', async t => { const f = await fixture(t); const p = join(f.bundle, 'Contents/Info.plist'); await writeFile(p, info.replace('dev.crux.python', 'wrong')); await fails(f.bundle, /identifier/i); await writeFile(p, '<plist><dict>'); await fails(f.bundle, /plist/i); });
 test('entity declarations are rejected without resolving external resources', async t => { const f = await fixture(t); await writeFile(join(f.bundle, 'Contents/Info.plist'), '<!DOCTYPE plist [<!ENTITY x SYSTEM "file:///etc/passwd">]><plist><dict><key>CFBundleIdentifier</key><string>&x;</string></dict></plist>'); await fails(f.bundle, /entity|doctype|plist/i); });
 test('required symbols use exact names, and required text and minima are enforced', async t => { const f = await fixture(t); await fails(f.bundle, /required symbol/i, { ...recipe, validation: { ...recipe.validation, requiredSymbols: ["list' OR 1=1 --"] } }); await fails(f.bundle, /text/i, { ...recipe, validation: { ...recipe.validation, requiredPages: [{ path: 'index.html', containsText: 'absent text' }] } }); await fails(f.bundle, /minimum/i, { ...recipe, validation: { minimumPages: 3, minimumSymbols: 4 } }); });
+test('reviewed alternate page paths verify real body content across upstream relocations, not redirect placeholders', async t => {
+  const f = await fixture(t);
+  const configured = { ...recipe, validation: { ...recipe.validation, requiredPages: [{ paths: ['library/functions.html', 'builtins/functions.html'], containsText: 'Built-in Functions' }] } };
+  assert.equal((await validate(f.bundle, configured)).passed, true, 'old archives retain their original canonical path');
+  await mkdir(join(f.docs, 'builtins'));
+  await rename(join(f.docs, 'library/functions.html'), join(f.docs, 'builtins/functions.html'));
+  await writeFile(join(f.docs, 'library/functions.html'), '<html><body><a href="../builtins/functions.html">Continue</a></body></html>');
+  update(f.dbPath, 'UPDATE searchIndex SET path=? WHERE name=?', 'builtins/functions.html#asyncio', 'asyncio');
+  assert.equal((await validate(f.bundle, configured)).passed, true, 'new canonical path must contain the same required body text');
+  await writeFile(join(f.docs, 'builtins/functions.html'), '<html><body><h2 id="asyncio">asyncio</h2></body></html>');
+  await fails(f.bundle, /required page.*text/i, configured);
+});
+test('alternate page rules are bounded and reject all unsafe paths even if an earlier path would pass', async t => {
+  const f = await fixture(t);
+  for (const item of [
+    { paths: [] }, { paths: 'index.html' }, { paths: Array(5).fill('index.html') },
+    { path: 'index.html', paths: ['index.html'] }, { paths: ['index.html', '../Info.plist'] },
+    { paths: ['index.html', 'https://example.invalid/page.html'] }
+  ]) {
+    await fails(f.bundle, /required page/i, { ...recipe, validation: { ...recipe.validation, requiredPages: [item] } });
+  }
+});
 test('oversized page is rejected before HTML parsing', async t => { const f = await fixture(t); await writeFile(join(f.docs, 'big.html'), Buffer.alloc(16 * 1024 * 1024 + 1, 32)); await fails(f.bundle, /size|limit/i); });
 test('missing bundle and invalid recipe return reports', async t => { const f = await fixture(t); await fails(join(f.root, 'missing'), /missing|ENOENT/i); await fails(f.bundle, /recipe/i, {}); });
 test('malformed XML that a tolerant parser repairs must fail closed', async t => { const f = await fixture(t); await writeFile(join(f.bundle, 'Contents/Info.plist'), info.replace('version="1.0"><dict>', 'version=1.0><dict>')); await fails(f.bundle, /plist/i); });

@@ -17,7 +17,7 @@
     "minimumSymbols": 10000,
     "requiredSymbols": ["list", "dict", "asyncio"],
     "requiredPages": [
-      { "path": "library/functions.html", "containsText": "Built-in Functions" },
+      { "paths": ["library/functions.html", "builtins/functions.html"], "containsText": "Built-in Functions" },
       { "path": "license.html", "containsText": "PYTHON SOFTWARE FOUNDATION LICENSE" }
     ]
   },
