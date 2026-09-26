@@ -32,11 +32,17 @@ npm run docset -- build
 
 ```sh
 node src/cli.js build --id python --variant python-3-14-en
+node src/cli.js build --id python --variant python-3-13-en
+node src/cli.js matrix --id python
 node src/cli.js build --id python --archive /absolute/path/python-docs.zip --work /absolute/path/new-work
 node src/cli.js validate --id python --bundle /absolute/path/Python.docset
 ```
 
 同 family 共用稳定的 bundle identifier（Python 为 `dev.crux.python`），不同 variant 的构建状态独立。默认目录为 `.work/<variantId>`；Python 3.14 保留显式兼容映射 `.work/python`。`--work` 是单一 variant 的状态根，锁内校验 `owner.json`，不能被另一版本线接管；未知的非空目录不会被清理或覆盖。
+
+当前候选矩阵包含 Python 3.14（默认）与 3.13；两者都固定版本线，不跨 minor 发现更新。`matrix` 只输出启用且 adapter 已实现的受评审配置，不下载、构建或发布；精确归档和散列由每个构建任务在锁内解析。`.github/workflows/version-candidates.yml` 仅支持手动触发，最多两个并行任务、每任务 20 分钟、失败互不取消。运行消耗私有仓库 Actions 额度，未新增定时触发。候选成功不代表已经公开可下载或通过 Beta GUI 验收。
+
+Python 官方会在同一版本线调整页面布局。必要正文规则可用 `paths` 列出最多四个已核查的等价路径（与单一路径 `path` 互斥），但仍须在至少一个真实页面中找到相同正文；跳转占位页不能代替正文。当前兼容内置函数文档从 `library/` 到 `builtins/` 的迁移，不修改旧包、不降低数量门槛。
 
 schema-2 状态将版本和指纹放在 `current.json` 的 `release` 中，旧 CLI 会拒绝读写。已验证的 schema-1 Python 3.14 状态迁移前备份为 `legacy-current.v1.json`，不可变旧产物不修改；来源、实际 bundle 或版本线无法核实时需人工核查，或在新目录重建。不要删除 owner/current 来绕过归属校验。Actions 使用新的 v2 cache key，不自动恢复缺少完整 bundle 的旧 v1 缓存。
 

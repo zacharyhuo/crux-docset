@@ -1,0 +1,10 @@
+{
+  "variantId": "python-3-13-en",
+  "versionLine": "3.13",
+  "language": "en",
+  "enabled": true,
+  "source": {
+    "discoveryUrl": "https://docs.python.org/3.13/download.html",
+    "strategy": "stable-line-official-html"
+  }
+}

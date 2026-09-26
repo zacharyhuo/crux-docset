@@ -1,0 +1,78 @@
+name: Reviewed version candidates (manual)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: version-candidates-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts
+      - run: npm test
+      - id: matrix
+        name: Resolve reviewed buildable variants
+        run: |
+          node src/cli.js matrix > matrix.json
+          node --input-type=module -e 'import fs from "node:fs"; const rows=JSON.parse(fs.readFileSync("matrix.json")); if (!rows.length || rows.length > 16) throw new Error("Review the matrix size and budget"); const include=rows.map(({familyId,variantId})=>({familyId,variantId})); fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${JSON.stringify({include})}\n`);'
+
+  build:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e
+        with:
+          version: '0.12.13'
+          enable-cache: false
+      - run: npm ci --ignore-scripts
+      - name: Build and verify isolated candidate
+        id: build
+        env:
+          FAMILY_ID: ${{ matrix.familyId }}
+          VARIANT_ID: ${{ matrix.variantId }}
+        run: |
+          /usr/bin/time -v node src/cli.js build --id "$FAMILY_ID" --variant "$VARIANT_ID" > result.json
+          cat result.json
+          node --input-type=module -e 'import fs from "node:fs"; const r=JSON.parse(fs.readFileSync("result.json")); fs.appendFileSync(process.env.GITHUB_OUTPUT, `directory=${r.directory}\n`);'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: candidate-${{ matrix.variantId }}
+          retention-days: 7
+          if-no-files-found: error
+          compression-level: 0
+          path: |
+            ${{ steps.build.outputs.directory }}/*.tgz
+            ${{ steps.build.outputs.directory }}/manifest.json
+            ${{ steps.build.outputs.directory }}/validation.json
+            ${{ steps.build.outputs.directory }}/source-lock.json
+
+  # This workflow never writes Git, publishes a catalog, or owns release secrets.
+  # Every run is explicitly requested and counts against the private CI allowance.

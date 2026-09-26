@@ -8,8 +8,10 @@ import { loadRecipe, listRecipes, hashBuildInputs } from './recipes.js';
 import { getAdapter } from './adapters.js';
 import { regularPath } from './build-state.js';
 import { reserveRevision } from './published-store.js';
+import { resolveEnabledVariants } from './version-matrix.js';
 
 const help = `crux-docset list
+crux-docset matrix [--id FAMILY]
 crux-docset build [--id FAMILY | --recipe FILE] [--variant ID] [--work DIR] [--archive LOCAL.zip] [--base-url HTTPS_ARTIFACT_ROOT] [--publication-state DURABLE_DIR]
 crux-docset validate --bundle PATH [--id FAMILY | --recipe FILE] [--variant ID]
 Local-only by default. No upload or Git write. Requires Node >=24; Python builds also require uv.`;
@@ -24,7 +26,11 @@ export async function runCLI(args, { root, resolveAdapter = getAdapter }) {
   } });
   if (values.help) return { output: help, exitCode: 0 };
   const [command] = positionals;
-  if (!['build', 'validate', 'list'].includes(command) || positionals.length !== 1) throw new Error(`Unknown command: ${command ?? '(missing)'}`);
+  if (!['build', 'validate', 'list', 'matrix'].includes(command) || positionals.length !== 1) throw new Error(`Unknown command: ${command ?? '(missing)'}`);
+  if (command === 'matrix') {
+    if (Object.keys(values).some(key => key !== 'id')) throw new Error('matrix only accepts --id, not build options');
+    return jsonOutput(await resolveEnabledVariants({ root, id: values.id }));
+  }
   if (command === 'list') {
     if (Object.keys(values).length) throw new Error('list does not accept build options');
     return jsonOutput(await listRecipes({ root }));
