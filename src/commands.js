@@ -7,9 +7,10 @@ import { loadRecipeIcons } from './icons.js';
 import { loadRecipe, listRecipes, hashBuildInputs } from './recipes.js';
 import { getAdapter } from './adapters.js';
 import { regularPath } from './build-state.js';
+import { reserveRevision } from './published-store.js';
 
 const help = `crux-docset list
-crux-docset build [--id FAMILY | --recipe FILE] [--variant ID] [--work DIR] [--archive LOCAL.zip] [--base-url HTTPS_ARTIFACT_ROOT]
+crux-docset build [--id FAMILY | --recipe FILE] [--variant ID] [--work DIR] [--archive LOCAL.zip] [--base-url HTTPS_ARTIFACT_ROOT] [--publication-state DURABLE_DIR]
 crux-docset validate --bundle PATH [--id FAMILY | --recipe FILE] [--variant ID]
 Local-only by default. No upload or Git write. Requires Node >=24; Python builds also require uv.`;
 const jsonOutput = (value, exitCode = 0) => ({ output: JSON.stringify(value, null, 2), exitCode });
@@ -19,7 +20,7 @@ const jsonOutput = (value, exitCode = 0) => ({ output: JSON.stringify(value, nul
 export async function runCLI(args, { root, resolveAdapter = getAdapter }) {
   const { values, positionals } = parseArgs({ args, allowPositionals: true, options: {
     help: { type: 'boolean' }, recipe: { type: 'string' }, id: { type: 'string' }, variant: { type: 'string' },
-    work: { type: 'string' }, archive: { type: 'string' }, bundle: { type: 'string' }, 'base-url': { type: 'string' }
+    work: { type: 'string' }, archive: { type: 'string' }, bundle: { type: 'string' }, 'base-url': { type: 'string' }, 'publication-state': { type: 'string' }
   } });
   if (values.help) return { output: help, exitCode: 0 };
   const [command] = positionals;
@@ -32,11 +33,13 @@ export async function runCLI(args, { root, resolveAdapter = getAdapter }) {
   const adapter = resolveAdapter(recipe.builder.adapter);
   if (command === 'validate') {
     if (!values.bundle) throw new Error('--bundle is required');
-    if (values.archive || values['base-url'] || values.work) throw new Error('validate does not accept build options');
+    if (values.archive || values['base-url'] || values.work || values['publication-state']) throw new Error('validate does not accept build options');
     const report = await validate(path.resolve(values.bundle), recipe);
     return jsonOutput(report, report.passed ? 0 : 1);
   }
   if (values.bundle) throw new Error('build does not accept --bundle');
+  const publication = values['publication-state'] ? path.resolve(values['publication-state']) : undefined;
+  if (publication && (publication === work || publication.startsWith(`${work}${path.sep}`) || work.startsWith(`${publication}${path.sep}`))) throw new Error('Publication state must be separate from, and not overlap, disposable build work');
   if (values.archive && !adapter.acceptsArchive) throw new Error(`Adapter ${recipe.builder.adapter} does not accept --archive`);
   const baseUrl = values['base-url'];
   if (baseUrl) {
@@ -46,9 +49,10 @@ export async function runCLI(args, { root, resolveAdapter = getAdapter }) {
   const code = await hashBuildInputs(root, ['src', 'package-lock.json', ...adapter.inputFiles]);
   const icons = await loadRecipeIcons(recipeDirectory);
   code.recipeIcons = fingerprint(icons);
-  const builder = { digest: fingerprint(code), node: process.version, platform: process.platform, arch: process.arch, adapter: recipe.builder.adapter, configuration: recipe.builder };
+  const builder = { digest: fingerprint(code), node: process.version, platform: process.platform, arch: process.arch, adapter: recipe.builder.adapter, configuration: recipe.builder, releaseAuthority: publication ? 'durable-publication' : 'local-candidate' };
   const start = performance.now();
-  const result = await buildCandidate({ work, recipe, builder, validate, baseUrl, withSource: async consume => {
+  const allocateRevision = publication ? (identity, minimumRevision) => reserveRevision(publication, identity, { minimumRevision }) : undefined;
+  const result = await buildCandidate({ work, recipe, builder, validate, baseUrl, allocateRevision, withSource: async consume => {
     // Ownership and the variant lock are already held before allocating source scratch.
     const directory = await mkdtemp(path.join(work, 'source-'));
     try {

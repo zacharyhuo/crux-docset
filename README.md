@@ -42,6 +42,21 @@ schema-2 状态将版本和指纹放在 `current.json` 的 `release` 中，旧 C
 
 只有明确设置 `--base-url https://<configured-artifact-root>` 才会生成候选 feed，布局为 `artifacts/<variantId>/<fingerprint>/<Bundle>.tgz`、`feeds/<variantId>.xml`。它不是 GitHub Release URL 的直接拼接约定，也不是已经上传的证明；publisher 必须另行配置和验证。当前 CI 仅输出候选，不生成猜测的下载地址。
 
+## 精确版本目录与发布状态
+
+`src/release-catalog.js` 提供 `makeReleaseCatalog(records, latestByFamily)` 和严格的 `validateReleaseCatalog(catalog)`。`latestByFamily` 的键为 `sourceId/familyId`，值为经审核的 releaseId；目录只含 `published` 条目，latest 必须指向默认供应线的 `supported` 稳定版本。历史条目可标记 `archived`，仍可显式下载，不自动推荐。候选/撤回条目不会进入可选列表；缺少有效 latest 会拒绝整个更新，不猜测替代版本。
+
+schemaVersion 1 契约夹具：`test/fixtures/version-catalog/v1.json`。其中版本和 `example.invalid` 地址仅用于协议测试，**不代表真实供应**。客户端对应文件为 `Crux/Packages/CruxCore/Tests/ContractFixtures/version-catalog-v1.json`；两份 SHA-256 均为 `097af598938773ab257a30b09640ce2d26b6ee0c84530053b24801db7d391586`。
+
+`src/published-store.js` 提供供独立 publisher 组装使用的本地持久状态 API：
+
+- `reserveRevision(directory, identity, { minimumRevision })`：按 variant/version 串行预留 revision；相同 releaseId 幂等，构建缓存丢失不重新分配。
+- `recordPublished(directory, record)`：要求既有预约且身份一致，通过 HTTPS 回读已上传文件并验证完整散列/大小，才记录为已发布。不会上传文件，也不替代独立 docset 内容验证。
+- `writePublishedCatalog(directory, latestByFamily)`：从持久记录生成目录，先提交意图快照，最后原子替换 `catalog.json`。
+- `recoverPublishedCatalog(directory)`：恢复最后一步目录文件写入；`withdrawPublishedRelease(directory, releaseId, latestByFamily)` 要求明确、一致的替代推荐政策，不能复活原 releaseId。
+
+构建加 `--publication-state /absolute/path/durable-publication` 可使用上述预约；该目录必须与 `--work` 分离、备份并由唯一 publisher 持有，不能当作 Actions cache。默认不加参数仍为本地候选模式，不自动建立“已发布”记录。锁只保护同一持久目录，不是多个 runner 独立副本之间的分布式锁；远端状态保存、独立复验、不可变上传及部署仍待 publisher 交付。本轮未创建 Release、上传 docset 或提交在线 catalog。
+
 CLI/验证器使用 JS；doc2dash 仍是锁定的上游 Python 构建工具，不是自编 Python CLI。Java + Spring 后端保留在 `crux-server`，本阶段不需要常驻服务。
 
 ## Recipe 图标

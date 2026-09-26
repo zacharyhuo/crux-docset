@@ -6,6 +6,7 @@ import path from 'node:path';
 import * as plist from 'plist';
 import * as tar from 'tar';
 import { discoverPython, fingerprint, buildCandidate, makeFeed, safeArchivePath, sha256 } from '../src/pipeline.js';
+import { reserveRevision } from '../src/published-store.js';
 
 const pythonRecipe = { schemaVersion: 2, id: 'python', sourceId: 'dev.crux', familyId: 'python', variantId: 'python-3-14-en', versionLine: '3.14', language: 'en', identifier: 'dev.crux.python', bundleName: 'Python' };
 const goodReport = { passed: true, errors: [], pageCount: 1, symbolCount: 1 };
@@ -195,6 +196,33 @@ test('stable patch updates reset the revision while leaving the previous version
   assert.equal(manifest.version, '3.14.8');
   assert.equal(manifest.revision, 1);
   assert.equal(await readFile(path.join(initial.directory, 'manifest.json'), 'utf8'), before);
+});
+
+test('durable revisions survive loss of build caches and remain inside bundle metadata', async t => {
+  const opts = await options(t);
+  const publication = await mkdtemp(path.join(tmpdir(), 'crux-publication-'));
+  t.after(() => rm(publication, { recursive: true, force: true }));
+  await reserveRevision(publication, { ...pythonRecipe, releaseId: 'e'.repeat(64), version: '3.14.7' });
+  const allocateRevision = (identity, minimumRevision) => reserveRevision(publication, identity, { minimumRevision });
+  const first = await buildCandidate({ ...opts, allocateRevision });
+  const firstManifest = JSON.parse(await readFile(path.join(first.directory, 'manifest.json')));
+  assert.equal(firstManifest.revision, 2);
+  const other = await options(t);
+  const second = await buildCandidate({ ...opts, work: other.work, allocateRevision });
+  const secondManifest = JSON.parse(await readFile(path.join(second.directory, 'manifest.json')));
+  assert.equal(second.fingerprint, first.fingerprint);
+  assert.equal(secondManifest.revision, 2);
+  assert.equal(secondManifest.artifact.sha256, firstManifest.artifact.sha256);
+  assert.equal(JSON.parse(await readFile(path.join(second.directory, 'Python.docset/meta.json'))).revision, 2);
+  assert.equal((await buildCandidate({ ...opts, allocateRevision })).status, 'unchanged');
+});
+
+test('a revision allocator cannot rewrite a cached immutable release', async t => {
+  const opts = await options(t);
+  const result = await buildCandidate(opts);
+  const before = await readFile(path.join(result.directory, 'manifest.json'), 'utf8');
+  await assert.rejects(buildCandidate({ ...opts, allocateRevision: async () => 9 }), /immutable|revision/i);
+  assert.equal(await readFile(path.join(result.directory, 'manifest.json'), 'utf8'), before);
 });
 
 test('unowned nonempty workspaces and symlink state paths are not adopted', async t => {

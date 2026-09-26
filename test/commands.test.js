@@ -86,3 +86,16 @@ test('production registry is static and refuses recipe-provided executable modul
   assert.equal(typeof adapters.getAdapter('python-intersphinx').resolve, 'function');
   for (const value of ['../test/commands.test.js', 'constructor', 'toString', 'unknown']) assert.throws(() => adapters.getAdapter(value), /adapter/i);
 });
+
+test('CLI publication state is explicit, durable and separate from disposable build work', async t => {
+  const { root, context } = await fixture(t);
+  const publication = path.join(root, 'publication');
+  const run = () => commands.runCLI(['build', '--id', 'alpha', '--publication-state', publication], context);
+  const result = JSON.parse((await run()).output);
+  const state = JSON.parse(await readFile(path.join(publication, 'state.json')));
+  assert.equal(state.reservations.length, 1);
+  assert.equal(state.reservations[0].releaseId, result.fingerprint);
+  assert.equal(state.records.length, 0);
+  assert.equal(JSON.parse((await run()).output).status, 'unchanged');
+  await assert.rejects(commands.runCLI(['build', '--id', 'alpha', '--publication-state', path.join(root, '.work/alpha-2-en')], context), /separate|overlap/i);
+});

@@ -35,7 +35,7 @@ export async function json(file, value) {
 }
 
 // Only updates local last-known-good state. Remote promotion is a separate job.
-export async function buildCandidate({ work, recipe, source, builder, build, validate, baseUrl, withSource }) {
+export async function buildCandidate({ work, recipe, source, builder, build, validate, baseUrl, withSource, allocateRevision }) {
   recipeIdentity(recipe);
   await mkdir(work, { recursive: true });
   await regularPath(work, true);
@@ -44,24 +44,31 @@ export async function buildCandidate({ work, recipe, source, builder, build, val
   const release = await lockfile.lock(work, { lockfilePath: path.join(work, 'build.lock'), stale: 120_000, update: 10_000, retries: 0 });
   try {
     const state = await prepareBuildState(work, recipe, validate);
-    const consume = (source, build) => buildLocked({ work, recipe, source, builder, build, validate, baseUrl, state });
+    const consume = (source, build) => buildLocked({ work, recipe, source, builder, build, validate, baseUrl, state, allocateRevision });
     return withSource ? await withSource(consume) : await consume(source, build);
   } finally {
     await release();
   }
 }
 
-async function buildLocked({ work, recipe, source, builder, build, validate, baseUrl, state }) {
+async function buildLocked({ work, recipe, source, builder, build, validate, baseUrl, state, allocateRevision }) {
   const id = fingerprint({ source, recipe, builder, baseUrl });
   const { identity, previous, baseline } = state;
+  const revisionFor = async (version, minimumRevision) => {
+    const revision = allocateRevision ? await allocateRevision({ ...identity, version, releaseId: id }, minimumRevision) : minimumRevision;
+    if (!Number.isSafeInteger(revision) || revision < minimumRevision) throw new Error('Invalid allocated publication revision');
+    return revision;
+  };
   if (state.orphanFingerprint && state.orphanFingerprint !== id) throw new Error('Missing current pointer; recover the original inputs or request manual review');
   if (previous?.fingerprint === id) {
+    if (await revisionFor(previous.version, previous.revision) !== previous.revision) throw new Error('Immutable cached release revision conflicts with publication state');
     const dir = path.join(work, 'releases', id);
     return { status: 'unchanged', fingerprint: id, directory: dir };
   }
   const existing = path.join(work, 'releases', id);
   const recovered = await readRelease(work, id, recipe, validate);
   if (recovered) {
+    if (await revisionFor(recovered.version, recovered.revision) !== recovered.revision) throw new Error('Immutable recovery release revision conflicts with publication state');
     rejectDowngrade(previous?.version, recovered.version);
     rejectRegression(baseline?.validation, recovered.validation, recipe);
     if (previous && previous.version === recovered.version && previous.revision >= recovered.revision) throw new Error('Previously released fingerprint reappeared; manual rollback review required');
@@ -78,7 +85,7 @@ async function buildLocked({ work, recipe, source, builder, build, validate, bas
   await json(path.join(candidate, 'validation.json'), report);
   if (!report.passed) throw new Error(`Validation failed; report: ${candidate}/validation.json`);
   rejectRegression(baseline?.validation, report, recipe);
-  const revision = previous?.version === version ? previous.revision + 1 : 1;
+  const revision = await revisionFor(version, previous?.version === version ? previous.revision + 1 : 1);
   // The complete bundle has now passed symlink checks. Keep the installed
   // version/revision consistent with the feed, including same-version updates.
   const metadataPath = path.join(bundle, 'meta.json');
