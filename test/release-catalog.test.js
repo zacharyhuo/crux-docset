@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { assertVersionLine, rejectDowngrade } from '../src/identity.js';
 
 const api = await import('../src/release-catalog.js').catch(e => { if (e.code === 'ERR_MODULE_NOT_FOUND') return {}; throw e; });
 const fixture = JSON.parse(await readFile(new URL('./fixtures/version-catalog/v1.json', import.meta.url)));
@@ -18,6 +19,19 @@ test('catalog round-trips the shared client contract without inferring latest fr
   assert.equal(typeof api.validateReleaseCatalog, 'function');
   assert.doesNotThrow(() => api.validateReleaseCatalog(fixture));
   assert.equal(make().families[0].releases[1].revision, 2);
+});
+
+test('four-component stable Java updates survive the shared catalog without truncation', async () => {
+  const java = JSON.parse(await readFile(new URL('./fixtures/version-catalog/java-v1.json', import.meta.url)));
+  const f = java.families[0];
+  const records = f.releases.map(release => ({ sourceId: f.sourceId, familyId: f.familyId, title: f.title, bundleName: f.bundleName, ...release, status: 'published' }));
+  assert.deepEqual(api.makeReleaseCatalog(records, { 'dev.crux/java': f.latestReleaseId }), java);
+  assertVersionLine('25.0.4.1', { versionLine: '25' });
+  assert.doesNotThrow(() => rejectDowngrade('25.0.4', '25.0.4.1'));
+  assert.doesNotThrow(() => rejectDowngrade('25.0.4.1', '25.0.5'));
+  assert.throws(() => rejectDowngrade('25.0.4.1', '25.0.4'), /downgrade/i);
+  assert.throws(() => rejectDowngrade('25.0.4.2', '25.0.4.1'), /downgrade/i);
+  for (const version of ['25.0.4.1.1', '25.0.4.01', '25.0.4.1-ea']) assert.throws(() => assertVersionLine(version, { versionLine: '25' }));
 });
 
 test('candidate and withdrawn releases never become selectable', () => {

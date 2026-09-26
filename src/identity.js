@@ -3,7 +3,8 @@ import { createReadStream } from 'node:fs';
 
 export const SHA256 = /^[0-9a-f]{64}$/;
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const VERSION = /^(?:0|[1-9]\d*)(?:\.(?:0|[1-9]\d*)){0,2}$/;
+// OpenJDK emergency releases can use FEATURE.INTERIM.UPDATE.PATCH.
+const VERSION = /^(?:0|[1-9]\d*)(?:\.(?:0|[1-9]\d*)){0,3}$/;
 const identityKeys = ['sourceId', 'familyId', 'variantId', 'versionLine', 'language', 'identifier', 'bundleName'];
 
 function canonical(value) {
@@ -47,7 +48,7 @@ export function rejectDowngrade(previous, next) {
   }
   if (!previous) return;
   const a = previous.split('.').map(Number), b = next.split('.').map(Number);
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < Math.max(a.length, b.length); i++) {
     if ((b[i] ?? 0) < (a[i] ?? 0)) throw new Error(`Automatic downgrade rejected: ${previous} -> ${next}`);
     if ((b[i] ?? 0) > (a[i] ?? 0)) return;
   }

@@ -49,7 +49,7 @@ async function readVariant(directory, base, variantId) {
   const variant = await readJSON(path.join(variantsDirectory, `${variantId}.json`));
   for (const key of Object.keys(variant)) if (!variantKeys.has(key)) throw new Error(`Unknown variant override: ${key}`);
   if (variant.variantId !== variantId) throw new Error('Variant identity mismatch');
-  if (typeof variant.versionLine !== 'string' || !/^(?:\d+(?:\.\d+){0,2}|current)$/.test(variant.versionLine)) throw new Error('Invalid version line');
+  if (typeof variant.versionLine !== 'string' || !/^(?:\d+(?:\.\d+){0,3}|current)$/.test(variant.versionLine)) throw new Error('Invalid version line');
   if (variant.language !== 'en') throw new Error('Only English variants are enabled');
   if (typeof variant.enabled !== 'boolean') throw new Error('Variant enabled must be boolean');
   for (const key of ['source', 'builder', 'validation', 'limits']) {
