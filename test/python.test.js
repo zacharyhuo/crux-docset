@@ -73,3 +73,23 @@ test('invocation downloads are removed even when the consuming build fails', asy
   }, fetcher), /builder failed/);
   assert.deepEqual(await readdir(work), []);
 });
+
+test('a Python archive from another minor is rejected before invoking doc2dash', async t => {
+  const root = await mkdtemp(path.join(tmpdir(), 'crux-python-line-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, 'python-html'));
+  await writeFile(path.join(root, 'python-html', 'index.html'), '<title>Python 3.15.0 documentation</title>');
+  execFileSync('zip', ['-qr', path.join(root, 'source.zip'), 'python-html'], { cwd: root });
+  const candidate = path.join(root, 'candidate');
+  await mkdir(candidate);
+  await assert.rejects(python.buildPython(candidate, { versionLine: '3.14', builder: { doc2dash: 'deliberately invalid' } }, path.join(root, 'source.zip'), {}), /version line/i);
+});
+
+test('source discovery cannot follow a cross-minor download on a fixed version line', async t => {
+  const { pythonAdapter } = await import('../src/adapters/python.js');
+  const directory = await mkdtemp(path.join(tmpdir(), 'crux-python-resolve-'));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  const urls = [];
+  await assert.rejects(pythonAdapter.resolve({ versionLine: '3.14', source: { discoveryUrl: 'https://docs.python.org/3.14/download.html' } }, { directory, fetcher: async url => { urls.push(url); return new Response('<a href="https://docs.python.org/3.15/archives/python-3.15-docs-html.zip">HTML</a>'); } }), /version line/);
+  assert.deepEqual(urls, ['https://docs.python.org/3.14/download.html']);
+});

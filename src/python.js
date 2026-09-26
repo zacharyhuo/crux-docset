@@ -11,6 +11,7 @@ import yauzl from 'yauzl';
 import * as plist from 'plist';
 import { load } from 'cheerio';
 import { safeArchivePath, discoverPython } from './pipeline.js';
+import { assertVersionLine } from './identity.js';
 
 const execute = promisify(execFile);
 
@@ -125,6 +126,7 @@ export async function buildPython(candidate, recipe, archive, icons) {
   if (directories.length !== 1 || !directories[0].isDirectory()) throw new Error('Unexpected Python archive layout');
   const htmlRoot = path.join(source, directories[0].name);
   const version = documentVersion(await readFile(path.join(htmlRoot, 'index.html'), 'utf8'));
+  assertVersionLine(version, recipe);
   const builderProject = fileURLToPath(new URL('../tools/doc2dash/', import.meta.url));
   if (recipe.builder.doc2dash !== '3.1.0') throw new Error('Recipe builder must match locked doc2dash 3.1.0');
   const { stdout, stderr } = await execute('uv', ['run', '--project', builderProject, '--frozen', 'doc2dash', '-n', recipe.bundleName, '-d', candidate, '-I', recipe.homepage, htmlRoot], { env: builderEnvironment(), timeout: 600_000, maxBuffer: 4 * 1024 * 1024 });

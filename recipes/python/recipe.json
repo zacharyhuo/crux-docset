@@ -1,6 +1,8 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "python",
+  "sourceId": "dev.crux",
+  "defaultVariant": "python-3-14-en",
   "name": "Python",
   "bundleName": "Python",
   "identifier": "dev.crux.python",

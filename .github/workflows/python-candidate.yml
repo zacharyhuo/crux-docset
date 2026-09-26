@@ -53,21 +53,20 @@ jobs:
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: |
+            .work/python/owner.json
             .work/python/current.json
             .work/python/releases/*/manifest.json
             .work/python/releases/*/validation.json
+            .work/python/releases/*/source-lock.json
             .work/python/releases/*/Python.tgz
-            .work/python/releases/*/python.xml
-          key: python-candidate-v1-${{ runner.os }}-${{ hashFiles('src/**', 'package-lock.json', 'recipes/**', 'tools/doc2dash/**') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: python-candidate-v2-${{ runner.os }}-${{ hashFiles('src/**', 'package-lock.json', 'recipes/**', 'tools/doc2dash/**') }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
-            python-candidate-v1-${{ runner.os }}-${{ hashFiles('src/**', 'package-lock.json', 'recipes/**', 'tools/doc2dash/**') }}-
+            python-candidate-v2-${{ runner.os }}-${{ hashFiles('src/**', 'package-lock.json', 'recipes/**', 'tools/doc2dash/**') }}-
       - name: Build and validate candidate
         id: build
-        env:
-          RELEASE_BASE: https://github.com/${{ github.repository }}/releases/download
         run: |
           mkdir -p .work
-          node src/cli.js build --base-url "$RELEASE_BASE" > .work/result.json
+          node src/cli.js build --id python > .work/result.json
           cat .work/result.json
           node --input-type=module -e 'import fs from "node:fs"; const r=JSON.parse(fs.readFileSync(".work/result.json")); fs.appendFileSync(process.env.GITHUB_OUTPUT, `directory=${r.directory}\nstatus=${r.status}\n`);'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -81,8 +80,8 @@ jobs:
             ${{ steps.build.outputs.directory }}/Python.tgz
             ${{ steps.build.outputs.directory }}/manifest.json
             ${{ steps.build.outputs.directory }}/validation.json
-            ${{ steps.build.outputs.directory }}/python.xml
+            ${{ steps.build.outputs.directory }}/source-lock.json
 
-  # Deliberately no contents:write job yet. Candidate feeds reference future
-  # release URLs, not currently downloadable assets. See PHASE1.md before enabling
-  # a separate, independently validating publisher and catalog bot commit.
+  # Deliberately no contents:write job or speculative public download URLs.
+  # A separately configured, independently validating publisher must upload
+  # immutable artifacts before creating feeds or committing a release catalog.

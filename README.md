@@ -20,10 +20,27 @@ Git 保存配方与小型元数据；生成的 `.tgz`、SQLite/HTML bundle 发�
 ```sh
 npm ci --ignore-scripts
 npm test
+npm run docset -- list
 npm run docset -- build
 ```
 
-最后一个命令从 Python 官方站点发现稳定版离线 HTML 包，下载并计算散列。成功后输出候选目录，内含 `.tgz`、`manifest.json`、`validation.json` 和可直接检查的 `.docset`。重复运行且输入未变化时跳过构建。所有生成文件位于被忽略的 `.work/`，不会进入 Git。
+最后一个命令从 Python 官方站点发现 **3.14 版本线**的稳定版离线 HTML 包，下载并计算散列，不自动跨 minor。成功后输出候选目录，内含 `.tgz`、`manifest.json`、`source-lock.json`、`validation.json` 和可直接检查的 `.docset`。重复运行且输入未变化时跳过构建。所有生成文件位于被忽略的 `.work/`，不会进入 Git。
+
+## 版本线与工作目录
+
+`list` 列出各 family/variant、默认项和 `implemented`/`buildable` 状态；当前正式注册的 adapter 仍只有 Python。新增版本线需要评审 `recipes/<family>/variants/<variantId>.json`，不能仅凭上游出现新版本自动启用。
+
+```sh
+node src/cli.js build --id python --variant python-3-14-en
+node src/cli.js build --id python --archive /absolute/path/python-docs.zip --work /absolute/path/new-work
+node src/cli.js validate --id python --bundle /absolute/path/Python.docset
+```
+
+同 family 共用稳定的 bundle identifier（Python 为 `dev.crux.python`），不同 variant 的构建状态独立。默认目录为 `.work/<variantId>`；Python 3.14 保留显式兼容映射 `.work/python`。`--work` 是单一 variant 的状态根，锁内校验 `owner.json`，不能被另一版本线接管；未知的非空目录不会被清理或覆盖。
+
+schema-2 状态将版本和指纹放在 `current.json` 的 `release` 中，旧 CLI 会拒绝读写。已验证的 schema-1 Python 3.14 状态迁移前备份为 `legacy-current.v1.json`，不可变旧产物不修改；来源、实际 bundle 或版本线无法核实时需人工核查，或在新目录重建。不要删除 owner/current 来绕过归属校验。Actions 使用新的 v2 cache key，不自动恢复缺少完整 bundle 的旧 v1 缓存。
+
+只有明确设置 `--base-url https://<configured-artifact-root>` 才会生成候选 feed，布局为 `artifacts/<variantId>/<fingerprint>/<Bundle>.tgz`、`feeds/<variantId>.xml`。它不是 GitHub Release URL 的直接拼接约定，也不是已经上传的证明；publisher 必须另行配置和验证。当前 CI 仅输出候选，不生成猜测的下载地址。
 
 CLI/验证器使用 JS；doc2dash 仍是锁定的上游 Python 构建工具，不是自编 Python CLI。Java + Spring 后端保留在 `crux-server`，本阶段不需要常驻服务。
 
@@ -35,4 +52,4 @@ CLI/验证器使用 JS；doc2dash 仍是锁定的上游 Python 构建工具，�
 验证缺失、文件类型、大小上限、PNG 解码/CRC 和尺寸；使用锁定的 `pngjs` 解码。
 Python 原图及来源见 [assets 说明](recipes/python/assets/README.md)。
 
-Actions 工作流提供 PR 测试、main 候选构建和每日检测，只有 `contents: read` 权限。它**不会创建 Release 或提交目录元数据**；生成的 feed 在远端产物发布前不可用。跨仓库相对链接以三个仓库在同一父目录检出为前提。
+Actions 工作流提供 PR 测试、main 候选构建和每日检测，只有 `contents: read` 权限。它**不会创建 Release 或提交目录元数据**；此阶段未增加新版本线的定时构建。跨仓库相对链接以三个仓库在同一父目录检出为前提。

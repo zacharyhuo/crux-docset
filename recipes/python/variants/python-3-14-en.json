@@ -1,0 +1,10 @@
+{
+  "variantId": "python-3-14-en",
+  "versionLine": "3.14",
+  "language": "en",
+  "enabled": true,
+  "source": {
+    "discoveryUrl": "https://docs.python.org/3.14/download.html",
+    "strategy": "stable-line-official-html"
+  }
+}
