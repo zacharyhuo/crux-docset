@@ -62,8 +62,10 @@ test('keeps admonition labels legible without an icon font and identifies collap
   const prepared = prepareSpringOfflinePage(page('<div class="admonitionblock note"><table><tr><td class="icon"><i class="fa icon-note" title="Note"></i></td><td class="content">Take care.</td></tr></table></div><pre><code><span class="fold-block is-hidden-folded">full source</span><span class="fold-block is-hidden-unfolded">// ...</span></code></pre>'), identity);
   const $ = load(prepared.bodyHTML);
   assert.equal($('.icon').text(), 'Note');
-  assert.equal($('code').text(), 'full source// ...');
-  assert.equal($('.Crux-foldSummary').text(), '// ...');
+  assert.equal($('code').text(), 'full source');
+  assert.equal($('.Crux-foldSummary pre').text(), '// ...');
+  assert.equal($('.Crux-foldSummary').parents('pre,code').length, 0);
+  assert.equal($('.Crux-foldSummary[open]').length, 0);
   assert.equal($('.is-hidden-unfolded').length, 0);
 });
 

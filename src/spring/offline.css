@@ -1,0 +1,24 @@
+:root { color-scheme: light dark; font: 16px/1.6 system-ui, sans-serif; }
+body { margin: 0 auto; padding: 1.25rem; max-width: 78rem; overflow-wrap: anywhere; }
+a { color: light-dark(#075aad, #84c1ff); }
+nav details { border: 1px solid light-dark(#ccc, #555); border-radius: .5rem; padding: .6rem 1rem; }
+summary { cursor: pointer; font-weight: 600; }
+nav details ul { columns: 2 22rem; }
+nav details li { break-inside: avoid; }
+h1, h2, h3, h4, h5, h6 { line-height: 1.25; scroll-margin-top: 1rem; }
+pre { overflow-x: auto; white-space: pre; padding: 1rem; border-radius: .35rem; background: light-dark(#f3f4f6, #202226); }
+code { font-family: ui-monospace, monospace; font-size: .9em; }
+img { max-width: 100%; height: auto; }
+table { border-collapse: collapse; max-width: 100%; }
+th, td { padding: .45rem .65rem; vertical-align: top; }
+table.tableblock th, table.tableblock td { border: 1px solid light-dark(#ccc, #555); }
+.admonitionblock { margin: 1rem 0; border-left: .25rem solid light-dark(#8a6900, #e9be56); }
+.admonitionblock .icon { font-weight: 700; }
+.Crux-codeExample { margin: .7rem 0; }
+.Crux-codeExample > summary { padding: .3rem .5rem; background: light-dark(#eee, #303236); }
+.Crux-foldSummary { opacity: .7; }
+.Crux-linkNote, footer { font-size: .85em; }
+.Crux-upstreamWarning { color: light-dark(#8a5100, #ffcc80); }
+.pagination { display: flex; justify-content: space-between; margin-top: 2rem; }
+.breadcrumbs ul { display: flex; flex-wrap: wrap; list-style: none; padding: 0; gap: .6rem; }
+footer { margin-top: 2rem; border-top: 1px solid light-dark(#ccc, #555); padding-top: 1rem; }

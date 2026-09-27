@@ -66,7 +66,17 @@ export function prepareSpringOfflinePage(html, identity) {
     list.remove(); group.removeClass('tabs is-sync is-loading');
   }
   if (article.find('.tablist,.tabpanel,.tab,.is-loading,.is-sync').length) throw new Error('Orphaned Spring tab/dynamic component');
-  article.find('.is-hidden-unfolded').addClass('Crux-foldSummary').removeClass('is-hidden-unfolded');
+  const summaries = new Map();
+  for (const node of article.find('.is-hidden-unfolded')) {
+    const e = $(node), pre = e.closest('pre');
+    if (pre.length !== 1 || !e.closest('code').length) throw new Error('Unsupported Spring folded summary');
+    let disclosure = summaries.get(pre[0]);
+    if (!disclosure) {
+      disclosure = $('<details class="Crux-foldSummary"><summary>Upstream shortened view</summary><pre></pre></details>');
+      pre.after(disclosure); summaries.set(pre[0], disclosure);
+    }
+    disclosure.children('pre').append(e.removeClass('is-hidden-unfolded'));
+  }
   article.find('.is-hidden-folded').removeClass('is-hidden-folded');
   for (const kind of ['note', 'tip', 'important', 'warning', 'caution']) {
     article.find(`i.icon-${kind}`).each((_, node) => {
