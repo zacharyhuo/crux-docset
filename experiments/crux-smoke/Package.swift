@@ -7,5 +7,6 @@ let package = Package(
     targets: [
         .executableTarget(name: "CruxDocsetSmoke", dependencies: [.product(name: "CruxCore", package: "CruxCore")]),
         .executableTarget(name: "CruxVersionSwitchSmoke", dependencies: [.product(name: "CruxCore", package: "CruxCore")]),
+        .testTarget(name: "VersionSwitchSmokeTests", dependencies: ["CruxVersionSwitchSmoke"]),
     ]
 )

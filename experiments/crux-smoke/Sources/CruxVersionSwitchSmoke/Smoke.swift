@@ -6,12 +6,11 @@ import CruxCore
 @main
 struct VersionSwitchSmoke {
     static func main() async throws {
-        guard CommandLine.arguments.count == 3 else {
-            throw SmokeFailure("Usage: CruxVersionSwitchSmoke PYTHON_313_RELEASE_DIR PYTHON_314_RELEASE_DIR")
-        }
-        let old = try Candidate(directory: CommandLine.arguments[1], line: "3.13")
-        let latest = try Candidate(directory: CommandLine.arguments[2], line: "3.14")
-        let entry = try catalogEntry(old: old, latest: latest)
+        let invocation = try SmokeInvocation(arguments: Array(CommandLine.arguments.dropFirst()))
+        let profile = invocation.profile
+        let old = try Candidate(directory: invocation.oldDirectory, line: profile.oldLine, profile: profile)
+        let latest = try Candidate(directory: invocation.latestDirectory, line: profile.latestLine, profile: profile)
+        let entry = try catalogEntry(old: old, latest: latest, profile: profile)
         let latestTarget = try DocsetInstallTarget(entry: entry)
         let oldTarget = try DocsetInstallTarget(entry: entry, selection: .pinnedRelease(old.manifest.releaseId))
 
@@ -31,14 +30,14 @@ struct VersionSwitchSmoke {
             let installed = try await transaction.perform(target: target, artifactAt: candidate.archive, existing: previous)
             try require(installed.descriptor.version == candidate.manifest.version, "Installed wrong version")
             try require(installed.descriptor.revision == candidate.manifest.revision, "Installed wrong revision")
-            try require(!installed.descriptor.isJavaScriptEnabled, "Unexpected Python JavaScript policy")
+            try require(!installed.descriptor.isJavaScriptEnabled, "Unexpected \(profile.bundleName) JavaScript policy")
             try require(installed.installTarget == target && installed.selectionPolicy == target.selectionPolicy,
                         "Policy or immutable target not committed")
             if let previous {
                 try require(previous.descriptor.bundleURL == installed.descriptor.bundleURL, "Created another installation slot")
             }
             try await verifySingleInstallation(installed, database: database, library: library)
-            for symbol in ["list", "dict", "asyncio"] {
+            for symbol in profile.symbols {
                 let results = try await search.search(symbol, in: [installed.descriptor], limit: 100)
                 guard let exact = results.first(where: { $0.name == symbol }) else {
                     throw SmokeFailure("Missing exact symbol: \(symbol)")
@@ -46,11 +45,9 @@ struct VersionSwitchSmoke {
                 let html = try String(contentsOf: exact.documentURL, encoding: .utf8)
                 try require(!html.isEmpty, "Unreadable offline document: \(symbol)")
             }
-            // Inspected real source indexes: this API is present in 3.14 and
-            // absent in 3.13. It detects leaked newer-version search results.
-            let added = try await search.search("pathlib.Path.copy", in: [installed.descriptor], limit: 100)
-                .filter { $0.name == "pathlib.Path.copy" }
-            try require(added.count == (candidate.manifest.versionLine == "3.14" ? 1 : 0),
+            let added = try await search.search(profile.addedSymbol, in: [installed.descriptor], limit: 100)
+                .filter { $0.name == profile.addedSymbol }
+            try require(added.count == (candidate.manifest.versionLine == profile.latestLine ? 1 : 0),
                         "Search retained a stale version's symbols")
             print("PASS \(candidate.manifest.version) r\(candidate.manifest.revision): one bundle/record, persisted policy, offline searches, correct version-specific symbol")
             previous = installed
@@ -79,19 +76,19 @@ struct VersionSwitchSmoke {
         try require(visible.filter { $0.pathExtension == "docset" }.count == 1, "Multiple visible bundles")
     }
 
-    private static func catalogEntry(old: Candidate, latest: Candidate) throws -> CatalogEntry {
+    static func catalogEntry(old: Candidate, latest: Candidate, profile: SmokeProfile) throws -> CatalogEntry {
         // Only an in-memory contract fixture. Reserved .invalid URLs must never
         // be put into a real catalog; the transaction receives a local archive.
         let fixture: [String: Any] = ["schemaVersion": 1, "families": [[
-            "sourceId": "dev.crux", "familyId": "python", "title": "Python",
-            "identifier": "dev.crux.python", "bundleName": "Python",
+            "sourceId": "dev.crux", "familyId": profile.rawValue, "title": profile.bundleName,
+            "identifier": "dev.crux.\(profile.rawValue)", "bundleName": profile.bundleName,
             "defaultVariantId": latest.manifest.variantId, "latestReleaseId": latest.manifest.releaseId,
             "releases": [old, latest].map { candidate -> [String: Any] in
                 let m = candidate.manifest
                 return ["releaseId": m.releaseId, "variantId": m.variantId, "versionLine": m.versionLine,
                         "language": m.language, "version": m.version, "revision": m.revision, "identifier": m.identifier,
                         "publishedAt": m.builtAt, "channel": "stable", "support": "supported",
-                        "artifact": ["url": "https://local-smoke.invalid/\(m.releaseId)/Python.tgz",
+                        "artifact": ["url": "https://local-smoke.invalid/\(m.releaseId)/\(profile.bundleName).tgz",
                                      "sha256": m.artifact.sha256, "bytes": m.artifact.bytes]]
             },
         ]]]
@@ -102,25 +99,27 @@ struct VersionSwitchSmoke {
     }
 }
 
-private struct Candidate {
+struct Candidate {
     let manifest: Manifest
     let archive: URL
 
-    init(directory: String, line: String) throws {
+    init(directory: String, line: String, profile: SmokeProfile) throws {
         let root = URL(fileURLWithPath: directory, isDirectory: true)
         let data = try Data(contentsOf: root.appending(path: "manifest.json"))
         try require(data.count <= 65_536, "Oversized candidate manifest")
         manifest = try JSONDecoder().decode(Manifest.self, from: data)
-        try require(manifest.schemaVersion == 2 && manifest.familyId == "python" && manifest.sourceId == "dev.crux"
-                    && manifest.identifier == "dev.crux.python" && manifest.bundleName == "Python"
+        try require([profile.oldLine, profile.latestLine].contains(line)
+                    && manifest.schemaVersion == 2 && manifest.familyId == profile.rawValue && manifest.sourceId == "dev.crux"
+                    && manifest.identifier == "dev.crux.\(profile.rawValue)" && manifest.bundleName == profile.bundleName
+                    && manifest.variantId == "\(profile.rawValue)-\(line.replacingOccurrences(of: ".", with: "-"))-en"
                     && manifest.language == "en" && manifest.versionLine == line
-                    && manifest.version.hasPrefix(line + ".") && manifest.artifact.file == "Python.tgz"
-                    && manifest.validation.passed, "Not a validated candidate in the expected Python line")
-        archive = root.appending(path: "Python.tgz")
+                    && manifest.version.hasPrefix(line + ".") && manifest.artifact.file == "\(profile.bundleName).tgz"
+                    && manifest.validation.passed, "Not a validated candidate in the expected \(profile.bundleName) line")
+        archive = root.appending(path: "\(profile.bundleName).tgz")
     }
 }
 
-private struct Manifest: Decodable {
+struct Manifest: Decodable {
     let schemaVersion: Int
     let sourceId, familyId, variantId, versionLine, language, identifier, bundleName, releaseId, version, builtAt: String
     let revision: Int
@@ -130,7 +129,7 @@ private struct Manifest: Decodable {
     struct Validation: Decodable { let passed: Bool }
 }
 
-private struct SmokeFailure: Error, CustomStringConvertible {
+struct SmokeFailure: Error, CustomStringConvertible {
     let description: String
     init(_ description: String) { self.description = description }
 }
