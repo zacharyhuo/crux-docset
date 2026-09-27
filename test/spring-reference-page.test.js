@@ -87,3 +87,10 @@ test('rejects unsafe paths, unstable versions and oversized input before accepti
   assert.throws(() => readSpringReferencePage('x'.repeat(16 * 1024 ** 2 + 1), identity), /limit/i);
   assert.throws(() => readSpringReferencePage(page(article.replace('id="xml"', 'id="bad&#10;id"')), identity), /anchor/i);
 });
+
+test('counts comments and text toward the DOM budget before cloning the article', () => {
+  for (const extra of ['<!--x-->'.repeat(300001), 'x<!--x-->'.repeat(150001)]) {
+    assert.throws(() => readSpringReferencePage(page(article + extra), identity), /DOM.*limit/i);
+  }
+  assert.equal(readSpringReferencePage(page(article + 'x<!--x-->'.repeat(1000)), identity).symbols.length, 4);
+});

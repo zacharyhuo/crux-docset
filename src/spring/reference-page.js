@@ -11,7 +11,13 @@ export function readSpringReferencePage(html, { version, outputPath }) {
   if (typeof version !== 'string' || !/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(version) || controls.test(version)) throw new Error('Invalid Spring reference version');
   if (typeof outputPath !== 'string' || outputPath.length > 4096 || !/^reference\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.html$/.test(outputPath) || controls.test(outputPath)) throw new Error('Invalid Spring reference output path');
   const $ = load(html);
-  if ($('*').length > 300000) throw new Error('Spring reference DOM size limit');
+  let nodeCount = 0;
+  const pending = [$.root()[0]];
+  while (pending.length) {
+    const node = pending.pop();
+    if (++nodeCount > 300000) throw new Error('Spring reference DOM size limit');
+    if (node.children) for (const child of node.children) pending.push(child);
+  }
   for (const [name, expected] of [['version', version], ['component', 'framework']]) {
     const meta = $(`head meta[name="${name}"]`);
     if (meta.length !== 1 || meta.attr('content') !== expected) throw new Error(`Spring reference ${name} identity mismatch`);
