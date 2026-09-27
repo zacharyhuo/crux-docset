@@ -1,42 +1,14 @@
 import path from 'node:path';
 import { GO_CONTEXTS } from './inventory.js';
+import { assertGoReferencePolicy, resolveReviewedGoReference } from './references.js';
 
 const packagePath = value => /^[A-Za-z0-9_][A-Za-z0-9_.-]*(?:\/[A-Za-z0-9_][A-Za-z0-9_.-]*)*$/.test(value);
 const outside = value => value.split('/').some(part => ['cmd', 'internal', 'vendor', 'testdata'].includes(part) || part.startsWith('_')) || value.split('/')[0].includes('.');
 const literalExamples = new Set(['http://address:port', 'http://ipaddr:port', 'http://localhost:6060/debug/pprof/']);
 
-// Audited against the exact official SDK, not generic missing-link allowances.
-// Preserve erroneous upstream prose rather than invent a different API target.
-function reviewedMissingReference(version, from, target, fragment) {
-  if (!['1.27.1', '1.26.8'].includes(version)) return undefined;
-  const key = `${from.packagePath}:${target}#${fragment}`;
-  if (version === '1.26.8' && target === 'encoding/json' &&
-      (['encoding/json/jsontext', 'encoding/json/v2'].includes(from.packagePath) && fragment === 'Options' || from.packagePath === 'encoding/json/v2' && fragment === 'DefaultOptionsV1')) {
-    return { kind: 'online', reason: 'out-of-scope-build-tag', requirement: 'GOEXPERIMENT=jsonv2',
-      href: `https://github.com/golang/go/blob/go1.26.8/src/encoding/json/v2_options.go#L${fragment === 'Options' ? 203 : 237}` };
-  }
-  if (key === 'os:syscall#EPLAN9') return {
-    kind: 'online', reason: 'out-of-scope-platform',
-    href: `https://github.com/golang/go/blob/go${version}/src/syscall/errors_plan9.go#L41`,
-  };
-  const sources = {
-    'database/sql/driver:database/sql#Query': `database/sql/driver/types.go#L${version === '1.26.8' ? 39 : 40}`,
-    'database/sql/driver:database/sql#Exec': `database/sql/driver/types.go#L${version === '1.26.8' ? 39 : 40}`,
-    'database/sql/driver:database/sql#QueryRow': `database/sql/driver/types.go#L${version === '1.26.8' ? 39 : 40}`,
-    'os/signal:os#Exec': 'os/signal/doc.go#L55',
-    ...(version === '1.27.1' ? { 'simd:arch/simd#': 'simd/doc.go#L84' } : {}),
-    ...(version === '1.26.8' ? {
-      'encoding/json/v2:time#Time.Parse': 'encoding/json/v2/arshal.go#L385',
-      'net/netip:encoding#BinaryAppendler': 'net/netip/netip.go#L1250',
-      'net/netip:encoding#AppendMarshaler': 'net/netip/netip.go#L1556',
-    } : {}),
-  };
-  if (Object.hasOwn(sources, key)) return { kind: 'literal', reason: 'upstream-broken-reference',
-    evidence: `https://github.com/golang/go/blob/go${version}/src/${sources[key]}` };
-}
-
-export function createGoLinkResolver(inventory, { version, goroot, anchors }) {
+export function createGoLinkResolver(inventory, { version, goroot, anchors, referencePolicy }) {
   if (!/^1\.\d+\.\d+$/.test(version) || !path.isAbsolute(goroot) || goroot.includes('..') || !(anchors instanceof Map)) throw new Error('Invalid Go link source identity');
+  if (referencePolicy !== undefined) assertGoReferencePolicy(referencePolicy, version);
   const packages = new Map(), namespaces = new Set();
   for (const entry of inventory.pages) {
     if (!packagePath(entry.packagePath) || !GO_CONTEXTS.includes(entry.context) ||
@@ -105,7 +77,7 @@ export function createGoLinkResolver(inventory, { version, goroot, anchors }) {
     if (!candidates) {
       if (namespaces.has(targetName) && !fragment && !url.search) return local('index.html', `package-group-${targetName.replaceAll('/', '-')}`, from);
       if (outside(targetName)) return { kind: 'online', href: `https://pkg.go.dev${url.pathname}${url.search}${url.hash}`, reason: 'out-of-scope' };
-      const reviewed = reviewedMissingReference(version, from, targetName, fragment);
+      const reviewed = resolveReviewedGoReference(referencePolicy, version, from.packagePath, targetName, fragment);
       if (reviewed) return reviewed;
       throw new Error(`Missing in-scope Go page: ${targetName}`);
     }
@@ -115,7 +87,7 @@ export function createGoLinkResolver(inventory, { version, goroot, anchors }) {
       if (!target || (fragment && !anchors.get(target.outputPath).has(fragment))) continue;
       return local(target.outputPath, fragment, from, context);
     }
-    const reviewed = reviewedMissingReference(version, from, targetName, fragment);
+    const reviewed = resolveReviewedGoReference(referencePolicy, version, from.packagePath, targetName, fragment);
     if (reviewed) return reviewed;
     throw new Error(`Missing in-scope Go anchor: ${targetName}#${fragment}`);
   };

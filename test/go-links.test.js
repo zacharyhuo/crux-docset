@@ -59,56 +59,16 @@ test('known literal example addresses remain text instead of connecting to local
   assert.throws(() => links('http://other:bad-port', pages[0]));
 });
 
-test('reviewed upstream defects remain explicit text, bounded by source page and exact release', () => {
+test('known old release numbers alone cannot authorize missing-symbol exceptions', () => {
   const source = entry('database/sql/driver'), sql = entry('database/sql');
   const set = [source, sql];
   const ids = new Map(set.map(p => [p.outputPath, new Set(['DB.Query'])]));
   const options = { version: '1.27.1', goroot: '/verified/sdk/go', anchors: ids };
   const links = createGoLinkResolver({ pages: set }, options);
-  const result = links('/database/sql?GOOS=linux#Query', source);
-  assert.equal(result.kind, 'literal');
-  assert.equal(result.reason, 'upstream-broken-reference');
-  assert.match(result.evidence, /types\.go#L40/);
+  assert.throws(() => links('/database/sql?GOOS=linux#Query', source), /anchor/);
   assert.throws(() => links('/database/sql#Query', sql), /anchor/);
   assert.throws(() => links('/database/sql?GOOS=linux#Unexpected', source), /anchor/);
   assert.throws(() => links('/database/sql?GOOS=plan9#Query', source), /context/);
   assert.throws(() => createGoLinkResolver({ pages: set }, { ...options, version: '1.27.2' })('/database/sql#Query', source), /anchor/);
-});
-
-test('reviewed Plan 9 reference links to exact official source rather than a nonexistent local symbol', () => {
-  const source = entry('os'), syscall = entry('syscall');
-  const links = createGoLinkResolver({ pages: [source, syscall] }, {
-    version: '1.27.1', goroot: '/verified/sdk/go', anchors: new Map([source, syscall].map(p => [p.outputPath, new Set()])),
-  });
-  assert.deepEqual(links('/syscall?GOOS=linux#EPLAN9', source), {
-    kind: 'online', reason: 'out-of-scope-platform',
-    href: 'https://github.com/golang/go/blob/go1.27.1/src/syscall/errors_plan9.go#L41',
-  });
-  assert.throws(() => links('/syscall#EPLAN9', syscall), /anchor/);
-});
-
-test('previous-line audited source references use their own version and source line', () => {
-  const source = entry('database/sql/driver'), sql = entry('database/sql');
-  const options = { version: '1.26.8', goroot: '/verified/sdk/go', anchors: new Map([source, sql].map(p => [p.outputPath, new Set()])) };
-  const links = createGoLinkResolver({ pages: [source, sql] }, options);
-  const result = links('/database/sql?GOOS=linux#Query', source);
-  assert.equal(result.kind, 'literal');
-  assert.equal(result.evidence, 'https://github.com/golang/go/blob/go1.26.8/src/database/sql/driver/types.go#L39');
-  assert.throws(() => createGoLinkResolver({ pages: [source, sql] }, { ...options, version: '1.26.9' })('/database/sql#Query', source), /anchor/);
-});
-
-test('old jsonv2-only APIs are explicit source references, not mislabeled as missing stable APIs', () => {
-  const source = entry('encoding/json/v2'), target = entry('encoding/json'), time = entry('time');
-  const links = createGoLinkResolver({ pages: [source, target, time] }, {
-    version: '1.26.8', goroot: '/verified/sdk/go', anchors: new Map([source, target, time].map(p => [p.outputPath, new Set()])),
-  });
-  const result = links('/encoding/json#Options', source);
-  assert.equal(result.kind, 'online');
-  assert.equal(result.reason, 'out-of-scope-build-tag');
-  assert.equal(result.requirement, 'GOEXPERIMENT=jsonv2');
-  assert.equal(result.href, 'https://github.com/golang/go/blob/go1.26.8/src/encoding/json/v2_options.go#L203');
-  assert.equal(links('/encoding/json#DefaultOptionsV1', source).href, 'https://github.com/golang/go/blob/go1.26.8/src/encoding/json/v2_options.go#L237');
-  assert.equal(links('/time#Time.Parse', source).reason, 'upstream-broken-reference');
-  assert.throws(() => links('/encoding/json#Unexpected', source), /anchor/);
-  assert.equal(links('http://ipaddr:port', source).kind, 'literal');
+  assert.throws(() => createGoLinkResolver({ pages: set }, { ...options, version: '1.26.8' })('/database/sql#Query', source), /anchor/);
 });

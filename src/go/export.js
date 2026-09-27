@@ -20,13 +20,13 @@ function packageLinks(inventory, file) {
 }
 
 /** Only call with the verified SDK/license inputs and finite runtime inventory. */
-export async function exportGoDocs(session, inventory, { destination, sourceLock, goroot, licenses }) {
+export async function exportGoDocs(session, inventory, { destination, sourceLock, goroot, licenses, referencePolicy }) {
   if (!sourceLock || !/^1\.\d+\.\d+$/.test(sourceLock.version) || session.version !== sourceLock.version) throw new Error('Go export session/source version mismatch');
   if (!Array.isArray(inventory.pages) || !inventory.pages.length || inventory.pages.length > 10000) throw new Error('Invalid Go export inventory size');
   if (!path.isAbsolute(destination) || !licenses || ['go', 'pkgsite'].some(key => typeof licenses[key] !== 'string' || !licenses[key].trim() || Buffer.byteLength(licenses[key]) > 1024 ** 2)) throw new Error('Go export requires destination and licenses');
   const anchors = new Map(inventory.pages.map(p => [p.outputPath, new Set()]));
   // Validate all output paths and duplicates before any filesystem mutation.
-  createGoLinkResolver(inventory, { version: sourceLock.version, goroot, anchors });
+  createGoLinkResolver(inventory, { version: sourceLock.version, goroot, anchors, referencePolicy });
   await mkdir(destination);
   const documentsRoot = path.join(destination, 'Documents'), staging = path.join(destination, 'prepared');
   await mkdir(documentsRoot); await mkdir(staging);
@@ -42,7 +42,7 @@ export async function exportGoDocs(session, inventory, { destination, sourceLock
     removedControls += prepared.removedControls;
     await writeFile(path.join(staging, `${i}.html`), prepared.bodyHTML, { flag: 'wx' });
   }
-  const resolve = createGoLinkResolver(inventory, { version: sourceLock.version, goroot, anchors });
+  const resolve = createGoLinkResolver(inventory, { version: sourceLock.version, goroot, anchors, referencePolicy });
   for (const [i, entry] of inventory.pages.entries()) {
     const adapted = adaptGoOfflinePage({ bodyHTML: await readFile(path.join(staging, `${i}.html`), 'utf8') }, entry, resolve);
     warnings.push(...adapted.warnings.map(w => ({ page: entry.outputPath, ...w })));
@@ -76,7 +76,8 @@ Online references preserve upstream destinations (including original HTTP refere
 `, { flag: 'wx' });
   const closure = await verifyGoOfflineTree(documentsRoot);
   const symbols = selectGoSymbols(indexed);
-  const evidence = { version: sourceLock.version, pages: inventory.pages.length, inputBytes: bytes, removedControls, links, warnings, closure };
+  const evidence = { version: sourceLock.version, pages: inventory.pages.length, inputBytes: bytes, removedControls, links, warnings,
+    referenceRules: referencePolicy?.evidence ?? [], closure };
   await writeFile(path.join(destination, 'export-evidence.json'), `${JSON.stringify(evidence, null, 2)}\n`, { flag: 'wx' });
   return { documentsRoot, symbols, evidence };
 }

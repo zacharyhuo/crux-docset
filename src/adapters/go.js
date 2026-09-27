@@ -7,6 +7,7 @@ import { buildPkgsite, scanGoSources, withPkgsite } from '../go/runtime.js';
 import { makeGoInventory, readGoDirectory } from '../go/inventory.js';
 import { exportGoDocs } from '../go/export.js';
 import { writeGoBundle } from '../go/bundle.js';
+import { readGoReferencePolicy } from '../go/references.js';
 
 function checkRecipe(recipe) {
   recipeIdentity(recipe);
@@ -45,6 +46,7 @@ export const goAdapter = Object.freeze({
       const built = await buildPkgsite(inputs, { work: rendererWork });
       stage = 'inventory';
       const sources = await scanGoSources(inputs, { work: path.join(directory, 'inventory') });
+      const referencePolicy = await readGoReferencePolicy(inputs.goroot, { version: lock.version, sourceInventory: sources });
       const moduleDirectory = path.join(rendererWork, 'gopath/pkg/mod', `${lock.renderer.module}@${lock.renderer.version}`);
       const licenses = { go: await readFile(path.join(inputs.goroot, 'LICENSE'), 'utf8'), pkgsite: await readFile(path.join(moduleDirectory, 'LICENSE'), 'utf8') };
       let inventory;
@@ -52,7 +54,7 @@ export const goAdapter = Object.freeze({
       const exported = await withPkgsite(built, { work: path.join(directory, 'runtime') }, async session => {
         const renderedPackages = readGoDirectory(await session.readPage(`/std@go${lock.version}`), { version: lock.version });
         inventory = makeGoInventory({ version: lock.version, sourcePackages: sources.packages, renderedPackages, contexts: sources.contexts });
-        return exportGoDocs(session, inventory, { destination: path.join(directory, 'export'), sourceLock: inputs.sourceLock, goroot: inputs.goroot, licenses });
+        return exportGoDocs(session, inventory, { destination: path.join(directory, 'export'), sourceLock: inputs.sourceLock, goroot: inputs.goroot, licenses, referencePolicy });
       });
       stage = 'bundle';
       const result = await writeGoBundle(recipe, exported, { candidate, version: lock.version });

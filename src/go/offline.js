@@ -49,7 +49,7 @@ export function adaptGoOfflinePage(prepared, entry, resolve) {
       if (result.reason === 'upstream-broken-reference') {
         e.addClass('Crux-upstreamWarning').attr('title', 'Upstream reference has no valid target');
         e.append($('<span class="Crux-linkNote"></span>').text(' [Upstream reference has no valid target]'));
-        warnings.push({ href, reason: result.reason, evidence: result.evidence });
+        warnings.push({ href, reason: result.reason, evidence: result.evidence, ...(result.ruleId ? { ruleId: result.ruleId } : {}) });
       }
     } else {
       e.attr('href', result.href);
