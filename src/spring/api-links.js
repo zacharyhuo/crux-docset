@@ -85,10 +85,12 @@ export function createSpringApiLinkResolver({ version, pages, resources = new Se
     if (/^https?:\/\//.test(href)) {
       const url = new URL(href);
       if (url.username || url.password) throw new Error('Unsafe API online credentials');
-      const prefix = ['javadoc-api/', 'kdoc-api/'].find(part => href.startsWith(remoteRoot + part));
+      const prefix = ['javadoc-api/', 'kdoc-api/', 'reference/'].find(part => href.startsWith(remoteRoot + part));
       if (!prefix) return { kind: 'online', href };
       // Parse the original spelling, not URL-normalized dot segments.
-      parsed = parseLocal(href.slice(remoteRoot.length), 'api/root.html', 1);
+      parsed = prefix === 'reference/'
+        ? parseLocal(href.slice(remoteRoot.length + prefix.length), 'reference/index.html', 1)
+        : parseLocal(href.slice(remoteRoot.length), 'api/root.html', 1);
     } else {
       if (/^[a-z][a-z0-9+.-]*:/i.test(href) || href.startsWith('/')) throw new Error('Unsupported API link scheme/root');
       parsed = parseLocal(href, from);

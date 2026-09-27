@@ -76,3 +76,16 @@ test('preserves plain author email links but refuses mail headers or encoded con
     assert.throws(() => resolve(href, from), /unsupported|unsafe/i);
   }
 });
+test('resolves exact-version reference links against the assembled reference inventory', () => {
+  const data = fixture(); data.pages.set('reference/core/beans.html', new Set(['scope']));
+  const resolve = createSpringApiLinkResolver(data);
+  const root = 'https://docs.spring.io/spring-framework/docs/7.0.9/reference/';
+  assert.deepEqual(resolve(root + 'core/beans.html#scope', java + 'index.html'), {
+    kind: 'local', href: '../../reference/core/beans.html#scope', target: 'reference/core/beans.html', fragment: 'scope',
+  });
+  assert.throws(() => resolve(root + 'core/beans.html#absent', java + 'index.html'), /missing/i);
+  assert.throws(() => resolve(root + '../api/javadoc-api/index.html', java + 'index.html'), /unsafe/i);
+  for (const href of [root.replace('7.0.9', 'current') + 'core/beans.html', 'https://docs.spring.io/spring-framework/reference/core/beans.html']) {
+    assert.deepEqual(resolve(href, java + 'index.html'), { kind: 'online', href });
+  }
+});

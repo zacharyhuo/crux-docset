@@ -102,3 +102,18 @@ test('requires search coverage and a homepage for all three sections before writ
   await assert.rejects(writeSpringBundle(recipe, f.exported, options), /homepage/i);
   assert.deepEqual(await readdir(f.candidate), []);
 });
+test('the packaged manual uses local same-version API links with verified targets', async t => {
+  const f = await fixture(t);
+  const original = '<main>Transactions <a data-crux-online="true" href="https://docs.spring.io/spring-framework/docs/7.0.9/javadoc-api/index.html#ApplicationContext">API</a></main>';
+  await writeFile(path.join(f.exported.documentsRoot, 'reference/index.html'), original);
+  const result = await writeSpringBundle(recipe, f.exported, { candidate: f.candidate, version: '7.0.9', commit });
+  const saved = await readFile(path.join(result.bundle, 'Contents/Resources/Documents/reference/index.html'), 'utf8');
+  assert.match(saved, /href="\.\.\/api\/javadoc-api\/index.html#ApplicationContext"/);
+  assert.doesNotMatch(saved, /data-crux-online/);
+  assert.equal(await readFile(path.join(f.exported.documentsRoot, 'reference/index.html'), 'utf8'), original);
+});
+test('ambiguous cross-link anchors fail packaging even when search rows do not reference them', async t => {
+  const f = await fixture(t);
+  await writeFile(path.join(f.exported.documentsRoot, 'reference/index.html'), '<main><h1 id="duplicate">One</h1><h2 id="duplicate">Two</h2></main>');
+  await assert.rejects(writeSpringBundle(recipe, f.exported, { candidate: f.candidate, version: '7.0.9', commit }), /duplicate|ambiguous/i);
+});

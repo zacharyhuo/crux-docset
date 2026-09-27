@@ -1,11 +1,14 @@
 import path from 'node:path';
 import { constants } from 'node:fs';
-import { mkdir, readdir, lstat, realpath, open, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, lstat, realpath, open, writeFile, readFile } from 'node:fs/promises';
+import { load } from 'cheerio';
 import { DatabaseSync } from 'node:sqlite';
 import { build as buildPlist } from 'plist';
 import { recipeIdentity, assertVersionLine } from '../identity.js';
 import { regularPath } from '../build-state.js';
 import { validate } from '../validate.js';
+import { createSpringApiLinkResolver } from './api-links.js';
+import { rewriteSpringBundleLinks } from './bundle-links.js';
 
 const sections = ['api/javadoc-api/', 'api/kdoc-api/', 'reference/'];
 const types = new Set('Module Package Annotation Enum Interface Struct Class Constant Field Constructor Property Method Function Guide Section'.split(' '));
@@ -67,6 +70,7 @@ export async function writeSpringBundle(recipe, exported, { candidate, version, 
   const bundle = path.join(destination, 'Spring_Framework.docset'), resources = path.join(bundle, 'Contents/Resources');
   await mkdir(bundle); // Exclusive: never reuse or overwrite an existing candidate.
   await mkdir(path.join(resources, 'Documents'), { recursive: true });
+  const pages = new Map(), assets = new Set();
   for (const { file, stat } of files) {
     const input = path.join(source, file), output = path.join(resources, 'Documents', file);
     const handle = await open(input, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
@@ -77,11 +81,32 @@ export async function writeSpringBundle(recipe, exported, { candidate, version, 
       while (count < bytes.length) { const read = await handle.read(bytes, count, bytes.length - count, count); if (!read.bytesRead) break; count += read.bytesRead; }
       const after = await handle.stat();
       if (count !== stat.size || after.size !== stat.size || after.mtimeMs !== stat.mtimeMs) throw new Error('Spring export changed during packaging');
+      if (file.endsWith('.html')) {
+        const $ = load(new TextDecoder('utf-8', { fatal: true }).decode(bytes.subarray(0, count))), ids = new Set();
+        for (const node of $('[id],a[name]')) {
+          for (const id of new Set([node.attribs.id, node.name === 'a' ? node.attribs.name : undefined])) {
+            if (id === undefined) continue;
+            if (ids.has(id)) throw new Error(`Duplicate Spring bundle anchor: ${file}#${id}`);
+            ids.add(id);
+          }
+        }
+        pages.set(file, ids);
+      } else assets.add(file);
       await mkdir(path.dirname(output), { recursive: true });
       await writeFile(output, bytes.subarray(0, count), { flag: 'wx' });
     } finally { await handle.close(); }
   }
   await writeFile(path.join(resources, 'Documents/index.html'), `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Spring Framework ${version}</title></head><body><main><h1>Spring Framework ${version}</h1><ul><li><a href="api/javadoc-api/index.html">Java API</a></li><li><a href="api/kdoc-api/index.html">Kotlin API</a></li><li><a href="reference/index.html">Reference manual</a></li></ul></main></body></html>`, { flag: 'wx' });
+  pages.set('index.html', new Set());
+  const resolve = createSpringApiLinkResolver({ version, pages, resources: assets });
+  let changedLinks = 0;
+  // Only the newly created private candidate is rewritten; exports remain intact.
+  for (const file of pages.keys()) {
+    const output = path.join(resources, 'Documents', file);
+    const result = rewriteSpringBundleLinks(await readFile(output, 'utf8'), { from: file, resolve });
+    changedLinks += result.changed;
+    await writeFile(output, result.html);
+  }
   const db = new DatabaseSync(path.join(resources, 'docSet.dsidx'));
   try {
     db.exec('CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT NOT NULL, type TEXT NOT NULL, path TEXT NOT NULL); CREATE UNIQUE INDEX anchor ON searchIndex(name,type,path); BEGIN');
@@ -98,5 +123,5 @@ export async function writeSpringBundle(recipe, exported, { candidate, version, 
   // proves only the bundle structure/search targets, never release eligibility.
   const report = await validate(bundle, { ...recipe, validation: { minimumPages: 4, minimumSymbols: exported.symbols.length } });
   if (!report.passed) throw new Error(`Spring bundle structural validation failed: ${report.errors.join('; ')}`);
-  return { version, bundle };
+  return { version, bundle, links: { pages: pages.size, changed: changedLinks } };
 }
