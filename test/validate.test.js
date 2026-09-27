@@ -67,6 +67,18 @@ test('literal plus and percent-encoded Unicode and filenames resolve', async t =
   update(f.dbPath, 'UPDATE searchIndex SET path=? WHERE name=?', 'index.html#%E4%B8%AD%E6%96%87', 'asyncio');
   assert.equal((await validate(f.bundle, recipe)).passed, true);
 });
+test('accepts literal percent-encoded HTML IDs before the decoded-fragment fallback', async t => {
+  const f = await fixture(t);
+  await writeFile(join(f.docs, 'dokka.html'), '<html><body><a id="2016386603%2FFunctions%2F-535100867"></a><a name="literal%20name"></a><i id="中文"></i></body></html>');
+  update(f.dbPath, 'UPDATE searchIndex SET path=? WHERE name=?', 'dokka.html#2016386603%2FFunctions%2F-535100867', 'list');
+  update(f.dbPath, 'UPDATE searchIndex SET path=? WHERE name=?', 'dokka.html#literal%20name', 'dict');
+  update(f.dbPath, 'UPDATE searchIndex SET path=? WHERE name=?', 'dokka.html#%E4%B8%AD%E6%96%87', 'asyncio');
+  assert.equal((await validate(f.bundle, recipe)).passed, true);
+  await writeFile(join(f.docs, 'dokka.html'), '<html><body><a id="2016386603/Functions/-535100867"></a><a name="literal name"></a><i id="中文"></i></body></html>');
+  assert.equal((await validate(f.bundle, recipe)).passed, true, 'decoded fallback still works when literal spelling is absent');
+  update(f.dbPath, 'UPDATE searchIndex SET path=? WHERE name=?', 'dokka.html#literal%2520name', 'dict');
+  await fails(f.bundle, /missing anchor/i);
+});
 for (const path of ['../secret.html', '%2e%2e/secret.html', '%252e%252e/secret.html', '/index.html', 'https://example.com/', 'file:///tmp/x', '//example.com/x', 'a\\b.html', 'index.html%00', '%FF.html']) {
   test(`rejects unsafe index path ${path}`, async t => { const f = await fixture(t); update(f.dbPath, 'UPDATE searchIndex SET path=? WHERE name=?', path, 'list'); await fails(f.bundle, /unsafe|invalid|encoding/i); });
 }

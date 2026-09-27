@@ -29,7 +29,7 @@ function target(value) {
     path = decodeURIComponent(rawPath); // Unlike form decoding, '+' stays '+'.
     anchor = decodeURIComponent(rawAnchor);
     // Reject nested encodings that could conceal traversal downstream, but use
-    // exactly one decoding pass for the actual filesystem and anchor lookup.
+    // exactly one decoding pass for the filesystem and fragment fallback.
     let probe = path;
     for (let i = 0; i < 8; i++) {
       if (unsafe(probe)) throw new Error('unsafe path');
@@ -39,7 +39,7 @@ function target(value) {
     }
     if (/[\x00-\x1f\x7f]/.test(anchor)) throw new Error('invalid anchor');
   } catch (error) { throw new Error(`unsafe path or invalid URL encoding: ${value}: ${error.message}`); }
-  return { path, anchor };
+  return { path, anchor, rawAnchor: new URL(`#${rawAnchor}`, 'https://validation.invalid/').hash.slice(1) };
 }
 
 export async function validate(bundle, recipe) {
@@ -137,7 +137,7 @@ export async function validate(bundle, recipe) {
   const cache = new Map();
   let cachedAnchors = 0;
   async function page(value, containsText) {
-    const { path, anchor } = target(value);
+    const { path, anchor, rawAnchor } = target(value);
     const { current, stat } = await checked(`Contents/Resources/Documents/${path}`);
     if (stat.size > MAX_PAGE_BYTES) throw new Error(`page size limit exceeded: ${path}`);
     let ids = cache.get(path);
@@ -163,7 +163,9 @@ export async function validate(bundle, recipe) {
         if (!normalized.includes(containsText.replace(/\s+/g, ' '))) throw new Error(`required page text missing: ${path}`);
       }
     }
-    if (anchor && !ids.has(anchor)) throw new Error(`missing anchor ${anchor} in ${path}`);
+    // HTML first matches the serialized fragment literally, then percent-decodes
+    // once. Dokka legitimately emits IDs containing literal "%2F" characters.
+    if (anchor && !ids.has(rawAnchor) && !ids.has(anchor)) throw new Error(`missing anchor ${anchor} in ${path}`);
     if (ids) { cache.delete(path); cache.set(path, ids); }
   }
   try { await page(recipe.homepage); } catch (e) { error(`Homepage validation failed: ${e.message}`); }
