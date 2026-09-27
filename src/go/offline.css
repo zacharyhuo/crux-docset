@@ -1,0 +1,17 @@
+:root { color-scheme: light dark; font: 16px/1.6 system-ui, sans-serif; }
+body { margin: 0 auto; padding: 1.25rem; max-width: 76rem; }
+nav { border-bottom: 1px solid GrayText; padding-bottom: .75rem; }
+nav details ul { max-height: 18rem; overflow: auto; columns: 3 12rem; }
+a { color: LinkText; overflow-wrap: anywhere; }
+a[aria-current="page"] { font-weight: bold; }
+h1, h2, h3, h4 { line-height: 1.3; overflow-wrap: anywhere; }
+h3, h4 { margin-top: 2rem; }
+pre { font: .9rem/1.5 ui-monospace, monospace; overflow: auto; padding: .8rem; border: 1px solid GrayText; border-radius: .3rem; }
+details { margin-block: .75rem; }
+summary { cursor: pointer; }
+.Crux-linkNote { font-size: .8em; color: GrayText; }
+.Crux-upstreamWarning { text-decoration: underline dotted; }
+.Crux-offlineNotice { font-size: .9rem; color: GrayText; }
+.Documentation-exampleOutputLabel { font-weight: bold; }
+.Documentation-exampleButtonsContainer:empty, .Documentation-exampleError:empty { display: none; }
+:target { outline: 2px solid Highlight; outline-offset: .15rem; }
