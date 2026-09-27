@@ -64,15 +64,21 @@ export async function readJavadocIndex(root) {
   for (const [page, targets] of pages) {
     const $ = load(await readText(page));
     if ($('meta[http-equiv]').toArray().some(node => $(node).attr('http-equiv')?.toLowerCase() === 'refresh')) throw new Error(`Javadoc redirect page is not an API target: ${page}`);
+    const anchors = new Map();
+    // Browser fragment lookup sees the whole document, including navigation
+    // and script elements. A duplicate outside main can steal the real target.
+    $('[id], a[name]').each((_, element) => {
+      const values = new Set([$(element).attr('id'), element.tagName === 'a' ? $(element).attr('name') : undefined]);
+      for (const value of values) if (value !== undefined) {
+        anchors.set(value, { count: (anchors.get(value)?.count ?? 0) + 1,
+          inMain: $(element).closest('body main').length > 0 && $(element).closest('script,style,template').length === 0 });
+      }
+    });
     $('script,style,template').remove();
     if (!$('body main').text().trim()) throw new Error(`Javadoc page has no main body content: ${page}`);
-    const anchors = new Map();
-    $('main[id], main [id], main a[name]').each((_, element) => {
-      const values = new Set([$(element).attr('id'), element.tagName === 'a' ? $(element).attr('name') : undefined]);
-      for (const value of values) if (value !== undefined) anchors.set(value, (anchors.get(value) ?? 0) + 1);
-    });
     for (const target of targets) {
-      if (anchors.get(target) !== 1) throw new Error(`Missing or ambiguous Javadoc anchor ${target} in ${page}`);
+      const anchor = anchors.get(target);
+      if (anchor?.count !== 1 || !anchor.inMain) throw new Error(`Missing or ambiguous Javadoc anchor ${target} in ${page}`);
     }
   }
   return { symbols, evidence: { files: 4, pages: pages.size, symbols: symbols.length } };

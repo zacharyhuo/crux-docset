@@ -1,9 +1,21 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFile } from 'node:fs/promises';
+import { spawnSync } from 'node:child_process';
 import { parseSearchData } from '../src/javadoc/search-data.js';
 
 const wrap = (data, kind = 'module') => `${kind}SearchIndex = ${data};updateSearchResults();`;
+
+test('rejects oversized fields with long interior whitespace within a bounded process', () => {
+  const moduleURL = new URL('../src/javadoc/search-data.js', import.meta.url).href;
+  const script = `import assert from 'node:assert/strict';
+    import { parseSearchData } from ${JSON.stringify(moduleURL)};
+    const input = 'moduleSearchIndex = ' + JSON.stringify([{l:'a'+' '.repeat(256000)+'b'}]) + ';updateSearchResults();';
+    assert.throws(() => parseSearchData(input, 'module'), /oversized/);`;
+  const result = spawnSync(process.execPath, ['--input-type=module', '-e', script], { env: {}, timeout: 2000, encoding: 'utf8' });
+  assert.equal(result.error, undefined, 'Linear parser should reject this input before the process timeout');
+  assert.equal(result.status, 0, result.stderr);
+});
 
 test('accepts complete real JDK25 fixture indexes and preserves overload fragments', async () => {
   const result = {};

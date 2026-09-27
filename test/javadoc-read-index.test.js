@@ -79,3 +79,17 @@ test('matches Unicode and encoded array fragments without running page scripts',
   await writeFile(path.join(root, 'p/C.html'), '<html><body><main><h1>C</h1><section id="λ(java.lang.String[])">API</section><script>throw new Error("must not run")</script></main></body></html>');
   assert.equal((await readJavadocIndex(root)).symbols.length, 3);
 });
+
+test('rejects targets duplicated outside main where a browser can land first', async t => {
+  const root = await fixture(t, 'run()');
+  for (const outside of ['<nav id="run()">Wrong</nav>', '<script id="run()">void 0</script>', '<a name="run()">Wrong</a>']) {
+    await writeFile(path.join(root, 'p/C.html'), `<html><body>${outside}<main>Class C<section id="run()">Real method</section></main></body></html>`);
+    await assert.rejects(readJavadocIndex(root), /ambiguous|duplicate/i);
+  }
+});
+
+test('does not treat non-content script IDs as verified method anchors', async t => {
+  const root = await fixture(t, 'run()');
+  await writeFile(path.join(root, 'p/C.html'), '<html><body><main>Class C<script id="run()">void 0</script></main></body></html>');
+  await assert.rejects(readJavadocIndex(root), /anchor/i);
+});

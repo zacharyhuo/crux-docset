@@ -13,7 +13,13 @@ export function parseSearchData(text, kind) {
   const schema = schemas.get(kind);
   if (!schema || typeof text !== 'string') throw new Error('Invalid Javadoc search input or kind');
   if (Buffer.byteLength(text, 'utf8') > MAX_BYTES) throw new Error('Javadoc search file exceeds byte limit');
-  const source = text.replace(/^[\t\n\r ]+|[\t\n\r ]+$/g, '');
+  // An unanchored trailing-whitespace regex retries at each interior space.
+  // Scan only the two edges so adversarial fields cannot cause quadratic work.
+  let start = 0, end = text.length;
+  const isWhitespace = character => character === ' ' || character === '\t' || character === '\n' || character === '\r';
+  while (start < end && isWhitespace(text[start])) start++;
+  while (end > start && isWhitespace(text[end - 1])) end--;
+  const source = text.slice(start, end);
   const prefix = `${kind}SearchIndex = `;
   const suffix = ';updateSearchResults();';
   if (!source.startsWith(prefix) || !source.endsWith(suffix)) throw new Error('Unrecognized Javadoc search wrapper');
