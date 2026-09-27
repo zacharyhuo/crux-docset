@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "module": "golang.org/x/pkgsite",
+  "version": "v0.5.1-0.20260925231611-ff41d744c27d",
+  "commit": "ff41d744c27ddda985fe32a79bd312d44de0f6c4",
+  "moduleSum": "h1:y/t2FsWUeUeFb/8FSmFuEZ5DVulh4SyHmI1MQV7j2m4=",
+  "goModSum": "h1:048rgEegSHG0aqaXo1cn+QfUa6pwCZX2e0N7/ljWMWU=",
+  "dependencies": [
+    { "module": "github.com/google/licensecheck", "version": "v0.3.1", "moduleSum": "h1:QoxgoDkaeC4nFrtGN1jV7IPmDCHFNIVh54e5hSt6sPs=" },
+    { "module": "github.com/google/safehtml", "version": "v0.0.3-0.20211026203422-d6f0e11a5516", "moduleSum": "h1:pSEdbeokt55L2hwtWo6A2k7u5SG08rmw0LhWEyrdWgk=" },
+    { "module": "golang.org/x/mod", "version": "v0.41.0", "moduleSum": "h1:qJmnOUb4YB+FsEuM3HcWucdZASCPGhsX6uljO6pog0c=" },
+    { "module": "golang.org/x/net", "version": "v0.59.0", "moduleSum": "h1:5zfYln+w5XCxwrnMMJPufRgNoXEaGxl0wo5GqPXyues=" },
+    { "module": "golang.org/x/sync", "version": "v0.23.0", "moduleSum": "h1:KameEIfc1IkluZyXWLn39Wd4tURc6GbCiISGiZm2bQk=" },
+    { "module": "golang.org/x/text", "version": "v0.42.0", "moduleSum": "h1:JbOZXgfeCPU9gacVtYliJqOhD+zhrEqK4LfdpmlUZqI=" },
+    { "module": "golang.org/x/tools", "version": "v0.50.0", "moduleSum": "h1:c2ifzfcuY7L90lZ2aKd8S4K2NpASF08SZx9ZuJkHmSU=" },
+    { "module": "rsc.io/markdown", "version": "v0.0.0-20231214224604-88bb533a6020", "moduleSum": "h1:GqQcl3Kno/rOntek8/d8axYjau8r/c1zVFojXS6WJFI=" }
+  ]
+}
