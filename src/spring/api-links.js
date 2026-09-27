@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { resolveDokkaJavaMember } from './dokka-java-links.js';
+import { resolveReviewedSpringJavaReference } from './java-reference-policy.js';
 
 const javaPrefix = 'api/javadoc-api/', kotlinPrefix = 'api/kdoc-api/';
 const safeFile = value => typeof value === 'string' && value.length <= 4096 && value.split('/').every(p => /^[A-Za-z0-9_$.-]+$/.test(p) && p !== '.' && p !== '..');
@@ -27,9 +28,10 @@ function parseLocal(href, from, floor = 0) {
  * owns bounded file reads, unique DOM-ID checking, and source/tool provenance.
  * Known same-version links cannot silently fall back to online or top-of-page.
  */
-export function createSpringApiLinkResolver({ version, pages, resources = new Set(), javaMembers = new Map() }) {
+export function createSpringApiLinkResolver({ version, pages, resources = new Set(), javaMembers = new Map(), javaReferencePolicy }) {
   if (!/^\d+\.\d+\.\d+$/.test(version) || !(pages instanceof Map) || !pages.size || pages.size > 20000 ||
       !(resources instanceof Set) || resources.size > 10000 || !(javaMembers instanceof Map) || javaMembers.size > 10000) throw new Error('Invalid API inventory/limit');
+  if (javaReferencePolicy !== undefined) resolveReviewedSpringJavaReference(javaReferencePolicy, version, '', '', '');
   const content = new Map(), assets = new Set(), declared = new Map(), inheritance = new Map();
   let count = 0;
   for (const [file, ids] of pages) {
@@ -102,6 +104,10 @@ export function createSpringApiLinkResolver({ version, pages, resources = new Se
         if (!exists(destination, encoded, match.anchor)) throw new Error('Missing corrected API member');
         return local(destination, encoded, from, 'dokka-java-member');
       }
+    }
+    if (javaReferencePolicy !== undefined && content.has(target) && raw) {
+      const reviewed = resolveReviewedSpringJavaReference(javaReferencePolicy, version, from, target, fragment);
+      if (reviewed) return reviewed;
     }
     throw new Error(`Missing API target ${target}#${raw} from ${from}`);
   };

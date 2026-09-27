@@ -12,7 +12,7 @@ test('rewrites actual HTML links, labels online links, and retains text and code
   assert.equal($('a').last().attr('data-crux-online'), 'true');
   assert.equal($('body').text(), load(input)('body').text());
   assert.equal($('script').length, 0);
-  assert.deepEqual(result.counts, { local: 1, online: 1, corrected: 0, changed: 1, removedPlayground: 1 });
+  assert.deepEqual(result.counts, { local: 1, online: 1, corrected: 0, changed: 1, unavailable: 0, removedPlayground: 1 });
 });
 test('fails the page on a missing link instead of emitting a partially repaired success', () => {
   assert.throws(() => rewriteSpringApiPage('<a href="../javadoc-api/">valid</a><a href="missing.html">missing</a>', { from, resolve: resolver() }), /missing/i);
