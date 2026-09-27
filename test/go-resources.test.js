@@ -68,3 +68,9 @@ test('adapter preserves reviewed broken prose with visible warning and evidence'
   assert.equal(result.warnings[0].href, '/broken');
   assert.equal(result.warnings[0].evidence, 'https://github.com/golang/go/blob/go1.27.1/src/example.go#L1');
 });
+
+test('out-of-scope experimental build tags remain visible beside online references', () => {
+  const prepared = prepareGoOfflinePage(page('<p><a href="/experimental">Options</a></p>'), entry);
+  const result = adaptGoOfflinePage(prepared, entry, () => ({ kind: 'online', reason: 'out-of-scope-build-tag', requirement: 'GOEXPERIMENT=jsonv2', href: 'https://github.com/golang/go/blob/go1.26.8/src/encoding/json/v2_options.go#L203' }));
+  assert.match(load(result.bodyHTML)('a').text(), /GOEXPERIMENT=jsonv2/);
+});

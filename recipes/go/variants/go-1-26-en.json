@@ -1,0 +1,7 @@
+{
+  "variantId": "go-1-26-en",
+  "versionLine": "1.26",
+  "language": "en",
+  "enabled": false,
+  "validation": { "minimumPages": 654, "minimumSymbols": 16920 }
+}

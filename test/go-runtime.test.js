@@ -6,7 +6,7 @@ import { once } from 'node:events';
 import os from 'node:os';
 import path from 'node:path';
 import { sha256 } from '../src/identity.js';
-import { buildPkgsite, goEnvironment, withPkgsite, verifyPkgsiteBuildInfo, verifyLoopbackSandbox } from '../src/go/runtime.js';
+import { buildPkgsite, scanGoSources, goEnvironment, withPkgsite, verifyPkgsiteBuildInfo, verifyLoopbackSandbox } from '../src/go/runtime.js';
 import renderer from '../tools/pkgsite/toolchain-lock.json' with { type: 'json' };
 
 test('Go environment never inherits host credentials, proxy or version-changing options', () => {
@@ -143,4 +143,18 @@ test('timed-out renderer build waits for its owned compiler to exit', async t =>
   const inputs = { goroot: root, sourceLock: { version: '1.27.1', renderer, compiler: { sha256: await sha256(binary) } } };
   await assert.rejects(buildPkgsite(inputs, { work: path.join(root, 'build'), timeoutMs: 500 }), /timeout/);
   await assertGone(root);
+});
+
+test('source helper uses locked compiler, isolated build directory and verifies reported version', async t => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'crux-go-scan-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, 'bin')); await mkdir(path.join(root, 'src'));
+  const binary = path.join(root, 'bin/go');
+  const output = { version: 'go1.27.1', contexts: ['linux/amd64', 'windows/amd64', 'darwin/amd64', 'js/wasm'], cgoEnabled: true, releaseTags: ['go1.27'], toolTags: [], packages: [], excluded: [] };
+  const helper = `#!${process.execPath}\nif(process.env.GOTOOLCHAIN!=='local'||process.env.GOPROXY!=='off'||process.argv[2]!=='-src'||process.argv[3]!==${JSON.stringify(path.join(root, 'src'))})process.exit(3);console.log(${JSON.stringify(JSON.stringify(output))});`;
+  await writeFile(binary, `#!${process.execPath}\nconst fs=require('node:fs');if(process.argv[2]!=='build')process.exit(4);fs.writeFileSync(process.argv[process.argv.indexOf('-o')+1],${JSON.stringify(helper)},{mode:0o755});`, { mode: 0o755 });
+  const inputs = { goroot: root, sourceLock: { version: '1.27.1', compiler: { sha256: await sha256(binary) } } };
+  assert.deepEqual(await scanGoSources(inputs, { work: path.join(root, 'scan') }), output);
+  await assert.rejects(scanGoSources({ ...inputs, sourceLock: { ...inputs.sourceLock, version: '1.26.8' } }, { work: path.join(root, 'wrong-version') }), /version/);
+  await assert.rejects(scanGoSources({ ...inputs, sourceLock: { ...inputs.sourceLock, compiler: { sha256: '0'.repeat(64) } } }, { work: path.join(root, 'wrong-hash') }), /hash/);
 });

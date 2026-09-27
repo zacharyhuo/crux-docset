@@ -55,7 +55,7 @@ export function adaptGoOfflinePage(prepared, entry, resolve) {
       e.attr('href', result.href);
       if (result.kind === 'online') {
         e.attr('data-crux-online', result.reason).attr('rel', 'noreferrer noopener');
-        e.append($('<span class="Crux-linkNote"></span>').text(' [Online]'));
+        e.append($('<span class="Crux-linkNote"></span>').text(result.requirement ? ` [Online; ${result.requirement}]` : ' [Online]'));
       } else if (result.platformFallback) {
         e.append($('<span class="Crux-linkNote"></span>').text(` [${result.context}]`));
       }

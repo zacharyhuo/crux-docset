@@ -1,7 +1,8 @@
 import { pythonAdapter } from './adapters/python.js';
+import { goAdapter } from './adapters/go.js';
 
 // Reviewed repository code only. Recipes cannot import modules or supply shell commands.
-const adapters = new Map([['python-intersphinx', pythonAdapter]]);
+const adapters = new Map([['python-intersphinx', pythonAdapter], ['go-pkgsite', goAdapter]]);
 
 export function hasAdapter(name) { return adapters.has(name); }
 

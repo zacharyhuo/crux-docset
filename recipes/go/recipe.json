@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 2,
+  "id": "go",
+  "sourceId": "dev.crux",
+  "defaultVariant": "go-1-27-en",
+  "name": "Go",
+  "bundleName": "Go",
+  "identifier": "dev.crux.go",
+  "homepage": "index.html",
+  "source": { "discoveryUrl": "https://go.dev/dl/?mode=json&include=all", "strategy": "stable-line-official-sdk" },
+  "builder": { "adapter": "go-pkgsite" },
+  "limits": { "maxBytes": 1073741824, "maxFiles": 20000 },
+  "validation": {
+    "requireIcons": true,
+    "maxDropFraction": 0.1,
+    "requiredSymbols": ["builtin", "unsafe", "fmt.Println", "net/http.Client", "io.Reader", "syscall.NewLazyDLL [windows/amd64]", "syscall/js.CopyBytesToGo [js/wasm]"],
+    "requiredPages": [
+      { "path": "index.html", "containsText": "Offline standard library documentation" },
+      { "path": "platforms/linux-amd64/fmt/index.html", "containsText": "Examples are shown as source and are not executed offline" },
+      { "path": "licenses/GO-LICENSE.txt", "containsText": "Redistribution and use in source and binary forms" }
+    ]
+  },
+  "compliance": {
+    "license": "BSD-3-Clause",
+    "attribution": "The Go Authors and pkgsite contributors",
+    "retain": ["licenses/GO-LICENSE.txt", "licenses/PKGSITE-LICENSE.txt", "NOTICES.txt"],
+    "reviewedSource": "https://go.dev/LICENSE"
+  }
+}

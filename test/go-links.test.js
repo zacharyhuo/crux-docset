@@ -86,3 +86,29 @@ test('reviewed Plan 9 reference links to exact official source rather than a non
   });
   assert.throws(() => links('/syscall#EPLAN9', syscall), /anchor/);
 });
+
+test('previous-line audited source references use their own version and source line', () => {
+  const source = entry('database/sql/driver'), sql = entry('database/sql');
+  const options = { version: '1.26.8', goroot: '/verified/sdk/go', anchors: new Map([source, sql].map(p => [p.outputPath, new Set()])) };
+  const links = createGoLinkResolver({ pages: [source, sql] }, options);
+  const result = links('/database/sql?GOOS=linux#Query', source);
+  assert.equal(result.kind, 'literal');
+  assert.equal(result.evidence, 'https://github.com/golang/go/blob/go1.26.8/src/database/sql/driver/types.go#L39');
+  assert.throws(() => createGoLinkResolver({ pages: [source, sql] }, { ...options, version: '1.26.9' })('/database/sql#Query', source), /anchor/);
+});
+
+test('old jsonv2-only APIs are explicit source references, not mislabeled as missing stable APIs', () => {
+  const source = entry('encoding/json/v2'), target = entry('encoding/json'), time = entry('time');
+  const links = createGoLinkResolver({ pages: [source, target, time] }, {
+    version: '1.26.8', goroot: '/verified/sdk/go', anchors: new Map([source, target, time].map(p => [p.outputPath, new Set()])),
+  });
+  const result = links('/encoding/json#Options', source);
+  assert.equal(result.kind, 'online');
+  assert.equal(result.reason, 'out-of-scope-build-tag');
+  assert.equal(result.requirement, 'GOEXPERIMENT=jsonv2');
+  assert.equal(result.href, 'https://github.com/golang/go/blob/go1.26.8/src/encoding/json/v2_options.go#L203');
+  assert.equal(links('/encoding/json#DefaultOptionsV1', source).href, 'https://github.com/golang/go/blob/go1.26.8/src/encoding/json/v2_options.go#L237');
+  assert.equal(links('/time#Time.Parse', source).reason, 'upstream-broken-reference');
+  assert.throws(() => links('/encoding/json#Unexpected', source), /anchor/);
+  assert.equal(links('http://ipaddr:port', source).kind, 'literal');
+});

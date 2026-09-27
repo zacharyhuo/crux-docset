@@ -16,7 +16,7 @@ function shell(title, body, file) {
 function packageLinks(inventory, file) {
   const first = new Map();
   for (const entry of inventory.pages) if (!first.has(entry.packagePath)) first.set(entry.packagePath, entry);
-  return [...first].sort(([a], [b]) => a.localeCompare(b)).map(([name, entry]) => `<li><a href="${escape(relative(file, entry.outputPath))}">${escape(name)}</a></li>`).join('');
+  return [...first].sort(([a], [b]) => a.localeCompare(b)).map(([name, entry]) => `<li><a href="${escape(relative(file, entry.outputPath))}">${escape(name)}</a>${entry.experimental ? ' (experimental)' : ''}</li>`).join('');
 }
 
 /** Only call with the verified SDK/license inputs and finite runtime inventory. */
@@ -51,7 +51,8 @@ export async function exportGoDocs(session, inventory, { destination, sourceLock
       `<a href="${escape(relative(entry.outputPath, p.outputPath))}"${p.context === entry.context ? ' aria-current="page"' : ''}>${escape(p.context)}</a>`).join(' · ');
     const nav = `<nav aria-label="Offline documentation"><a href="${escape(relative(entry.outputPath, 'index.html'))}">Go ${escape(sourceLock.version)}</a>
       <details><summary>Packages</summary><ul>${packageLinks(inventory, entry.outputPath)}</ul></details><p>Platform: ${platforms}</p></nav>`;
-    const output = shell(`${entry.packagePath} — Go ${sourceLock.version} (${entry.context})`, `${nav}<main><h1>${escape(entry.packagePath)}</h1>${adapted.bodyHTML}</main>`, entry.outputPath);
+    const experimental = entry.experimental ? '<p class="Crux-offlineNotice">Experimental API — enabled for documentation; not a stable API guarantee.</p>' : '';
+    const output = shell(`${entry.packagePath} — Go ${sourceLock.version} (${entry.context})`, `${nav}<main><h1>${escape(entry.packagePath)}</h1>${experimental}${adapted.bodyHTML}</main>`, entry.outputPath);
     if (output.includes(goroot)) throw new Error('Go export retained local SDK path');
     const file = path.join(documentsRoot, entry.outputPath);
     await mkdir(path.dirname(file), { recursive: true }); await writeFile(file, output, { flag: 'wx' });

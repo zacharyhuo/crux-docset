@@ -75,3 +75,12 @@ test('empty trees do not count as verified documentation', async t => {
   const root = await temporary(t);
   await assert.rejects(verifyGoOfflineTree(root), /missing|empty/i);
 });
+
+test('experimental packages are visibly distinguished from stable APIs in page and package index', async t => {
+  const root = await temporary(t);
+  const result = await exportGoDocs(session(), { pages: pages.map(p => ({ ...p, experimental: true })) }, { destination: path.join(root, 'new'), sourceLock, goroot: '/verified/sdk/go', licenses });
+  const $ = load(await readFile(path.join(result.documentsRoot, pages[0].outputPath), 'utf8'));
+  assert.match($('main').text(), /Experimental API/);
+  const index = load(await readFile(path.join(result.documentsRoot, 'index.html'), 'utf8'));
+  assert.match(index('li').first().text(), /experimental/);
+});

@@ -67,6 +67,28 @@ export function goEnvironment(goroot, work, { downloads = false } = {}) {
     GOVCS: '*:off', ...(downloads ? {} : { GOPRIVATE: '*', GONOPROXY: 'none' }) };
 }
 
+export async function scanGoSources(inputs, { work, timeoutMs = 120000 }) {
+  if (!path.isAbsolute(work) || !Number.isInteger(timeoutMs) || timeoutMs <= 0 || timeoutMs > 120000) throw new Error('Invalid Go source scan budget/directory');
+  const compiler = path.join(inputs.goroot, 'bin/go');
+  if (!(await lstat(compiler)).isFile() || await sha256(compiler) !== inputs.sourceLock.compiler.sha256) throw new Error('Go source scan compiler hash mismatch');
+  await mkdir(work, { mode: 0o700 });
+  for (const dir of ['home', 'tmp', 'bin', 'build-cache', 'gopath']) await mkdir(path.join(work, dir));
+  const env = goEnvironment(inputs.goroot, work), start = performance.now();
+  const remaining = () => {
+    const value = Math.floor(timeoutMs - (performance.now() - start));
+    if (value <= 0) throw new Error('Go source scan timeout');
+    return value;
+  };
+  const helper = path.join(work, 'bin/source-inventory');
+  await boundedCommand(compiler, ['build', '-p=2', '-o', helper, fileURLToPath(new URL('./inventory/main.go', import.meta.url))], { cwd: work, env, timeoutMs: remaining() });
+  const { stdout } = await boundedCommand(helper, ['-src', path.join(inputs.goroot, 'src')], { cwd: work, env, timeoutMs: remaining() });
+  const result = JSON.parse(stdout);
+  if (result.version !== `go${inputs.sourceLock.version}` || JSON.stringify(result.contexts) !== JSON.stringify(GO_CONTEXTS) || result.cgoEnabled !== true ||
+      !Array.isArray(result.releaseTags) || !Array.isArray(result.toolTags) || !Array.isArray(result.packages) || !Array.isArray(result.excluded)) throw new Error('Go source inventory version/context/schema mismatch');
+  await writeFile(path.join(work, 'source-inventory.json'), stdout, { flag: 'wx' });
+  return result;
+}
+
 export function verifyPkgsiteBuildInfo(text, lock) {
   const lines = text.trimEnd().split('\n');
   if (!lines.shift()?.endsWith(`: go${lock.version}`)) throw new Error('pkgsite compiler version mismatch');
