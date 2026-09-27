@@ -56,6 +56,7 @@ export function readSpringReferencePage(html, { version, outputPath }) {
     const text = headingTitle(element), level = Number(element.tagName.slice(1));
     while (parents.length && parents.at(-1).level >= level) parents.pop();
     const target = `${outputPath}#${encodeURIComponent(id)}`;
+    if (target.length > 8192) throw new Error('Spring reference encoded path size limit');
     symbols.push({ name: [title, ...parents.map(p => p.title), text].join(' — '), type: 'Section', path: target });
     headings.push({ title: text, level, path: target });
     parents.push({ title: text, level });

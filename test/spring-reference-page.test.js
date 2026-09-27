@@ -94,3 +94,11 @@ test('counts comments and text toward the DOM budget before cloning the article'
   }
   assert.equal(readSpringReferencePage(page(article + 'x<!--x-->'.repeat(1000)), identity).symbols.length, 4);
 });
+
+test('enforces the final encoded symbol path budget without truncating Unicode anchors', () => {
+  const long = '界'.repeat(1024);
+  assert.throws(() => readSpringReferencePage(page(`<h1>Guide</h1><p>Body.</p><h2 id="${long}">Section</h2>`), identity), /path.*limit/i);
+  const short = '界'.repeat(100);
+  const result = readSpringReferencePage(page(`<h1>Guide</h1><p>Body.</p><h2 id="${short}">Section</h2>`), identity);
+  assert.equal(decodeURIComponent(result.symbols[1].path.split('#')[1]), short);
+});
