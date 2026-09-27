@@ -1,4 +1,5 @@
 import { load } from 'cheerio';
+import { serializeSpringHTML } from './html.js';
 
 const playgroundURL = 'https://unpkg.com/kotlin-playground@1/dist/playground.min.js';
 
@@ -22,5 +23,5 @@ export function prepareSpringKotlinPage(html) {
   }
   const removedPlayground = loaders.length === 1;
   loaders.remove();
-  return { html: $.html(), removedPlayground };
+  return { html: serializeSpringHTML($), removedPlayground };
 }
