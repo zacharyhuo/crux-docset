@@ -9,6 +9,7 @@ import { regularPath } from '../build-state.js';
 import { validate } from '../validate.js';
 import { createSpringApiLinkResolver } from './api-links.js';
 import { rewriteSpringBundleLinks } from './bundle-links.js';
+import { verifySpringBundleReferencePolicy } from './bundle-reference-policy.js';
 
 const sections = ['api/javadoc-api/', 'api/kdoc-api/', 'reference/'];
 const types = new Set('Module Package Annotation Enum Interface Struct Class Constant Field Constructor Property Method Function Guide Section'.split(' '));
@@ -20,11 +21,12 @@ const overlaps = (a, b) => a === b || a.startsWith(b + path.sep) || b.startsWith
  * The adapter must authenticate/qualify its inputs; the common pipeline owns
  * icons, full recipe validation and promotion. No input is moved or deleted.
  */
-export async function writeSpringBundle(recipe, exported, { candidate, version, commit }) {
+export async function writeSpringBundle(recipe, exported, { candidate, version, commit, referencePolicy }) {
   // Own the data used after the first await; caller mutation must not bypass
   // validation or make the generated metadata disagree with the search index.
   recipe = structuredClone(recipe);
   exported = structuredClone(exported);
+  if (referencePolicy !== undefined) verifySpringBundleReferencePolicy(referencePolicy, { version, commit });
   const identity = recipeIdentity(recipe);
   assertVersionLine(version, recipe);
   if (recipe.familyId !== 'spring-framework' || recipe.identifier !== 'dev.crux.spring-framework' || recipe.bundleName !== 'Spring_Framework' ||
@@ -98,15 +100,19 @@ export async function writeSpringBundle(recipe, exported, { candidate, version, 
   }
   await writeFile(path.join(resources, 'Documents/index.html'), `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Spring Framework ${version}</title></head><body><main><h1>Spring Framework ${version}</h1><ul><li><a href="api/javadoc-api/index.html">Java API</a></li><li><a href="api/kdoc-api/index.html">Kotlin API</a></li><li><a href="reference/index.html">Reference manual</a></li></ul></main></body></html>`, { flag: 'wx' });
   pages.set('index.html', new Set());
-  const resolve = createSpringApiLinkResolver({ version, pages, resources: assets });
+  const resolve = createSpringApiLinkResolver({ version, pages, resources: assets, referencePolicy });
+  const corrections = [], warnings = [];
   let changedLinks = 0;
   // Only the newly created private candidate is rewritten; exports remain intact.
   for (const file of pages.keys()) {
     const output = path.join(resources, 'Documents', file);
     const result = rewriteSpringBundleLinks(await readFile(output, 'utf8'), { from: file, resolve });
     changedLinks += result.changed;
+    corrections.push(...result.corrections); warnings.push(...result.warnings);
     await writeFile(output, result.html);
   }
+  await writeFile(path.join(resources, 'spring-links.json'), JSON.stringify({ version, commit, corrections, warnings,
+    sourceProofs: referencePolicy?.evidence ?? [], verifiedSources: referencePolicy?.verifiedSources ?? {} }, null, 2), { flag: 'wx' });
   const db = new DatabaseSync(path.join(resources, 'docSet.dsidx'));
   try {
     db.exec('CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT NOT NULL, type TEXT NOT NULL, path TEXT NOT NULL); CREATE UNIQUE INDEX anchor ON searchIndex(name,type,path); BEGIN');
@@ -123,5 +129,5 @@ export async function writeSpringBundle(recipe, exported, { candidate, version, 
   // proves only the bundle structure/search targets, never release eligibility.
   const report = await validate(bundle, { ...recipe, validation: { minimumPages: 4, minimumSymbols: exported.symbols.length } });
   if (!report.passed) throw new Error(`Spring bundle structural validation failed: ${report.errors.join('; ')}`);
-  return { version, bundle, links: { pages: pages.size, changed: changedLinks } };
+  return { version, bundle, links: { pages: pages.size, changed: changedLinks, corrections: corrections.length, warnings: warnings.length } };
 }

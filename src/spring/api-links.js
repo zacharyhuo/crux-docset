@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { resolveDokkaJavaMember } from './dokka-java-links.js';
 import { resolveReviewedSpringJavaReference } from './java-reference-policy.js';
+import { resolveSpringBundleReference } from './bundle-reference-policy.js';
 
 const javaPrefix = 'api/javadoc-api/', kotlinPrefix = 'api/kdoc-api/';
 const safeFile = value => typeof value === 'string' && value.length <= 4096 && value.split('/').every(p => /^[A-Za-z0-9_$.-]+$/.test(p) && p !== '.' && p !== '..');
@@ -28,10 +29,11 @@ function parseLocal(href, from, floor = 0) {
  * owns bounded file reads, unique DOM-ID checking, and source/tool provenance.
  * Known same-version links cannot silently fall back to online or top-of-page.
  */
-export function createSpringApiLinkResolver({ version, pages, resources = new Set(), javaMembers = new Map(), javaReferencePolicy }) {
+export function createSpringApiLinkResolver({ version, pages, resources = new Set(), javaMembers = new Map(), javaReferencePolicy, referencePolicy }) {
   if (!/^\d+\.\d+\.\d+$/.test(version) || !(pages instanceof Map) || !pages.size || pages.size > 20000 ||
       !(resources instanceof Set) || resources.size > 10000 || !(javaMembers instanceof Map) || javaMembers.size > 10000) throw new Error('Invalid API inventory/limit');
   if (javaReferencePolicy !== undefined) resolveReviewedSpringJavaReference(javaReferencePolicy, version, '', '', '');
+  if (referencePolicy !== undefined) resolveSpringBundleReference(referencePolicy, version, '', '', '');
   const content = new Map(), assets = new Set(), declared = new Map(), inheritance = new Map();
   let count = 0;
   for (const [file, ids] of pages) {
@@ -99,6 +101,15 @@ export function createSpringApiLinkResolver({ version, pages, resources = new Se
     if (!content.has(target) && !assets.has(target) && content.has(`${target}/index.html`)) target += '/index.html';
     if (!safeFile(target)) throw new Error('Unsafe API target');
     if (exists(target, raw, fragment)) return local(target, raw, from);
+    if (referencePolicy !== undefined) {
+      const reviewed = resolveSpringBundleReference(referencePolicy, version, from, target, fragment);
+      if (reviewed?.kind === 'unavailable') return reviewed;
+      if (reviewed) {
+        const encoded = encodeURIComponent(reviewed.fragment);
+        if (!exists(reviewed.target, encoded, reviewed.fragment)) throw new Error('Missing Spring reference replacement target');
+        return { ...local(reviewed.target, encoded, from), correction: reviewed.ruleId, evidence: reviewed.evidence };
+      }
+    }
     if (raw && from.startsWith(kotlinPrefix) && target.startsWith(javaPrefix)) {
       const match = resolveDokkaJavaMember(fragment, candidates(target.slice(javaPrefix.length)));
       if (match) {

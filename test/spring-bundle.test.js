@@ -6,6 +6,8 @@ import os from 'node:os';
 import { DatabaseSync } from 'node:sqlite';
 import { parse as parsePlist } from 'plist';
 import { writeSpringBundle } from '../src/spring/bundle.js';
+import { createSpringBundleReferencePolicy } from '../src/spring/bundle-reference-policy.js';
+import { load } from 'cheerio';
 
 const commit = '82a6b40b9366ec181ededdad282b307ee5381a52';
 const recipe = { schemaVersion: 2, id: 'spring-framework', familyId: 'spring-framework', sourceId: 'dev.crux', variantId: 'spring-framework-7-0-en',
@@ -116,4 +118,28 @@ test('ambiguous cross-link anchors fail packaging even when search rows do not r
   const f = await fixture(t);
   await writeFile(path.join(f.exported.documentsRoot, 'reference/index.html'), '<main><h1 id="duplicate">One</h1><h2 id="duplicate">Two</h2></main>');
   await assert.rejects(writeSpringBundle(recipe, f.exported, { candidate: f.candidate, version: '7.0.9', commit }), /duplicate|ambiguous/i);
+});
+test('packages a source-proven unavailable API notice and audit without deleting original content', async t => {
+  const f = await fixture(t), sources = new Map(), sourceRoot = new URL('./fixtures/spring-bundle-sources/', import.meta.url);
+  for (const file of await readdir(sourceRoot, { recursive: true })) if (/\.(?:java|adoc)$/.test(file) || file === 'gradle.properties') sources.set(file, await readFile(new URL(file, sourceRoot), 'utf8'));
+  const referencePolicy = createSpringBundleReferencePolicy({ version: '7.0.9', commit, sources });
+  const file = 'reference/core/beans/context-introduction.html';
+  const original = '<main id="body"><pre>\noriginal code</pre><a id="source" href="https://docs.spring.io/spring-framework/docs/7.0.9/javadoc-api/org/springframework/jca/context/SpringContextResourceAdapter.html"><code>SpringContextResourceAdapter</code></a></main>';
+  await mkdir(path.dirname(path.join(f.exported.documentsRoot, file)), { recursive: true });
+  await writeFile(path.join(f.exported.documentsRoot, file), original);
+  const result = await writeSpringBundle(recipe, f.exported, { candidate: f.candidate, version: '7.0.9', commit, referencePolicy });
+  const $ = load(await readFile(path.join(result.bundle, 'Contents/Resources/Documents', file), 'utf8'));
+  assert.equal($('#source').attr('href'), undefined); assert.equal($('#source code').text(), 'SpringContextResourceAdapter');
+  assert.equal($('.Crux-missingApiNotice').length, 1); assert.equal($('a a').length, 0);
+  assert.match($('.Crux-missingApiNotice').text(), /API unavailable in this version/);
+  $('.Crux-missingApiNotice').remove(); assert.equal($('body').text(), load(original)('body').text());
+  const audit = JSON.parse(await readFile(path.join(result.bundle, 'Contents/Resources/spring-links.json'), 'utf8'));
+  assert.equal(audit.warnings[0].ruleId, 'missing-jca'); assert.equal(audit.warnings[0].from, file);
+  assert.equal(audit.sourceProofs.length, 8);
+  assert.equal(Object.keys(audit.verifiedSources).length, 15);
+  assert.equal(audit.verifiedSources['gradle.properties'], 'c80e650987313e2cf190a87581541acac4d9346a55a354dff2ddf4e6213aa539');
+  assert.equal(await readFile(path.join(f.exported.documentsRoot, file), 'utf8'), original);
+  const g = await fixture(t); g.exported.evidence.commit = 'a'.repeat(40);
+  await assert.rejects(writeSpringBundle(recipe, g.exported, { candidate: g.candidate, version: '7.0.9', commit: 'a'.repeat(40), referencePolicy }), /policy|identity/i);
+  assert.deepEqual(await readdir(g.candidate), []);
 });

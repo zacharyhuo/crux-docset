@@ -1,0 +1,3 @@
+# Unmodified upstream evidence: SHA256 checks require byte-exact checkout,
+# including upstream trailing whitespace and final blank lines.
+test/fixtures/spring-bundle-sources/** -text -whitespace

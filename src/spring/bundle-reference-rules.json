@@ -1,0 +1,131 @@
+{
+  "version": "7.0.9",
+  "commit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+  "proofs": {
+    "framework-docs/modules/ROOT/pages/web/webmvc-view/mvc-jsp.adoc": "86f1843941bcb2ef248505cce7de6c18e185ad033c8f7f4ba7f60fb39e2658ef",
+    "spring-webmvc/src/main/java/org/springframework/web/servlet/tags/package-info.java": "38fb1fc285976ab448a62fad837c6b0a06c3ea910384cbf4298a2f96f9b28413",
+    "spring-webmvc/src/main/java/org/springframework/web/servlet/tags/form/package-info.java": "9436a6f2a173518fbce453014deb73e6737d8643f37e13882a062a625812c124",
+    "framework-docs/modules/ROOT/pages/web/webmvc/mvc-config/message-converters.adoc": "61ef1472107f6761579307ee08cbbae36010e109998b46e58007cfdf3a12abc2",
+    "spring-webmvc/src/main/java/org/springframework/web/servlet/config/annotation/WebMvcConfigurer.java": "7090c568346f2b8c595b6a4f828aeace99e9315dcea5290f157dabbc3ade1a66",
+    "framework-docs/modules/ROOT/pages/languages/kotlin/spring-projects-in.adoc": "6dae4dd25b54d4562cf7ea4b9af49c7977b86cd208e66ab38abb1b38c3ce0095",
+    "spring-context/src/main/java/org/springframework/context/annotation/Configuration.java": "34b75012dfeca16f4f8631ad75d81cfe530fd5e32ad644ca42d48349f6e4dcfa",
+    "framework-docs/modules/ROOT/pages/data-access/oxm.adoc": "81ad4f2db2257414f2a17a4adcf0c0ae910631840e9d0b57421562c9ea97befb",
+    "spring-oxm/src/main/java/org/springframework/oxm/xstream/XStreamMarshaller.java": "f7a8b79364099c7823f977aeaf720ac9c731e847e76a96d8101a0aac72c1b03a",
+    "framework-docs/modules/ROOT/pages/core/beans/factory-scopes.adoc": "97e97369e19033b4c15b6a4295588766abafb1881d771e9882370d7ac4d3454e",
+    "spring-beans/src/main/java/org/springframework/beans/factory/config/Scope.java": "5c8e4fbdd2f3bdeaf44b1b2459aad95aab595249cd571af94bd3a36acf0ed31f",
+    "framework-docs/modules/ROOT/pages/languages/kotlin/coroutines.adoc": "a07656b94dbbd557c752b439809cb202ef828326313d3e80fe7604e4d90464ea",
+    "spring-core/src/main/java/org/springframework/core/PropagationContextElement.java": "a1357c2435b79eb928b8dbfefac03410977d787803c2c3ab7563fd5d367342c7",
+    "framework-docs/modules/ROOT/pages/core/beans/context-introduction.adoc": "88e508239885c9b6ed322827bf9e441d85d403ffa04f4259b88997786336ec35",
+    "gradle.properties": "c80e650987313e2cf190a87581541acac4d9346a55a354dff2ddf4e6213aa539"
+  },
+  "rules": [
+    {
+      "id": "jsp-package",
+      "from": "reference/web/webmvc-view/mvc-jsp.html",
+      "target": "api/javadoc-api/org/springframework/web/servlet/tags/package-summary.html",
+      "fragment": "package.description",
+      "replacement": {
+        "target": "api/javadoc-api/org/springframework/web/servlet/tags/package-summary.html",
+        "fragment": "package-description"
+      },
+      "proofs": [
+        "framework-docs/modules/ROOT/pages/web/webmvc-view/mvc-jsp.adoc",
+        "spring-webmvc/src/main/java/org/springframework/web/servlet/tags/package-info.java"
+      ]
+    },
+    {
+      "id": "jsp-form-package",
+      "from": "reference/web/webmvc-view/mvc-jsp.html",
+      "target": "api/javadoc-api/org/springframework/web/servlet/tags/form/package-summary.html",
+      "fragment": "package.description",
+      "replacement": {
+        "target": "api/javadoc-api/org/springframework/web/servlet/tags/form/package-summary.html",
+        "fragment": "package-description"
+      },
+      "proofs": [
+        "framework-docs/modules/ROOT/pages/web/webmvc-view/mvc-jsp.adoc",
+        "spring-webmvc/src/main/java/org/springframework/web/servlet/tags/form/package-info.java"
+      ]
+    },
+    {
+      "id": "mvc-server-builder",
+      "from": "reference/web/webmvc/mvc-config/message-converters.html",
+      "target": "api/javadoc-api/org/springframework/web/servlet/config/annotation/WebMvcConfigurer.html",
+      "fragment": "configureMessageConverters(org.springframework.http.converter.HttpMessageConverters.Builder)",
+      "replacement": {
+        "target": "api/javadoc-api/org/springframework/web/servlet/config/annotation/WebMvcConfigurer.html",
+        "fragment": "configureMessageConverters(org.springframework.http.converter.HttpMessageConverters.ServerBuilder)"
+      },
+      "proofs": [
+        "framework-docs/modules/ROOT/pages/web/webmvc/mvc-config/message-converters.adoc",
+        "spring-webmvc/src/main/java/org/springframework/web/servlet/config/annotation/WebMvcConfigurer.java"
+      ]
+    },
+    {
+      "id": "configuration-proxy",
+      "from": "reference/languages/kotlin/spring-projects-in.html",
+      "target": "api/javadoc-api/org/springframework/context/annotation/Configuration.html",
+      "fragment": "proxyBeanMethods--",
+      "replacement": {
+        "target": "api/javadoc-api/org/springframework/context/annotation/Configuration.html",
+        "fragment": "proxyBeanMethods()"
+      },
+      "proofs": [
+        "framework-docs/modules/ROOT/pages/languages/kotlin/spring-projects-in.adoc",
+        "spring-context/src/main/java/org/springframework/context/annotation/Configuration.java"
+      ]
+    },
+    {
+      "id": "xstream-varargs",
+      "from": "reference/data-access/oxm.html",
+      "target": "api/javadoc-api/org/springframework/oxm/xstream/XStreamMarshaller.html",
+      "fragment": "setConverters(com.thoughtworks.xstream.converters.ConverterMatcher…​)",
+      "replacement": {
+        "target": "api/javadoc-api/org/springframework/oxm/xstream/XStreamMarshaller.html",
+        "fragment": "setConverters(com.thoughtworks.xstream.converters.ConverterMatcher...)"
+      },
+      "proofs": [
+        "framework-docs/modules/ROOT/pages/data-access/oxm.adoc",
+        "spring-oxm/src/main/java/org/springframework/oxm/xstream/XStreamMarshaller.java"
+      ]
+    },
+    {
+      "id": "scope-callback",
+      "from": "reference/core/beans/factory-scopes.html",
+      "target": "api/javadoc-api/org/springframework/beans/factory/config/Scope.html",
+      "fragment": "registerDestructionCallback",
+      "replacement": {
+        "target": "api/javadoc-api/org/springframework/beans/factory/config/Scope.html",
+        "fragment": "registerDestructionCallback(java.lang.String,java.lang.Runnable)"
+      },
+      "proofs": [
+        "framework-docs/modules/ROOT/pages/core/beans/factory-scopes.adoc",
+        "spring-beans/src/main/java/org/springframework/beans/factory/config/Scope.java"
+      ]
+    },
+    {
+      "id": "propagation-java",
+      "from": "reference/languages/kotlin/coroutines.html",
+      "target": "api/kdoc-api/spring-core/org.springframework.core/-propagation-context-element/index.html",
+      "fragment": "",
+      "replacement": {
+        "target": "api/javadoc-api/org/springframework/core/PropagationContextElement.html",
+        "fragment": ""
+      },
+      "proofs": [
+        "framework-docs/modules/ROOT/pages/languages/kotlin/coroutines.adoc",
+        "spring-core/src/main/java/org/springframework/core/PropagationContextElement.java"
+      ]
+    },
+    {
+      "id": "missing-jca",
+      "from": "reference/core/beans/context-introduction.html",
+      "target": "api/javadoc-api/org/springframework/jca/context/SpringContextResourceAdapter.html",
+      "fragment": "",
+      "replacement": null,
+      "proofs": [
+        "framework-docs/modules/ROOT/pages/core/beans/context-introduction.adoc"
+      ]
+    }
+  ]
+}
