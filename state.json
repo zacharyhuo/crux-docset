@@ -14,6 +14,61 @@
       "revision": 1
     }
   ],
-  "records": [],
-  "catalog": null
+  "records": [
+    {
+      "sourceId": "dev.crux",
+      "familyId": "python",
+      "variantId": "python-3-14-en",
+      "versionLine": "3.14",
+      "language": "en",
+      "identifier": "dev.crux.python",
+      "bundleName": "Python",
+      "version": "3.14.7",
+      "releaseId": "e3853dcd5b62a0efd251cf79670f780559d74a7e49d44059c6b1a99254d75548",
+      "title": "Python",
+      "revision": 1,
+      "artifact": {
+        "url": "https://github.com/zacharyhuo/crux-docset/releases/download/docset-python-3-14-en-3.14.7-r1-e3853dcd5b62a0efd251cf79670f780559d74a7e49d44059c6b1a99254d75548/Python.tgz",
+        "sha256": "c1ad4abe9e7c5dccdd5631d1afe7c853277e90b24f77b0943c906ebd9148c3e0",
+        "bytes": 12167676
+      },
+      "publishedAt": "2026-10-06T10:53:11.000Z",
+      "channel": "stable",
+      "support": "supported",
+      "status": "published"
+    }
+  ],
+  "catalog": {
+    "schemaVersion": 1,
+    "families": [
+      {
+        "sourceId": "dev.crux",
+        "familyId": "python",
+        "title": "Python",
+        "identifier": "dev.crux.python",
+        "bundleName": "Python",
+        "defaultVariantId": "python-3-14-en",
+        "latestReleaseId": "e3853dcd5b62a0efd251cf79670f780559d74a7e49d44059c6b1a99254d75548",
+        "releases": [
+          {
+            "releaseId": "e3853dcd5b62a0efd251cf79670f780559d74a7e49d44059c6b1a99254d75548",
+            "variantId": "python-3-14-en",
+            "versionLine": "3.14",
+            "language": "en",
+            "version": "3.14.7",
+            "revision": 1,
+            "identifier": "dev.crux.python",
+            "artifact": {
+              "url": "https://github.com/zacharyhuo/crux-docset/releases/download/docset-python-3-14-en-3.14.7-r1-e3853dcd5b62a0efd251cf79670f780559d74a7e49d44059c6b1a99254d75548/Python.tgz",
+              "sha256": "c1ad4abe9e7c5dccdd5631d1afe7c853277e90b24f77b0943c906ebd9148c3e0",
+              "bytes": 12167676
+            },
+            "publishedAt": "2026-10-06T10:53:11.000Z",
+            "channel": "stable",
+            "support": "supported"
+          }
+        ]
+      }
+    ]
+  }
 }
