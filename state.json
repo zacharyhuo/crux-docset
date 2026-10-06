@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "reservations": [
+    {
+      "sourceId": "dev.crux",
+      "familyId": "python",
+      "variantId": "python-3-14-en",
+      "versionLine": "3.14",
+      "language": "en",
+      "identifier": "dev.crux.python",
+      "bundleName": "Python",
+      "version": "3.14.7",
+      "releaseId": "e3853dcd5b62a0efd251cf79670f780559d74a7e49d44059c6b1a99254d75548",
+      "revision": 1
+    }
+  ],
+  "records": [],
+  "catalog": null
+}
