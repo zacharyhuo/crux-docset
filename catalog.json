@@ -11,6 +11,23 @@
       "latestReleaseId": "e3853dcd5b62a0efd251cf79670f780559d74a7e49d44059c6b1a99254d75548",
       "releases": [
         {
+          "releaseId": "68c25d4fce4b914da0afdb2cba827d2c7c12cd5aa0c6677da86e5a904d35185f",
+          "variantId": "python-3-13-en",
+          "versionLine": "3.13",
+          "language": "en",
+          "version": "3.13.16",
+          "revision": 1,
+          "identifier": "dev.crux.python",
+          "artifact": {
+            "url": "https://github.com/zacharyhuo/crux-docset/releases/download/docset-python-3-13-en-3.13.16-r1-68c25d4fce4b914da0afdb2cba827d2c7c12cd5aa0c6677da86e5a904d35185f/Python.tgz",
+            "sha256": "37944ed7a262ce196c7d43e33ac319caf05496bdcac2c638e13d46542a487364",
+            "bytes": 11532698
+          },
+          "publishedAt": "2026-10-06T11:00:28.000Z",
+          "channel": "stable",
+          "support": "supported"
+        },
+        {
           "releaseId": "e3853dcd5b62a0efd251cf79670f780559d74a7e49d44059c6b1a99254d75548",
           "variantId": "python-3-14-en",
           "versionLine": "3.14",
