@@ -1,6 +1,6 @@
 # crux-docset
 
-Crux 独立 docset 供应仓库。第一阶段已实现 Node.js CLI、Python 官方文档候选构建和验证；尚未启用公开发布。
+Crux 独立 docset 供应仓库。已实现 Node.js CLI、Python 官方文档构建、验证和 GitHub Release 发布流程；线上供给尚待合入 `main` 后启用。
 
 负责 recipe、构建 adapter、许可证记录、质量测试、上游变更检测、版本锁定与自动发布。
 
@@ -28,7 +28,7 @@ npm run docset -- build
 
 ## 版本线与工作目录
 
-`list` 列出各 family/variant、默认项和 `implemented`/`buildable` 状态；当前正式注册的 adapter 仍只有 Python。新增版本线需要评审 `recipes/<family>/variants/<variantId>.json`，不能仅凭上游出现新版本自动启用。
+`list` 列出各 family/variant、默认项和 `implemented`/`buildable` 状态；当前启用自动供给的是 Python 默认版本线。Go/Spring 的实验 adapter 和未启用版本线不会进入自动发布。新增版本线需要评审 `recipes/<family>/variants/<variantId>.json`，不能仅凭上游出现新版本自动启用。
 
 ```sh
 node src/cli.js build --id python --variant python-3-14-en
@@ -46,7 +46,7 @@ Python 官方会在同一版本线调整页面布局。必要正文规则可用 
 
 schema-2 状态将版本和指纹放在 `current.json` 的 `release` 中，旧 CLI 会拒绝读写。已验证的 schema-1 Python 3.14 状态迁移前备份为 `legacy-current.v1.json`，不可变旧产物不修改；来源、实际 bundle 或版本线无法核实时需人工核查，或在新目录重建。不要删除 owner/current 来绕过归属校验。Actions 使用新的 v2 cache key，不自动恢复缺少完整 bundle 的旧 v1 缓存。
 
-只有明确设置 `--base-url https://<configured-artifact-root>` 才会生成候选 feed，布局为 `artifacts/<variantId>/<fingerprint>/<Bundle>.tgz`、`feeds/<variantId>.xml`。它不是 GitHub Release URL 的直接拼接约定，也不是已经上传的证明；publisher 必须另行配置和验证。当前 CI 仅输出候选，不生成猜测的下载地址。
+本地构建只有明确设置 `--base-url https://<configured-artifact-root>` 才会生成候选 feed，布局为 `artifacts/<variantId>/<fingerprint>/<Bundle>.tgz`、`feeds/<variantId>.xml`。它不是 GitHub Release URL 的直接拼接约定，也不是已经上传的证明。GitHub publisher 使用独立上传和回读流程，随后生成真实 Release 下载地址的目录与 feed。
 
 ## 精确版本目录与发布状态
 
@@ -61,11 +61,55 @@ schemaVersion 1 契约夹具：`test/fixtures/version-catalog/v1.json`。其中�
 - `writePublishedCatalog(directory, latestByFamily)`：从持久记录生成目录，先提交意图快照，最后原子替换 `catalog.json`。
 - `recoverPublishedCatalog(directory)`：恢复最后一步目录文件写入；`withdrawPublishedRelease(directory, releaseId, latestByFamily)` 要求明确、一致的替代推荐政策，不能复活原 releaseId。
 
-构建加 `--publication-state /absolute/path/durable-publication` 可使用上述预约；该目录必须与 `--work` 分离、备份并由唯一 publisher 持有，不能当作 Actions cache。默认不加参数仍为本地候选模式，不自动建立“已发布”记录。锁只保护同一持久目录，不是多个 runner 独立副本之间的分布式锁；远端状态保存、独立复验、不可变上传及部署仍待 publisher 交付。本轮未创建 Release、上传 docset 或提交在线 catalog。
+构建加 `--publication-state /absolute/path/durable-publication` 可使用上述预约；该目录必须与 `--work` 分离，不能当作 Actions cache。默认不加参数仍为本地候选模式，不自动建立“已发布”记录。锁只保护同一目录；GitHub publisher 另用独立 `docset-publication` 分支持久化状态，基于原 head 提交并禁止强制更新，拒绝并发覆盖。
+
+## Python GitHub 自动供给
+
+[运行与恢复说明](publication/README.md)。`.github/workflows/python-candidate.yml` 已接入
+只读状态恢复 → 默认 Python 候选构建 → 独立压缩包复验 → 独立写权限发布任务。
+构建和发布只在 `main` 执行；PR 与 `develop/v1` 不发布。版本候选矩阵仍仅手动构建。
+
+`publication/python.json` 固定有效 recipe 与图标摘要：规则变更需随代码评审更新，
+同一版本线的官方补丁/内容更新不需要逐次人工审批。发布器重新解包、验证每个索引目标和
+归档内版本/revision，并生成绑定产物、recipe、builder、source-lock 和报告的 `qualification.json`。
+它只接受官方 Python 来源；Spring 的未审阅清单不会被此流程自动批准。
+
+包和四份证据文件上传到独立 GitHub Release。已上传资产从不覆盖或删除，上传后流式回读完整
+SHA-256/字节数。公开仓库还验证无需凭据的下载地址；私有开发使用服务端 Actions token
+回读同一资产，目录中不含 token 或临时签名参数。随后在一个 Git commit 中更新状态、catalog、feed
+和验证证据；失败时保留旧目录。无变化且已发布时跳过上传，上传中断可从新 runner 恢复。
+
+代码实现与离线 GitHub 故障测试不等于线上激活。当前开发分支是 `develop/v1`，尚未创建
+`main`、发布分支或真实 Release。合入 `main` 后可手动运行验证；定时任务要自动执行 `main`
+供给，需要将仓库默认分支设为 `main`（GitHub schedule 使用默认分支）。这些上线步骤不改变
+当前开发分支，也不要求提前公开仓库或给客户端加入私有凭据。
 
 CLI/验证器使用 JS；doc2dash 仍是锁定的上游 Python 构建工具，不是自编 Python CLI。Java + Spring 后端保留在 `crux-server`，本阶段不需要常驻服务。
 
-## Recipe 图标
+## 离线资产许可清单审计（独立检查）
+
+```sh
+node src/cli.js audit-assets --documents /absolute/path/Contents/Resources/Documents --manifest /absolute/path/reviewed-assets.json
+```
+
+这是只读本地命令，不要求 adapter 已注册，不联网、不安装依赖、不构建或发布。
+检查整个 Documents 树（包括 HTML、内嵌脚本所在页面、无后缀文件），逐文件比对 SHA-256；
+未知/缺失文件、内容漂移、未审阅组件、缺失或未归属的许可文件、符号链接均返回退出码 1。
+成功返回 0。最多报告前 100 个错误，`errorCount` 保留实际检测到的数量；达到资源限制时停止扫描。
+
+清单格式：`schemaVersion: 1`；`components` 中每项包含 `id`、`version`、HTTPS `source`、
+`reviewed: true`、`license` 和 `notices`（Documents 内相对路径数组）；`files` 中每项包含
+`path`、小写 SHA-256 `sha256`、`components`（可含多个组件 ID）。每个 notice 必须同时是
+files 中有正确归属和摘要的非空文件。完整可运行示例在 `test/asset-audit.test.js`。
+
+**信任边界：**清单必须独立审阅，不能从待审包自动生成后直接标记 reviewed。
+工具验证的是清单与文件的一致性，不能识别漏报的 bundle 内第三方组件、判断许可兼容性、
+核实 URL 所述来源或授予商标权。调用方须保持输入不可变；它不是不可信归档解包沙箱。
+Spring 本地 builder 已接入字节完整性检查；生成清单仍为 `reviewed:false`，
+独立审计会拒绝其发布资格。尚未接入通用 publisher 的许可审批门禁，不能仅凭
+本地构建成功就启用 Spring 发布。页面摘要自动生成，组件审批不能自动生成。
+
+## Recipe 图标资产
 
 每份 recipe 的同级 `assets/` 保存 `icon.png`（16×16）与 `icon@2x.png`（32×32），
 以及来源/商标说明。构建离线读取并复制到 docset 根目录，图标内容纳入构建指纹；
@@ -73,4 +117,18 @@ CLI/验证器使用 JS；doc2dash 仍是锁定的上游 Python 构建工具，�
 验证缺失、文件类型、大小上限、PNG 解码/CRC 和尺寸；使用锁定的 `pngjs` 解码。
 Python 原图及来源见 [assets 说明](recipes/python/assets/README.md)。
 
-Actions 工作流提供 PR 测试、main 候选构建和每日检测，只有 `contents: read` 权限。它**不会创建 Release 或提交目录元数据**；此阶段未增加新版本线的定时构建。跨仓库相对链接以三个仓库在同一父目录检出为前提。
+Spring Framework 的官方图标与来源记录在 [Spring assets](recipes/spring-framework/assets/README.md)。
+7.0 英文 recipe 保持 disabled；实验性 `spring-framework` adapter 已注册，仅接受已审阅的
+7.0.9 固定 commit，目前限定 macOS arm64。源码获取、工具准备、Java/Kotlin API 与参考手册
+构建、离线导出和组合打包已接线；`tools/spring` 下的输入全部纳入 CLI 指纹。
+正式CLI冷构建与同输入重跑已通过：11,475页、42,741符号、零验证错误/警告；
+真实包的同版本revision递增与归档内元数据一致性也已验证。
+这仅完成固定版本的本地构建阶段，不可据此启用自动供给或发布。
+第三方 notice 打包与完整文件树比对已接入，新增真实候选通过打包/解包及篡改反例验收。
+完整许可归属审批、发布门禁及其他版本/执行平台仍需单独完成。
+已核对的Dokka组件和许可文本保存在 [notice来源数据](recipes/spring-framework/notices/README.md)，
+与固定资源清单一起纳入 builder 指纹；本地字节验证通过不等同于完整许可审核。
+
+Actions 的 PR/构建任务保持只读，`main` 上的独立 publisher job 使用 `contents: write`
+创建 Release 和提交供应目录；本阶段未增加其他技术栈的定时构建。跨仓库相对链接以三个
+仓库在同一父目录检出为前提。

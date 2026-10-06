@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "dev.crux",
+  "familyId": "python",
+  "defaultVariantId": "python-3-14-en",
+  "variants": {
+    "python-3-14-en": "cd6390cff9ef8b6730518df88370390c95f7b19963ff8082dad2955875bfd5af",
+    "python-3-13-en": "ddcc3aceb43408a71dad7300d8c5ff1e5ef31a63f2150fd769160f66fdd57dfa"
+  }
+}

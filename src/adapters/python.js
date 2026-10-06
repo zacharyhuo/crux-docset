@@ -7,7 +7,7 @@ import { regularPath } from '../build-state.js';
 
 export const pythonAdapter = Object.freeze({
   acceptsArchive: true,
-  inputFiles: ['tools/doc2dash/uv.lock', 'tools/doc2dash/pyproject.toml'],
+  inputFiles: ['tools/doc2dash/uv.lock', 'tools/doc2dash/pyproject.toml', 'publication/python.json'],
   async resolve(recipe, { directory, archive, fetcher = fetch }) {
     let url = 'local-archive';
     if (!archive) {

@@ -1,10 +1,19 @@
-name: Python docset candidate
+name: Python docset supply
 
 on:
   pull_request:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      variant:
+        description: Reviewed Python version line to supply
+        required: true
+        default: python-3-14-en
+        type: choice
+        options:
+          - python-3-14-en
+          - python-3-13-en
   schedule:
     - cron: '23 4 * * *'
 
@@ -12,7 +21,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: python-candidate-${{ github.ref }}
+  group: python-supply-${{ github.repository }}
   cancel-in-progress: false
 
 jobs:
@@ -35,6 +44,11 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      publish: ${{ steps.build.outputs.publish }}
+      variant: ${{ steps.build.outputs.variant }}
+    env:
+      VARIANT: ${{ github.event.inputs.variant || 'python-3-14-en' }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -48,6 +62,11 @@ jobs:
           version: '0.12.13'
           enable-cache: false
       - run: npm ci --ignore-scripts
+      - name: Restore durable publication state (read only)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        run: node src/publication/cli.js restore --repository "$REPOSITORY" --publication-state .publisher
       # Cache is a performance hint, never proof of successful remote publication.
       # Only compact successful artifacts are cached, not source trees or locks.
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
@@ -59,29 +78,59 @@ jobs:
             .work/python/releases/*/validation.json
             .work/python/releases/*/source-lock.json
             .work/python/releases/*/Python.tgz
-          key: python-candidate-v2-${{ runner.os }}-${{ hashFiles('src/**', 'package-lock.json', 'recipes/**', 'tools/doc2dash/**') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: python-candidate-v3-${{ runner.os }}-${{ env.VARIANT }}-${{ hashFiles('src/**', 'package-lock.json', 'recipes/**', 'tools/doc2dash/**', 'publication/**') }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
-            python-candidate-v2-${{ runner.os }}-${{ hashFiles('src/**', 'package-lock.json', 'recipes/**', 'tools/doc2dash/**') }}-
+            python-candidate-v3-${{ runner.os }}-${{ env.VARIANT }}-${{ hashFiles('src/**', 'package-lock.json', 'recipes/**', 'tools/doc2dash/**', 'publication/**') }}-
       - name: Build and validate candidate
         id: build
         run: |
           mkdir -p .work
-          node src/cli.js build --id python > .work/result.json
+          # An unreserved cached candidate never dictates durable revision numbers.
+          # Preserve it separately and rebuild from remote authority on a new runner.
+          node --input-type=module -e 'import fs from "node:fs/promises"; import {randomUUID} from "node:crypto"; try { const c=JSON.parse(await fs.readFile(".work/python/current.json")); const s=JSON.parse(await fs.readFile(".publisher/state.json")); if(!s.reservations.some(r=>r.releaseId===c.release?.fingerprint && r.revision===c.release?.revision)) await fs.rename(".work/python",`.work/python-unreserved-${randomUUID()}`); } catch(e) { if(e.code!=="ENOENT") throw e; }'
+          node src/cli.js build --id python --variant "$VARIANT" --work .work/python --publication-state .publisher > .work/result.json
           cat .work/result.json
-          node --input-type=module -e 'import fs from "node:fs"; const r=JSON.parse(fs.readFileSync(".work/result.json")); fs.appendFileSync(process.env.GITHUB_OUTPUT, `directory=${r.directory}\nstatus=${r.status}\n`);'
+          node --input-type=module -e 'import fs from "node:fs"; const r=JSON.parse(fs.readFileSync(".work/result.json")); const s=JSON.parse(fs.readFileSync(".publisher/state.json")); const pending=!s.records.some(x=>x.releaseId===r.fingerprint && x.status==="published"); fs.appendFileSync(process.env.GITHUB_OUTPUT, `directory=${r.directory}\npublish=${pending}\nvariant=${r.variantId}\n`);'
+      - name: Independently qualify archive and stage promotion inputs
+        if: steps.build.outputs.publish == 'true'
+        env:
+          CANDIDATE: ${{ steps.build.outputs.directory }}
+        run: |
+          node src/publication/cli.js qualify --id python --variant "$VARIANT" --candidate "$CANDIDATE"
+          node --input-type=module -e 'import fs from "node:fs/promises"; import path from "node:path"; for (const [source, target, files] of [[process.env.CANDIDATE,".work/promotion/candidate",["Python.tgz","manifest.json","validation.json","source-lock.json"]],[".publisher",".work/promotion/publication",["state.json","remote.json"]]]) { await fs.mkdir(target,{recursive:true}); for(const file of files) await fs.copyFile(path.join(source,file),path.join(target,file)); }'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        if: steps.build.outputs.status != 'unchanged'
+        if: steps.build.outputs.publish == 'true'
         with:
-          name: python-candidate
+          name: python-promotion
           retention-days: 7
           if-no-files-found: error
           compression-level: 0
-          path: |
-            ${{ steps.build.outputs.directory }}/Python.tgz
-            ${{ steps.build.outputs.directory }}/manifest.json
-            ${{ steps.build.outputs.directory }}/validation.json
-            ${{ steps.build.outputs.directory }}/source-lock.json
+          path: .work/promotion/
 
-  # Deliberately no contents:write job or speculative public download URLs.
-  # A separately configured, independently validating publisher must upload
-  # immutable artifacts before creating feeds or committing a release catalog.
+  publish:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && needs.build.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: python-promotion
+          path: promotion
+      - name: Validate, publish immutable assets, then activate catalog and feeds
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          SOURCE_COMMIT: ${{ github.sha }}
+          VARIANT: ${{ needs.build.outputs.variant }}
+        run: node src/publication/cli.js publish --id python --variant "$VARIANT" --repository "$REPOSITORY" --source-commit "$SOURCE_COMMIT" --candidate promotion/candidate --publication-state promotion/publication
