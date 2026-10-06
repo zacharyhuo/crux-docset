@@ -1,7 +1,7 @@
 # Python 自动供给运行说明
 
 本阶段实现代码位于 `src/publication/`，首次供给固定在 Python 3.14 英文版本线。
-3.13 的政策已登记，但不会因每日任务自动扩展构建矩阵。默认版本线或规则变更通过代码评审调整；
+3.13 支持手动供给，但不会因每日任务自动扩展构建矩阵。默认版本线或规则变更通过代码评审调整；
 官方同线补丁与内容更新根据源码归档摘要自动识别。
 
 ## 工作流
@@ -10,6 +10,8 @@
 定时表达式对应 04:23 UTC / 12:23 上海时间；GitHub 可能延迟执行。
 [GitHub schedule 文档](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
 要求工作流在默认分支执行，所以启用日更时默认分支须为 `main`。
+仓库默认分支已设为 `main`；手动运行的 `variant` 可选 3.14/3.13，其他事件固定选 3.14。
+缓存按 variant 隔离，两条线共享发布 ledger，但旧线供给不会修改默认线的 latest 指针。
 
 构建 job 只有 `contents: read`。它恢复发布分支的状态，在独立 `.publisher/` 工作副本中预留
 revision，构建 Python，并重新解包验证归档。Actions 缓存只保留构建结果；未在远端预留的
@@ -44,7 +46,8 @@ writer 不覆盖任何已上传资产。同名冲突、摘要不一致和缺失�
 
 首次成功发布后，公开仓库的目录地址为：
 `https://raw.githubusercontent.com/zacharyhuo/crux-docset/docset-publication/catalog.json`。
-feed 地址为同一根目录下的 `feeds/python.xml`。这两个地址目前只是部署布局，未声称已经上线。
+feed 地址为同一根目录下的 `feeds/python.xml`。文件已提交到真实发布分支；当前 private 仓库
+需要 GitHub 权限访问，仓库公开后的匿名地址可用性留待公开发布验收。
 下载包使用 Release 的固定 tag URL，不使用全仓库 `latest` 路由。
 
 ## 本地校验与策略变更
@@ -100,4 +103,19 @@ node experiments/publication/serve.mjs --work /absolute/path/disposable-experime
 
 该验收覆盖真实 TLS 下载、同一安装位置更新、固定旧版、损坏内容拒绝、失败后重试、
 catalog 缓存回退、图标和离线阅读。GitHub HTTP fixture 仍不是线上 GitHub 部署验收；
-合入 `main` 后还需检查实际 Actions、Release/CDN 可用性和公开 HTTPS 地址。
+真实 Actions 和已发布资产的验收见下一节，公开 HTTPS 地址仍需在仓库公开后实际验证。
+
+## 已发布资产的 Beta 验收
+
+```sh
+node experiments/publication/live-serve.mjs --repository zacharyhuo/crux-docset --work /absolute/path/disposable-experiment-parent
+```
+
+此工具读取实际 `docset-publication` 的固定 commit catalog，并用标准 `gh release download`
+下载其中的真实 Release 包。每个包与 catalog 的 SHA-256/字节数一致才启动 loopback TLS。
+认证只留在 GitHub CLI 的正常认证流程中，不读取或输出 token，不给客户端写私有凭据。
+使用同一 Beta opt-in 测试配置；GitHub 来源证明保存为 `github-catalog.json` 和
+`github-receipts.json`，TLS 请求留在 `https-requests.json`。
+
+2026-10-06 的首轮 3.14/手动 3.13 发布和默认线无变化重跑均成功，真实 Release 包的 Beta
+验收通过。后者使用本机 TLS 中继，不能当作公开 CDN 匿名下载证明。

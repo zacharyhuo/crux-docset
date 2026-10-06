@@ -1,6 +1,6 @@
 # crux-docset
 
-Crux 独立 docset 供应仓库。已实现 Node.js CLI、Python 官方文档构建、验证和 GitHub Release 发布流程；线上供给尚待合入 `main` 后启用。
+Crux 独立 docset 供应仓库。Node.js CLI、Python 官方文档构建、验证和 GitHub Release 发布流程已在 `main` 跑通；仓库当前仍为 private。
 
 负责 recipe、构建 adapter、许可证记录、质量测试、上游变更检测、版本锁定与自动发布。
 
@@ -79,10 +79,14 @@ SHA-256/字节数。公开仓库还验证无需凭据的下载地址；私有开
 回读同一资产，目录中不含 token 或临时签名参数。随后在一个 Git commit 中更新状态、catalog、feed
 和验证证据；失败时保留旧目录。无变化且已发布时跳过上传，上传中断可从新 runner 恢复。
 
-代码实现与离线 GitHub 故障测试不等于线上激活。当前开发分支是 `develop/v1`，尚未创建
-`main`、发布分支或真实 Release。合入 `main` 后可手动运行验证；定时任务要自动执行 `main`
-供给，需要将仓库默认分支设为 `main`（GitHub schedule 使用默认分支）。这些上线步骤不改变
-当前开发分支，也不要求提前公开仓库或给客户端加入私有凭据。
+2026-10-06 已完成 main 上线验收：真实 Actions 发布了 Python 3.14.7 r1 和 3.13.16 r1，
+catalog/feed 位于 `docset-publication`；默认推荐仍为 3.14。相同输入重跑跳过 publisher，
+发布分支 head 和五个资产的 ID/摘要均未改变。仓库默认分支已设为 `main`，日更只供应默认线，
+手动运行可选择已审阅的 3.13/3.14。本机开发分支继续使用 `develop/v1`。
+
+Beta 已从经过 SHA-256/字节数校验的真实 GitHub Release 包完成 HTTPS 安装、版本替换、
+固定旧版、损坏包拒绝及恢复验收。由于仓库 private，本次由 GitHub CLI 认证下载后交给本机
+TLS 中继；客户端未持有 token。这证明真实发布包可用，不代表公开地址的匿名 CDN 下载已验收。
 
 CLI/验证器使用 JS；doc2dash 仍是锁定的上游 Python 构建工具，不是自编 Python CLI。Java + Spring 后端保留在 `crux-server`，本阶段不需要常驻服务。
 
