@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental-input-lock-not-release-qualified",
+  "platform": "darwin",
+  "arch": "arm64",
+  "spring": {
+    "version": "7.0.9",
+    "commit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+    "treeSha256": "b5292f39724517a02b1f47b9be1b9a1e391057d0d1ad5e71b96cc6e9eb60fd5a",
+    "buildInputs": "build-inputs-baseline.json"
+  },
+  "jdk": {
+    "version": "25.0.4.1+1",
+    "vendor": "Eclipse Temurin",
+    "url": "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4.1%2B1/OpenJDK25U-jdk_aarch64_mac_hotspot_25.0.4.1_1.tar.gz",
+    "sha256": "61979887f7506a24a57439ff99adb8b3a7fc89977d9cfe3b8984f58a981b7b9d",
+    "bytes": 136355078,
+    "home": "jdk-25.0.4.1+1/Contents/Home"
+  },
+  "gradle": {
+    "version": "9.7.0",
+    "distributionSha256": "84fbba45c7f4c64abc77460e1c00f541e9f960e3c7ed2538f1ede19eacd873ae",
+    "verificationMetadata": "gradle-verification-metadata.xml",
+    "verificationSha256": "78e67422895e4794266779f8b228ff7926f83a2a860abf5ffc88ef54bb1ff46b",
+    "artifacts": 1749,
+    "trust": "Initial observed HTTPS downloads, then strict cold-cache and offline-hot verification; not publisher signature authentication"
+  },
+  "reference": {
+    "node": "24.21.0",
+    "nodeURL": "https://nodejs.org/dist/v24.21.0/node-v24.21.0-darwin-arm64.tar.gz",
+    "nodeSha256": "bed7eea5325e1108f32ce5228ddd6a5f0f08a499ee42aa7442aea583702f6057",
+    "packageLock": "reference/package-lock.json",
+    "packageLockSha256": "ca76e29f82f9e95489ee194242b6150948b60672896c75e755daf75ebbad4b64",
+    "packages": 238,
+    "uiURL": "https://github.com/spring-io/antora-ui-spring/releases/download/v0.4.26/ui-bundle.zip",
+    "uiSha256": "4f26ec21a4eeb3c1946afdb5066e0ee8a12767cdbec27d214c9bc8a7130b74d6",
+    "uiBytes": 873183,
+    "adaptation": "Single fixed Git commit; collector disabled; source version injected before dependent attributes; only navigation override and content extensions enabled"
+  },
+  "dokka": {
+    "version": "2.1.0",
+    "commit": "905286d0d31f143bf0627656db1f14ea56fa42d3",
+    "frontendPath": "dokka-subprojects/plugin-base-frontend/",
+    "node": "20.16.0",
+    "nodeURL": "https://nodejs.org/dist/v20.16.0/node-v20.16.0-darwin-arm64.tar.gz",
+    "nodeSha256": "fc7355e778b181575153b7dea4879e8021776eeb376c43c50f65893d2ea70aa3",
+    "upstreamPackageLockSha256": "c5c15cc3e5bff0fca11ac13818852fa2151e3faad18f292c56d7a4bbcc4b2c77",
+    "integritySupplement": "dokka-frontend-integrity.json",
+    "packages": 1406,
+    "verifiedOutputs": {
+      "main.js": "f67b38f8e9805d566f137a37a95e2622aa7eb018ae24ddafdf3c7e05f9eed84e",
+      "main.css": "cda28c3c2238ada240a128be569b05c863a51d0c5ef489650d9a6b293edfd250",
+      "ui-kit.min.js": "850086e62c237c4137fb8cbda71662c3dabe886b4507cd862164bfe69103c914",
+      "ui-kit.min.css": "a97a939f4d3abfce0f31bebf3d8683818b646925cf1a1fa2d2fd0d44960abc36"
+    }
+  },
+  "externalMetadata": "external-metadata/manifest.json",
+  "remaining": [
+    "Independent bundled-component attribution/license approval and publication gates (notice packaging is implemented)",
+    "Other versions and execution platforms"
+  ]
+}

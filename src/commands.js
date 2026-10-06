@@ -9,11 +9,13 @@ import { getAdapter } from './adapters.js';
 import { regularPath } from './build-state.js';
 import { reserveRevision } from './published-store.js';
 import { resolveEnabledVariants } from './version-matrix.js';
+import { auditAssets } from './asset-audit.js';
 
 const help = `crux-docset list
 crux-docset matrix [--id FAMILY]
 crux-docset build [--id FAMILY | --recipe FILE] [--variant ID] [--work DIR] [--archive LOCAL.zip] [--base-url HTTPS_ARTIFACT_ROOT] [--publication-state DURABLE_DIR]
 crux-docset validate --bundle PATH [--id FAMILY | --recipe FILE] [--variant ID]
+crux-docset audit-assets --documents DIR --manifest REVIEWED_JSON
 Local-only by default. No upload or Git write. Requires Node >=24; Python builds also require uv.`;
 const jsonOutput = (value, exitCode = 0) => ({ output: JSON.stringify(value, null, 2), exitCode });
 
@@ -22,11 +24,19 @@ const jsonOutput = (value, exitCode = 0) => ({ output: JSON.stringify(value, nul
 export async function runCLI(args, { root, resolveAdapter = getAdapter }) {
   const { values, positionals } = parseArgs({ args, allowPositionals: true, options: {
     help: { type: 'boolean' }, recipe: { type: 'string' }, id: { type: 'string' }, variant: { type: 'string' },
-    work: { type: 'string' }, archive: { type: 'string' }, bundle: { type: 'string' }, 'base-url': { type: 'string' }, 'publication-state': { type: 'string' }
+    work: { type: 'string' }, archive: { type: 'string' }, bundle: { type: 'string' }, 'base-url': { type: 'string' }, 'publication-state': { type: 'string' },
+    documents: { type: 'string' }, manifest: { type: 'string' }
   } });
   if (values.help) return { output: help, exitCode: 0 };
   const [command] = positionals;
-  if (!['build', 'validate', 'list', 'matrix'].includes(command) || positionals.length !== 1) throw new Error(`Unknown command: ${command ?? '(missing)'}`);
+  if (!['build', 'validate', 'list', 'matrix', 'audit-assets'].includes(command) || positionals.length !== 1) throw new Error(`Unknown command: ${command ?? '(missing)'}`);
+  if (command === 'audit-assets') {
+    if (Object.keys(values).some(key => !['documents', 'manifest'].includes(key))) throw new Error('audit-assets only accepts --documents and --manifest');
+    if (!values.documents || !values.manifest) throw new Error('--documents and --manifest are required');
+    const report = await auditAssets(path.resolve(values.documents), path.resolve(values.manifest));
+    return jsonOutput(report, report.passed ? 0 : 1);
+  }
+  if (values.documents || values.manifest) throw new Error('Asset audit options require audit-assets');
   if (command === 'matrix') {
     if (Object.keys(values).some(key => key !== 'id')) throw new Error('matrix only accepts --id, not build options');
     return jsonOutput(await resolveEnabledVariants({ root, id: values.id }));

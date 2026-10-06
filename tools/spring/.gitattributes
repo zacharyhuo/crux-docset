@@ -1,0 +1,2 @@
+# Preserve upstream metadata bytes, including the HttpClient CRLF line endings.
+external-metadata/** -text -whitespace

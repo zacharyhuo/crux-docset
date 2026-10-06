@@ -1,0 +1,48 @@
+// Fixed single-version build policy. The CLI supplies only an isolated work
+// directory; recipes cannot add init scripts or Gradle task names.
+import groovy.json.JsonSlurper
+import java.security.MessageDigest
+
+gradle.projectsEvaluated {
+    if (gradle.rootProject.name != 'spring') return
+    def workPath = gradle.startParameter.systemPropertiesArgs.get('crux.spring.work')
+    if (workPath == null) throw new GradleException('Missing Crux Spring work directory')
+    def work = new File(workPath)
+    if (!work.isAbsolute()) throw new GradleException('Absolute Crux work directory required')
+    def metadata = new File(work, 'external-metadata')
+    def records = new JsonSlurper().parse(new File(metadata, 'manifest.json')).records
+    records.each { input ->
+        if (!(input.file ==~ /[0-9]{2}\/(element-list|package-list)/)) throw new GradleException('Invalid metadata path')
+        def digest = MessageDigest.getInstance('SHA-256').digest(new File(metadata, input.file).bytes).encodeHex().toString()
+        if (digest != input.sha256) throw new GradleException('Metadata digest mismatch: ' + input.base)
+    }
+    def javaInputs = records.findAll { it.kind == 'javadoc' }
+    if (javaInputs.size() != 11) throw new GradleException('Incomplete Javadoc metadata')
+    def api = gradle.rootProject.project(':framework-api').tasks.named('javadoc').get()
+    api.options.links.clear()
+    api.options.linksOffline.clear()
+    javaInputs.each { input -> api.options.linksOffline(input.base, new File(metadata, input.file).parentFile.absolutePath) }
+    int count = 0
+    gradle.rootProject.allprojects.each { project ->
+        def dokka = project.extensions.findByName('dokka')
+        if (dokka != null) {
+            dokka.dokkaSourceSets.each { sourceSet ->
+                sourceSet.externalDocumentationLinks.each { link ->
+                    if (!link.enabled.get()) return
+                    def url = link.url.get().toString()
+                    if (url == 'https://projectreactor.io/docs/core/release/api/') url = 'https://projectreactor.io/docs/core/3.8.7/api/'
+                    if (url == 'https://javadoc.io/static/io.rsocket/rsocket-core/1.1.1/') url = 'https://javadoc.io/static/io.rsocket/rsocket-core/1.1.5/'
+                    def input = records.find { it.kind == 'dokka' && it.base == url }
+                    if (input == null) throw new GradleException('Unpinned external metadata: ' + url)
+                    link.url.set(new URI(url))
+                    link.packageListUrl.set(new File(metadata, input.file).toURI())
+                    count++
+                }
+            }
+            dokka.dokkaPublications.configureEach { publication -> publication.failOnWarning.set(true) }
+            if (project.path == ':framework-api') dokka.dokkaPublications.named('html').get().outputDirectory.set(new File(work, 'kdoc-api'))
+        }
+    }
+    if (count == 0) throw new GradleException('No Dokka metadata configured')
+    println('CRUX_EXTERNAL_METADATA=' + count + ';JAVADOC=' + javaInputs.size())
+}

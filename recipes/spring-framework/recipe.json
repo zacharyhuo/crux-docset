@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 2,
+  "id": "spring-framework",
+  "sourceId": "dev.crux",
+  "defaultVariant": "spring-framework-7-0-en",
+  "name": "Spring Framework",
+  "bundleName": "Spring_Framework",
+  "identifier": "dev.crux.spring-framework",
+  "homepage": "index.html",
+  "source": {
+    "repository": "https://github.com/spring-projects/spring-framework",
+    "strategy": "reviewed-source-build"
+  },
+  "builder": { "adapter": "spring-framework" },
+  "limits": { "maxBytes": 536870912, "maxFiles": 30000 },
+  "validation": {
+    "requireIcons": true,
+    "minimumPages": 11475,
+    "minimumSymbols": 42741,
+    "requiredPages": [
+      { "path": "index.html", "containsText": "Spring Framework" },
+      { "path": "licenses/SPRING-LICENSE.txt", "containsText": "Apache License" }
+    ]
+  }
+}

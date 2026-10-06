@@ -1,0 +1,15 @@
+io.rsocket
+io.rsocket.core
+io.rsocket.exceptions
+io.rsocket.frame
+io.rsocket.frame.decoder
+io.rsocket.internal
+io.rsocket.internal.jctools.queues
+io.rsocket.keepalive
+io.rsocket.lease
+io.rsocket.loadbalance
+io.rsocket.metadata
+io.rsocket.plugins
+io.rsocket.resume
+io.rsocket.transport
+io.rsocket.util

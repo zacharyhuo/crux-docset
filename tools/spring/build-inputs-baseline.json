@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "status": "partial-baseline-not-release-qualified",
+  "repository": "https://github.com/spring-projects/spring-framework",
+  "version": "7.0.9",
+  "commit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+  "files": {
+    "gradle.properties": "c80e650987313e2cf190a87581541acac4d9346a55a354dff2ddf4e6213aa539",
+    "gradle/wrapper/gradle-wrapper.properties": "fc913ffa0625b544190844a506086ca0b93c4361986e820e10dd64c088257bf7",
+    "gradle/wrapper/gradle-wrapper.jar": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d",
+    "build.gradle": "8aef4f49bb3d4324f24e60a4019702b0fb6e8fb0b3b2079b6e02c3f289676ef5",
+    "settings.gradle": "6ec3ec6edae99fd4962c3c883753ad299ee9a6a84b189b0b6c19a9b13bb699ad",
+    "buildSrc/build.gradle": "4f085c71177676ff150b7aa415be75d9f1b375d03ec86eacb8ebe789ba8c30f7"
+  },
+  "localBuildOverrides": [{
+    "path": "gradle/wrapper/gradle-wrapper.properties",
+    "reason": "Add the pinned Gradle distribution checksum, without changing the upstream distribution version or URL",
+    "sha256": "657c012357c5e4253e8c4f9341617644e4477ee74868b898950bb2904a075277"
+  }],
+  "gradleDistribution": {
+    "version": "9.7.0",
+    "url": "https://services.gradle.org/distributions/gradle-9.7.0-bin.zip",
+    "sha256": "84fbba45c7f4c64abc77460e1c00f541e9f960e3c7ed2538f1ede19eacd873ae"
+  },
+  "remaining": [
+    "This file alone covers only six inputs; consume it with toolchain-lock.json and full source acquisition",
+    "Actual bundled third-party components and notices",
+    "Additional source versions and execution platforms"
+  ]
+}

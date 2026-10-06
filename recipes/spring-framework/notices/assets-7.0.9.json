@@ -1,0 +1,1674 @@
+{
+  "schemaVersion": 1,
+  "status": "byte-provenance-only-not-release-approved",
+  "version": "7.0.9",
+  "sourceCommit": "82a6b40b9366ec181ededdad282b307ee5381a52",
+  "htmlGroups": {
+    "javadoc": {
+      "count": 10435,
+      "pathsSha256": "6bdabb2a422c4cadf791f67c3c22902c3a16a5095297b82fbb528317e22a7062"
+    },
+    "dokka": {
+      "count": 576,
+      "pathsSha256": "28991ba33b669f51b5dcd2b83dbf3a1218276da47cb611b71bbac1453b958285"
+    },
+    "root": {
+      "count": 1,
+      "pathsSha256": "9fcd730ec63f67db6f3280344d1a2035343d932c5427a4780beae13b9c268904"
+    },
+    "reference": {
+      "count": 463,
+      "pathsSha256": "688fc3d6a7ad76c721057b6cf3b8956efc7f56556be1c060a8fa00d16e00cc58"
+    }
+  },
+  "staticFiles": [
+    {
+      "path": "NOTICES.txt",
+      "sha256": "f6a64d9b71e60d1ea6c6332650edf86f0a8109c2c1c052da4ef742b92910e92c",
+      "components": [
+        "crux-adaptations"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/element-list",
+      "sha256": "e39506704c6c9a33c1573cb91c73ad3c3cba955c1fe00e011a4aa16bfc211c9b",
+      "components": [
+        "jdk",
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/legal/ADDITIONAL_LICENSE_INFO",
+      "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/legal/ASSEMBLY_EXCEPTION",
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/legal/LICENSE",
+      "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/legal/dejavufonts.md",
+      "sha256": "bcec55913c89822a8292af4e97a5ad7a07aa920dbc49524439ff7c70638dd1e8",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/legal/jquery.md",
+      "sha256": "b68f454c2bd58959c862d94bf0f16c3f78a2d537388ca060d354344db80ee695",
+      "components": [
+        "jquery"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/legal/jqueryUI.md",
+      "sha256": "7854d2d568992ae25ff65867bd9021d655f70670142f0796b29a3b0621f19530",
+      "components": [
+        "jquery-ui"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/member-search-index.js",
+      "sha256": "fdf580dc35f67ac004ebd7fccf556acc9a8f00b4edaa92df189bd00e2a58d38a",
+      "components": [
+        "jdk",
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/module-search-index.js",
+      "sha256": "814a05983e3267d591c7e62b314eb8eb0504eee844c8a70d494f6edbaa0f4f18",
+      "components": [
+        "jdk",
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/package-search-index.js",
+      "sha256": "ecc4ef79ff18cfb013063411459ba8d62b6a592110fc46982aca75ad9d94d957",
+      "components": [
+        "jdk",
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/copy.svg",
+      "sha256": "766208d2f8bda15fef5c7de875a21892441c6daaec7dc5098e09daccf197fada",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSans-Bold.woff",
+      "sha256": "101783e1c52d432cf38323b12169257eafda85dc5d8e421fef7115cae1d60bf5",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSans-Bold.woff2",
+      "sha256": "254c30239b464b57ebfeb6757c6ea71c90439d7e932909556c35dc8a08847cc1",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSans-BoldOblique.woff",
+      "sha256": "7413f14cf9feb4bc5277e5575f090a2e7aa81657762a1a13301d5413e30f537b",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSans-BoldOblique.woff2",
+      "sha256": "153f5534152121a465e3bc6d285601e1d8bdc3821f7b42f0cdcf33e5fb798f17",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSans-Oblique.woff",
+      "sha256": "acb835b179c94c9060a330912042b6dea1ca539cba2da10d471001e62a60fea0",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSans-Oblique.woff2",
+      "sha256": "ad3eef5cc00bc9b8673e56fb3eda8166d27d85232a3a7c39cadbc9a1201802de",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSans.woff",
+      "sha256": "6c9990bea12326ef975f434d43479605d80afef55191026a2aa5c7a6fff83909",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSans.woff2",
+      "sha256": "cd825e41bec67b8255d6af44b4819449a4ad20f7b5af0b524136aa3a57912d3a",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSansMono-Bold.woff",
+      "sha256": "c83c596fadc6c94e2c17b56ee5f8ad790dd93226853e8cf7a2c3d252e01f3245",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSansMono-Bold.woff2",
+      "sha256": "bf63975248750c846bd5112f10d94592b9a59ddf20b9ffc2bf4fec2d5633a49c",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSansMono-BoldOblique.woff",
+      "sha256": "99962e266bd99d979f641292d872cce733c8e3dcfecd3c3ae485d66fa77b4e4a",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSansMono-BoldOblique.woff2",
+      "sha256": "ed4a0b803174af2f790256f260ad648eaa3af3fb820b21564697fcd604dd9135",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSansMono-Oblique.woff",
+      "sha256": "8f5b67e448b5e8f3e922c44e23bd7ed4f3f49b2e5b02731031eec3e00fd739c5",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSansMono-Oblique.woff2",
+      "sha256": "d5ebd7756fc67602723df6f3eca02482106bc59198a040a7e6249d254fb223d6",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSansMono.woff",
+      "sha256": "4b68aff01a1ad6f7547095d69b3dba8ab5fb47ff1f0e348ee32ffa45fa28365c",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSansMono.woff2",
+      "sha256": "747a4c8b1f2e109a2e710abe881ba8967e7475bd4c439d0012536bc669b03876",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSerif-Bold.woff",
+      "sha256": "20615439ec5f362f3410ca6ddf18df273d58b4b52a8714e36ed2a6f1a7e91857",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSerif-Bold.woff2",
+      "sha256": "2f55e99b3a13cd9b34f41e81705deaaa1cb853c8f9b1c918ad0e55f66a74034e",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSerif-BoldItalic.woff",
+      "sha256": "1b2126e795203a5b10330c3cdae88f2df47e4f3c4658b99bfbd8d40a111e82b2",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSerif-BoldItalic.woff2",
+      "sha256": "aa24fc48aef9adb90a45f72b905e7b0a5b758f2263cbcc36ac3562c0a277ad5e",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSerif-Italic.woff",
+      "sha256": "c7038d955130d385a75929a491816ff6f9d0d4fe22c7e68da567c53f8447ec56",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSerif-Italic.woff2",
+      "sha256": "e4e50f30b7d9d9a6f4e5a333152feeaeb9db1df739cb6312c5cba6b9a1511778",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSerif.woff",
+      "sha256": "2664d2906ae707ad579847e0b14180bf7d265407267dce7faf68ef8e5ccf20b7",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/DejaVuLGCSerif.woff2",
+      "sha256": "4fcadaf15c0d025e2d46a0095c337ab13f97f8f30b367440119da92acf511b30",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/fonts/dejavu.css",
+      "sha256": "ce7e0afd65d12d2c549caa1e2f246766379a4cda3eb3ec1b3a73f1957b49f962",
+      "components": [
+        "dejavu"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/glass.svg",
+      "sha256": "869d9c69e855b418e01319986966d18d6d04c06bc0c870550f9e8f3a7d91d3da",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/jquery-ui.min.css",
+      "sha256": "ab01f1e5d951f9cfa5fed84d37004ba30724d0befcde1d6b6fcedf7041936244",
+      "components": [
+        "jquery-ui"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/left.svg",
+      "sha256": "b5585aa2a1177168bafe47381adc30ef1e2371ef1f0a5f47b966a85eca7c29b0",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/link.svg",
+      "sha256": "f2be6cad5ff857fb23f4e27a910b8111dc9e299108c604fabd7f70300366420c",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/right.svg",
+      "sha256": "8e8eb727a7aea0bcdc9acd9c19c043ae1762759bc5d5bf91a45d2f59e48dbaca",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/stylesheet.css",
+      "sha256": "dd08dd924584988b9b118cea1d29d79cc7f5d7946a62f48a222449092dcc4789",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/resource-files/x.svg",
+      "sha256": "dcb2b87eda0aea66d91e8a36ae5b23eba58cf88769429a49eacf41aac925040d",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/script-files/jquery-3.7.1.min.js",
+      "sha256": "fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a",
+      "components": [
+        "jquery"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/script-files/jquery-ui.min.js",
+      "sha256": "4c0b2b6513452adf188402da32faea446b326e0a3362eda6fa8603e73594a567",
+      "components": [
+        "jquery-ui"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/script-files/script.js",
+      "sha256": "795ddba417f4a106bbfae3c84cb2c61363e0ce9b29163eaefdc9c334db1f9b2d",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/script-files/search-page.js",
+      "sha256": "3bd59d168258fa81f6ffe473feec32bae0e0a5d571ecc89a1eb4fc04defed1b7",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/script-files/search.js",
+      "sha256": "fb8492aa12ea5e8c74045f0f909c7f9afc12cb44ce165e1b18a4d0cd1c49908c",
+      "components": [
+        "jdk"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/tag-search-index.js",
+      "sha256": "cb30ae81c5b020b46a092c5040b494355063ad5eda503e8d3aaa61d9e686dbfe",
+      "components": [
+        "jdk",
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/javadoc-api/type-search-index.js",
+      "sha256": "1d0cb9400387f8b7d84a84d31f73ff59be5e224cd619ad78e1042486247ac9cb",
+      "components": [
+        "jdk",
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/abstract-class-kotlin.svg",
+      "sha256": "95fca188807014a6dc0982d88010228abb187f7841962888dc24aaac755a59bb",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/abstract-class-kotlin.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/abstract-class-kotlin.svg",
+        "gitBlob": "97b7723a024ce583bff4d31b2e685167c34b1741",
+        "sha256": "95fca188807014a6dc0982d88010228abb187f7841962888dc24aaac755a59bb"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/abstract-class.svg",
+      "sha256": "0b8855c991d74117699c26cf0c99caf706bed4ca562949584632eb5314b6d412",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/abstract-class.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/abstract-class.svg",
+        "gitBlob": "ead94b8bba1d5a430a1c058829b6f9182bf5134c",
+        "sha256": "0b8855c991d74117699c26cf0c99caf706bed4ca562949584632eb5314b6d412"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/anchor-copy-icon.svg",
+      "sha256": "b9deb6b00611bcf706e757a89295c69cd104620d1b658d5c85064e553dcc8385",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/anchor-copy-icon.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/anchor-copy-icon.svg",
+        "gitBlob": "dd43e7694e49596d0ee99194809d5040c2343b25",
+        "sha256": "b9deb6b00611bcf706e757a89295c69cd104620d1b658d5c85064e553dcc8385"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/annotation-kotlin.svg",
+      "sha256": "919ae88fb766d6a6e83322f2869ff7f8ee1ed7eb0b75e387f6e13a51e82819a5",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/annotation-kotlin.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/annotation-kotlin.svg",
+        "gitBlob": "b74824201fcdc7e3956815eed1611f19d9556428",
+        "sha256": "919ae88fb766d6a6e83322f2869ff7f8ee1ed7eb0b75e387f6e13a51e82819a5"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/annotation.svg",
+      "sha256": "9c0f1832359992aacb494e6d5888f41226c07e6aeb999bfcd286140309e66448",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/annotation.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/annotation.svg",
+        "gitBlob": "76c2f4bb9081a23e49c6b64059ed5b0e23b2223a",
+        "sha256": "9c0f1832359992aacb494e6d5888f41226c07e6aeb999bfcd286140309e66448"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/arrow-down.svg",
+      "sha256": "6cc546f26789d9dba2c213dcdb3c725d87fb2d55ea9863dba0b78fe6f4c49421",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/arrow-down.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/arrow-down.svg",
+        "gitBlob": "ca54658d3c7fa6595174156feca2c6b50cb35ec9",
+        "sha256": "6cc546f26789d9dba2c213dcdb3c725d87fb2d55ea9863dba0b78fe6f4c49421"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/burger.svg",
+      "sha256": "b79bd74b243bf41d9d1ace6d2da1a3ed296676b74a48679f11247cf185896019",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/burger.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/burger.svg",
+        "gitBlob": "a26f194dc4926e4fd3f9ba69c7115e259868d532",
+        "sha256": "b79bd74b243bf41d9d1ace6d2da1a3ed296676b74a48679f11247cf185896019"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/check.svg",
+      "sha256": "3319f675d1a580ec0973543fb18b2f33e282d09988ff2efbc7cd82346b6eacf6",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/check.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/check.svg",
+        "gitBlob": "291e5eedd29d15ffba9c20b7a1572294965798f7",
+        "sha256": "3319f675d1a580ec0973543fb18b2f33e282d09988ff2efbc7cd82346b6eacf6"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/checkbox-off.svg",
+      "sha256": "a27b87197bd2b14ce5f8dc2e5b4bbb1cf15c32af043cc6c4505a1c981dc9288b",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/checkbox-off.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/checkbox-off.svg",
+        "gitBlob": "a5117e8d9af10003b0a4cb12a9706fb2c2f7d72c",
+        "sha256": "a27b87197bd2b14ce5f8dc2e5b4bbb1cf15c32af043cc6c4505a1c981dc9288b"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/checkbox-on.svg",
+      "sha256": "2aaa4f9d864df773a27a35c3a3b61a51626114cb9b7606142e130dbe2ecb1d6c",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/checkbox-on.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/checkbox-on.svg",
+        "gitBlob": "71891d57ddffa4c9926f1a72964a97317e04dddf",
+        "sha256": "2aaa4f9d864df773a27a35c3a3b61a51626114cb9b7606142e130dbe2ecb1d6c"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/class-kotlin.svg",
+      "sha256": "21a098f0a5d9f11780d10c0ac86c85800ed347d0c361306550efea666e123fb7",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/class-kotlin.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/class-kotlin.svg",
+        "gitBlob": "dc23120aa267a4862986b801c18343c54a3f417f",
+        "sha256": "21a098f0a5d9f11780d10c0ac86c85800ed347d0c361306550efea666e123fb7"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/class.svg",
+      "sha256": "e66041ef0067938ed449e07d8edfeb4501339809c0cab740dbe7a1432fe506bc",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/class.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/class.svg",
+        "gitBlob": "2447cf78e123d0f5e4618e2c6ccacac1c6ab3c19",
+        "sha256": "e66041ef0067938ed449e07d8edfeb4501339809c0cab740dbe7a1432fe506bc"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/copy-icon.svg",
+      "sha256": "6a4f5c1adf7f6c05e54a1e2b0001c7b3e3e2baee5ddff1fabd385de13a3872aa",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/copy-icon.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/copy-icon.svg",
+        "gitBlob": "abeb27e59d8176ffa623a6e77a44b1b416b6c81d",
+        "sha256": "6a4f5c1adf7f6c05e54a1e2b0001c7b3e3e2baee5ddff1fabd385de13a3872aa"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/cross.svg",
+      "sha256": "559a5753a7883937c6a558ec8bffb1d7ecbbac9ba2edffcdd523af2277b92921",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/cross.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/cross.svg",
+        "gitBlob": "232069f85e9d204e9b880ab20049e1b718c4474b",
+        "sha256": "559a5753a7883937c6a558ec8bffb1d7ecbbac9ba2edffcdd523af2277b92921"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/enum-kotlin.svg",
+      "sha256": "d577b519295aacddbea3e5e13ae61c6958a67cadd1c0598b432487924ad3247d",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/enum-kotlin.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/enum-kotlin.svg",
+        "gitBlob": "207a0ef3b4142246e15edb0807e6622f2f7b3057",
+        "sha256": "d577b519295aacddbea3e5e13ae61c6958a67cadd1c0598b432487924ad3247d"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/enum.svg",
+      "sha256": "5bf84798cd605c31817a021a9d4a9fd59e69a98c280b59446c73a4e2e7107bc6",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/enum.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/enum.svg",
+        "gitBlob": "2deba5f1144e35f49a36fe8e2895c11c2267cd44",
+        "sha256": "5bf84798cd605c31817a021a9d4a9fd59e69a98c280b59446c73a4e2e7107bc6"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/exception-class.svg",
+      "sha256": "f5661bfcf84c0c2bdec9445eae8eff45527246ce85c532f1b687be560385534a",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/exception-class.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/exception-class.svg",
+        "gitBlob": "1bb4f88e91b297b23a895654ee6f63ba498d8913",
+        "sha256": "f5661bfcf84c0c2bdec9445eae8eff45527246ce85c532f1b687be560385534a"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/field-value.svg",
+      "sha256": "abfe987bb0221ffbc3ecdd6600c0f4dabb22784d863c69e9c9ca1cbe6f25760d",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/field-value.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/field-value.svg",
+        "gitBlob": "3aa75be3ed994ac0ccd5a3579a79e409244c5468",
+        "sha256": "abfe987bb0221ffbc3ecdd6600c0f4dabb22784d863c69e9c9ca1cbe6f25760d"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/field-variable.svg",
+      "sha256": "686c4a2496ae22cbf54bbfd86116d2bd7c2f033431085d444093dde2f2573397",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/field-variable.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/field-variable.svg",
+        "gitBlob": "7a8af50945dc8fdee88409af4b3bf468999337ab",
+        "sha256": "686c4a2496ae22cbf54bbfd86116d2bd7c2f033431085d444093dde2f2573397"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/filter.svg",
+      "sha256": "41b5c0f55584549567cb2e519962d0887d5a5829c8a2802ea36716d048dc0947",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/filter.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/filter.svg",
+        "gitBlob": "be62ea5bf3165e005946059a784678293dac3c70",
+        "sha256": "41b5c0f55584549567cb2e519962d0887d5a5829c8a2802ea36716d048dc0947"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/function.svg",
+      "sha256": "c532e3930dedac4ec39a56e000f22db3347cc7c18e75052d93f79d05553a6d15",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/function.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/function.svg",
+        "gitBlob": "e56a41753239f36620c3c34b85355d6a62bf37db",
+        "sha256": "c532e3930dedac4ec39a56e000f22db3347cc7c18e75052d93f79d05553a6d15"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/go-to-top-icon.svg",
+      "sha256": "454df7fc60f0b5d784694673a64ab5d7a3f65c1c86aa1b073e65ddd292050005",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/go-to-top-icon.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/go-to-top-icon.svg",
+        "gitBlob": "62df4c7d57214a1b8669b2cdb64fdae3f4fde603",
+        "sha256": "454df7fc60f0b5d784694673a64ab5d7a3f65c1c86aa1b073e65ddd292050005"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/homepage.svg",
+      "sha256": "2fb54d7e36761158ab32b8ab799df1c4d6ce75bc2cabe6e914447c5dc8151cd0",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/homepage.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/homepage.svg",
+        "gitBlob": "9a8927a40a08ab44aff51be3bec4af79a0dc03bc",
+        "sha256": "2fb54d7e36761158ab32b8ab799df1c4d6ce75bc2cabe6e914447c5dc8151cd0"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/interface-kotlin.svg",
+      "sha256": "7e8be25ac89b401313870933effaa94f71f1d2b19c1c4e65efe4e87520c14b96",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/interface-kotlin.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/interface-kotlin.svg",
+        "gitBlob": "e5273f0506c0b49c35e02a8d73e485127c4d4e69",
+        "sha256": "7e8be25ac89b401313870933effaa94f71f1d2b19c1c4e65efe4e87520c14b96"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/interface.svg",
+      "sha256": "8d844af23e934361de48c01f6dd1b2bde773dbbe561f2cfec4186c369c2b65da",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/interface.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/interface.svg",
+        "gitBlob": "0637028747c4d8d5251dc449762a63020ca23f84",
+        "sha256": "8d844af23e934361de48c01f6dd1b2bde773dbbe561f2cfec4186c369c2b65da"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/logo-icon.svg",
+      "sha256": "18a49da3650ef7b109429e8cd4309835194a6c3da3df3f272d6bb45e14a1014a",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/logo-icon.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/logo-icon.svg",
+        "gitBlob": "ea6f37ed06664fc8697e895490813ff98a75782d",
+        "sha256": "18a49da3650ef7b109429e8cd4309835194a6c3da3df3f272d6bb45e14a1014a"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/object.svg",
+      "sha256": "6d81202d2f95e92c8607c15561150483aa3d1817999a9441c37508b1c7337852",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/object.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/object.svg",
+        "gitBlob": "5f960b7425fa13d531978e9b2a514177f6b2ce25",
+        "sha256": "6d81202d2f95e92c8607c15561150483aa3d1817999a9441c37508b1c7337852"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/placeholder.svg",
+      "sha256": "80cfd7f3197048179a50bd727991e285a7415b4abf4c7232206e98744b2581fb",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/placeholder.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/placeholder.svg",
+        "gitBlob": "e8129621d28d6a88388970f00a04da197e07845b",
+        "sha256": "80cfd7f3197048179a50bd727991e285a7415b4abf4c7232206e98744b2581fb"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/success-icon.svg",
+      "sha256": "4e1d279363b9d349b1350be1ad5f491a4e0ab5f52a3c0446cb7c0d938c96dfd2",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/success-icon.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/success-icon.svg",
+        "gitBlob": "76945ebed67c099c2b0022e0229719a264647aad",
+        "sha256": "4e1d279363b9d349b1350be1ad5f491a4e0ab5f52a3c0446cb7c0d938c96dfd2"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/theme-toggle.svg",
+      "sha256": "3ca0aa1da0d7c6ed1857ce8d4ead97a953c71535199461f48abbcf64f9548ecd",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/theme-toggle.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/theme-toggle.svg",
+        "gitBlob": "490263f39136ba58160b6b8f0c83521e2b5ea44e",
+        "sha256": "3ca0aa1da0d7c6ed1857ce8d4ead97a953c71535199461f48abbcf64f9548ecd"
+      }
+    },
+    {
+      "path": "api/kdoc-api/images/typealias-kotlin.svg",
+      "sha256": "ce6831cdce871bc7e9e9de90e7bab52c84d3d824a719929b97e42b514aae9764",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/images/typealias-kotlin.svg",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/images/typealias-kotlin.svg",
+        "gitBlob": "73a08851e0e4ecd246e4f949fac6cec3899b4b57",
+        "sha256": "ce6831cdce871bc7e9e9de90e7bab52c84d3d824a719929b97e42b514aae9764"
+      }
+    },
+    {
+      "path": "api/kdoc-api/package-list",
+      "sha256": "054e6a8bd54e7c26c1a6b6c2104a4c3deef6acc2c9f81914199688aeb13fc0b3",
+      "components": [
+        "dokka",
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/kdoc-api/scripts/main.js",
+      "sha256": "f67b38f8e9805d566f137a37a95e2622aa7eb018ae24ddafdf3c7e05f9eed84e",
+      "components": [
+        "dokka",
+        "@babel/runtime@7.27.1",
+        "@jetbrains/icons@3.24.0",
+        "@jetbrains/ring-ui@5.1.28",
+        "css-loader@6.11.0",
+        "style-loader@3.3.4",
+        "array-buffer-byte-length@1.0.2",
+        "available-typed-arrays@1.0.7",
+        "call-bind@1.0.8",
+        "call-bind-apply-helpers@1.0.2",
+        "call-bound@1.0.4",
+        "classnames@2.5.1",
+        "clsx@1.2.1",
+        "combokeys@3.0.1",
+        "core-js@3.42.0",
+        "deep-equal@2.2.3",
+        "define-data-property@1.1.4",
+        "define-properties@1.2.1",
+        "dom-helpers@5.2.1",
+        "dunder-proto@1.0.1",
+        "es-define-property@1.0.1",
+        "es-errors@1.3.0",
+        "es-get-iterator@1.1.3",
+        "es-object-atoms@1.1.1",
+        "for-each@0.3.5",
+        "function-bind@1.1.2",
+        "functions-have-names@1.2.3",
+        "get-intrinsic@1.3.0",
+        "get-proto@1.0.1",
+        "gopd@1.2.0",
+        "has-bigints@1.1.0",
+        "has-property-descriptors@1.0.2",
+        "has-symbols@1.1.0",
+        "has-tostringtag@1.0.2",
+        "hasown@2.0.2",
+        "internal-slot@1.1.0",
+        "is-arguments@1.2.0",
+        "is-array-buffer@3.0.5",
+        "is-bigint@1.1.0",
+        "is-boolean-object@1.2.2",
+        "is-callable@1.2.7",
+        "is-date-object@1.1.0",
+        "is-map@2.0.3",
+        "is-number-object@1.1.1",
+        "is-regex@1.2.1",
+        "is-set@2.0.3",
+        "is-shared-array-buffer@1.0.4",
+        "is-string@1.1.1",
+        "is-symbol@1.1.1",
+        "is-weakmap@2.0.2",
+        "is-weakset@2.0.4",
+        "isarray@2.0.5",
+        "math-intrinsics@1.1.0",
+        "memoize-one@6.0.0",
+        "object-assign@4.1.1",
+        "object-inspect@1.13.4",
+        "object-is@1.1.6",
+        "object-keys@1.1.1",
+        "object.assign@4.1.7",
+        "possible-typed-array-names@1.1.0",
+        "prop-types@15.8.1",
+        "react@17.0.2",
+        "react-dom@17.0.2",
+        "react-lifecycles-compat@3.0.4",
+        "react-virtualized@9.22.6",
+        "regexp.prototype.flags@1.5.4",
+        "safe-regex-test@1.1.0",
+        "scheduler@0.20.2",
+        "set-function-length@1.2.2",
+        "set-function-name@2.0.2",
+        "side-channel@1.1.0",
+        "side-channel-list@1.0.0",
+        "side-channel-map@1.0.1",
+        "side-channel-weakmap@1.0.2",
+        "sniffr@1.3.2",
+        "stop-iteration-iterator@1.1.0",
+        "util-deprecate@1.0.2",
+        "which-boxed-primitive@1.1.1",
+        "which-collection@1.0.2",
+        "which-typed-array@1.1.19"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/kdoc-api/scripts/navigation-loader.js",
+      "sha256": "10880a206be17a3f5f2bb61af7fb2c83ba2ef1939477870badb08e02c3062868",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/scripts/navigation-loader.js",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/scripts/navigation-loader.js",
+        "gitBlob": "7e274e4efc6121b30dc312b6c2456d5528917095",
+        "sha256": "10880a206be17a3f5f2bb61af7fb2c83ba2ef1939477870badb08e02c3062868"
+      }
+    },
+    {
+      "path": "api/kdoc-api/scripts/pages.json",
+      "sha256": "106787d5d57b1795307a4fc966fb5af62d54668496ca5d75df211fbb44aca449",
+      "components": [
+        "dokka",
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/kdoc-api/scripts/platform-content-handler.js",
+      "sha256": "3cbee42a104fcf59dcaf047b331717044fa19f61d603c6d960757b3618e3ca7a",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/scripts/platform-content-handler.js",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/scripts/platform-content-handler.js",
+        "gitBlob": "44e72311378ce0faad919e45d527162e51ca6c0d",
+        "sha256": "3cbee42a104fcf59dcaf047b331717044fa19f61d603c6d960757b3618e3ca7a"
+      }
+    },
+    {
+      "path": "api/kdoc-api/scripts/prism.js",
+      "sha256": "73995d49b765f3938d508a956eba6f74fead5133b78c2a351f6da226c8b93290",
+      "components": [
+        "dokka",
+        "prism"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/scripts/prism.js",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/scripts/prism.js",
+        "gitBlob": "0742362647a9ef36a5a317ec2b0de2429b0fecc4",
+        "sha256": "73995d49b765f3938d508a956eba6f74fead5133b78c2a351f6da226c8b93290"
+      }
+    },
+    {
+      "path": "api/kdoc-api/scripts/safe-local-storage_blocking.js",
+      "sha256": "259d21ed2a2d01a0cb5ae9fb1fcc4ec0851c8950e19994f29aeb745b03bad294",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/scripts/safe-local-storage_blocking.js",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/scripts/safe-local-storage_blocking.js",
+        "gitBlob": "26e84f925fedca3c4610ed81e8b7b6003b0c101d",
+        "sha256": "259d21ed2a2d01a0cb5ae9fb1fcc4ec0851c8950e19994f29aeb745b03bad294"
+      }
+    },
+    {
+      "path": "api/kdoc-api/scripts/sourceset_dependencies.js",
+      "sha256": "04327ededee79eb72b1bab7d60ec7557b500331b87465e416d7969e82a5286f4",
+      "components": [
+        "dokka",
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/kdoc-api/styles/logo-styles.css",
+      "sha256": "f3a637c37807b399420f46ecce5f4f905de092f979031e4771b7f57ccf836a26",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/styles/logo-styles.css",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/styles/logo-styles.css",
+        "gitBlob": "8281d5ca63b53e160279f475e4cd7ba749ff4404",
+        "sha256": "f3a637c37807b399420f46ecce5f4f905de092f979031e4771b7f57ccf836a26"
+      }
+    },
+    {
+      "path": "api/kdoc-api/styles/main.css",
+      "sha256": "cda28c3c2238ada240a128be569b05c863a51d0c5ef489650d9a6b293edfd250",
+      "components": [
+        "dokka",
+        "@babel/runtime@7.27.1",
+        "@jetbrains/icons@3.24.0",
+        "@jetbrains/ring-ui@5.1.28",
+        "css-loader@6.11.0",
+        "style-loader@3.3.4",
+        "array-buffer-byte-length@1.0.2",
+        "available-typed-arrays@1.0.7",
+        "call-bind@1.0.8",
+        "call-bind-apply-helpers@1.0.2",
+        "call-bound@1.0.4",
+        "classnames@2.5.1",
+        "clsx@1.2.1",
+        "combokeys@3.0.1",
+        "core-js@3.42.0",
+        "deep-equal@2.2.3",
+        "define-data-property@1.1.4",
+        "define-properties@1.2.1",
+        "dom-helpers@5.2.1",
+        "dunder-proto@1.0.1",
+        "es-define-property@1.0.1",
+        "es-errors@1.3.0",
+        "es-get-iterator@1.1.3",
+        "es-object-atoms@1.1.1",
+        "for-each@0.3.5",
+        "function-bind@1.1.2",
+        "functions-have-names@1.2.3",
+        "get-intrinsic@1.3.0",
+        "get-proto@1.0.1",
+        "gopd@1.2.0",
+        "has-bigints@1.1.0",
+        "has-property-descriptors@1.0.2",
+        "has-symbols@1.1.0",
+        "has-tostringtag@1.0.2",
+        "hasown@2.0.2",
+        "internal-slot@1.1.0",
+        "is-arguments@1.2.0",
+        "is-array-buffer@3.0.5",
+        "is-bigint@1.1.0",
+        "is-boolean-object@1.2.2",
+        "is-callable@1.2.7",
+        "is-date-object@1.1.0",
+        "is-map@2.0.3",
+        "is-number-object@1.1.1",
+        "is-regex@1.2.1",
+        "is-set@2.0.3",
+        "is-shared-array-buffer@1.0.4",
+        "is-string@1.1.1",
+        "is-symbol@1.1.1",
+        "is-weakmap@2.0.2",
+        "is-weakset@2.0.4",
+        "isarray@2.0.5",
+        "math-intrinsics@1.1.0",
+        "memoize-one@6.0.0",
+        "object-assign@4.1.1",
+        "object-inspect@1.13.4",
+        "object-is@1.1.6",
+        "object-keys@1.1.1",
+        "object.assign@4.1.7",
+        "possible-typed-array-names@1.1.0",
+        "prop-types@15.8.1",
+        "react@17.0.2",
+        "react-dom@17.0.2",
+        "react-lifecycles-compat@3.0.4",
+        "react-virtualized@9.22.6",
+        "regexp.prototype.flags@1.5.4",
+        "safe-regex-test@1.1.0",
+        "scheduler@0.20.2",
+        "set-function-length@1.2.2",
+        "set-function-name@2.0.2",
+        "side-channel@1.1.0",
+        "side-channel-list@1.0.0",
+        "side-channel-map@1.0.1",
+        "side-channel-weakmap@1.0.2",
+        "sniffr@1.3.2",
+        "stop-iteration-iterator@1.1.0",
+        "util-deprecate@1.0.2",
+        "which-boxed-primitive@1.1.1",
+        "which-collection@1.0.2",
+        "which-typed-array@1.1.19"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "api/kdoc-api/styles/prism.css",
+      "sha256": "40bff4d1711e9246cba3719abfc4bb54f50be4d36335628e1f91c5826669c7ec",
+      "components": [
+        "dokka",
+        "prism"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/styles/prism.css",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/styles/prism.css",
+        "gitBlob": "f160ebb9e0c9212feed1f7d6cabed928c7e35706",
+        "sha256": "40bff4d1711e9246cba3719abfc4bb54f50be4d36335628e1f91c5826669c7ec"
+      }
+    },
+    {
+      "path": "api/kdoc-api/styles/style.css",
+      "sha256": "9e1b9e0da201052722ddfb9fb1aec319b51b6a452f1e9a15015ab7e292becbc7",
+      "components": [
+        "dokka"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/styles/style.css",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/styles/style.css",
+        "gitBlob": "a5762e4c27a9c072ca04f301245aca1db29ba189",
+        "sha256": "9e1b9e0da201052722ddfb9fb1aec319b51b6a452f1e9a15015ab7e292becbc7"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/fonts/inter-latin-400-italic.woff",
+      "sha256": "d888301b30fa6a5092ff7c868c22f5efde1b85aa9b4bb8a7bdd5484645d3f6c9",
+      "components": [
+        "@fontsource/inter@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/fonts/inter-latin-400-italic.woff",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/fonts/inter-latin-400-italic.woff",
+        "gitBlob": "131b25952c172054519ba95573b1199b33dc503e",
+        "sha256": "d888301b30fa6a5092ff7c868c22f5efde1b85aa9b4bb8a7bdd5484645d3f6c9"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/fonts/inter-latin-400-italic.woff2",
+      "sha256": "9597029649a66e17e8c8038da497d94e4f57cccd7a4097f7a78bcb0c221a413e",
+      "components": [
+        "@fontsource/inter@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/fonts/inter-latin-400-italic.woff2",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/fonts/inter-latin-400-italic.woff2",
+        "gitBlob": "ec07ef7dd6bb53bcbdeeb5da6a9b468d1bb191c5",
+        "sha256": "9597029649a66e17e8c8038da497d94e4f57cccd7a4097f7a78bcb0c221a413e"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/fonts/inter-latin-400-normal.woff",
+      "sha256": "31656ddbb58d39790f910df827596106a5d91ce80dd4309a6aad91e08a90f9e4",
+      "components": [
+        "@fontsource/inter@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/fonts/inter-latin-400-normal.woff",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/fonts/inter-latin-400-normal.woff",
+        "gitBlob": "2468d6f0271a9c53f55e46f7557cad69ec7cbb87",
+        "sha256": "31656ddbb58d39790f910df827596106a5d91ce80dd4309a6aad91e08a90f9e4"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/fonts/inter-latin-400-normal.woff2",
+      "sha256": "dd05e326cf8eac3b55acecf29c842ed73e6e6dd06491cf47f7e8800680ab3e33",
+      "components": [
+        "@fontsource/inter@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/fonts/inter-latin-400-normal.woff2",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/fonts/inter-latin-400-normal.woff2",
+        "gitBlob": "33002f12853a3d37d7b7eba39623fae3bca94a3b",
+        "sha256": "dd05e326cf8eac3b55acecf29c842ed73e6e6dd06491cf47f7e8800680ab3e33"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/fonts/inter-latin-600-normal.woff",
+      "sha256": "a96e5ee7ab248008e5e6cc92dd561eceb892d19a10a537aa1b2e64f979351add",
+      "components": [
+        "@fontsource/inter@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/fonts/inter-latin-600-normal.woff",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/fonts/inter-latin-600-normal.woff",
+        "gitBlob": "71a902b54882ff6cf09fdb75fdd595dc13b8ed2e",
+        "sha256": "a96e5ee7ab248008e5e6cc92dd561eceb892d19a10a537aa1b2e64f979351add"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/fonts/inter-latin-600-normal.woff2",
+      "sha256": "62553d159189834af73c9a6264704be5b2bee9a08da66a14768d8e5c6ffd2cdb",
+      "components": [
+        "@fontsource/inter@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/fonts/inter-latin-600-normal.woff2",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/fonts/inter-latin-600-normal.woff2",
+        "gitBlob": "fb50a02b2af82000d87d8c8b8161aa254b3b1593",
+        "sha256": "62553d159189834af73c9a6264704be5b2bee9a08da66a14768d8e5c6ffd2cdb"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/fonts/jetbrains-mono-latin-400-normal.woff",
+      "sha256": "1344bb9acc1eb3f3fd41088bb76d34ae9e1f78cb9e257071e95299dd2141b864",
+      "components": [
+        "@fontsource/jetbrains-mono@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/fonts/jetbrains-mono-latin-400-normal.woff",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/fonts/jetbrains-mono-latin-400-normal.woff",
+        "gitBlob": "2a9fff0e7c88219a3b3928ff50772d2b95f3adf3",
+        "sha256": "1344bb9acc1eb3f3fd41088bb76d34ae9e1f78cb9e257071e95299dd2141b864"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/fonts/jetbrains-mono-latin-400-normal.woff2",
+      "sha256": "14425ba9c695763c1547f48a206b7aa60350a33ae23de09f0407877f3fcd89eb",
+      "components": [
+        "@fontsource/jetbrains-mono@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/fonts/jetbrains-mono-latin-400-normal.woff2",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/fonts/jetbrains-mono-latin-400-normal.woff2",
+        "gitBlob": "585887339efd032b6b715466ae72d86e306bec79",
+        "sha256": "14425ba9c695763c1547f48a206b7aa60350a33ae23de09f0407877f3fcd89eb"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/fonts/jetbrains-mono-latin-600-normal.woff",
+      "sha256": "51cf3db5220703ac0b68e2620e9eece2182666a528dd42bda7e9b06f53c4c2eb",
+      "components": [
+        "@fontsource/jetbrains-mono@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/fonts/jetbrains-mono-latin-600-normal.woff",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/fonts/jetbrains-mono-latin-600-normal.woff",
+        "gitBlob": "23e642dacc550370b3844f5622c6a494b0a9ba7c",
+        "sha256": "51cf3db5220703ac0b68e2620e9eece2182666a528dd42bda7e9b06f53c4c2eb"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/fonts/jetbrains-mono-latin-600-normal.woff2",
+      "sha256": "400c6bfda18d5d14acad1c15d6dcb9f8e13c015e7286317e0b9a482539bef147",
+      "components": [
+        "@fontsource/jetbrains-mono@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/fonts/jetbrains-mono-latin-600-normal.woff2",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/fonts/jetbrains-mono-latin-600-normal.woff2",
+        "gitBlob": "59c24e7cb8bdff26638068aac0afff3dcbe9b2c1",
+        "sha256": "400c6bfda18d5d14acad1c15d6dcb9f8e13c015e7286317e0b9a482539bef147"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/ui-kit.min.css",
+      "sha256": "a97a939f4d3abfce0f31bebf3d8683818b646925cf1a1fa2d2fd0d44960abc36",
+      "components": [
+        "dokka",
+        "@column-resizer/core@1.4.0",
+        "@fontsource/inter@5.2.5",
+        "@fontsource/jetbrains-mono@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/ui-kit.min.css",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/ui-kit.min.css",
+        "gitBlob": "84756531fc005e9093e070e6234fc2a7e96a5bf1",
+        "sha256": "a97a939f4d3abfce0f31bebf3d8683818b646925cf1a1fa2d2fd0d44960abc36"
+      }
+    },
+    {
+      "path": "api/kdoc-api/ui-kit/ui-kit.min.js",
+      "sha256": "850086e62c237c4137fb8cbda71662c3dabe886b4507cd862164bfe69103c914",
+      "components": [
+        "dokka",
+        "@column-resizer/core@1.4.0",
+        "@fontsource/inter@5.2.5",
+        "@fontsource/jetbrains-mono@5.2.5"
+      ],
+      "provenance": {
+        "file": "api/kdoc-api/ui-kit/ui-kit.min.js",
+        "source": "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/ui-kit.min.js",
+        "gitBlob": "5149af67693381261787f7cd51636cb3b67711cc",
+        "sha256": "850086e62c237c4137fb8cbda71662c3dabe886b4507cd862164bfe69103c914"
+      }
+    },
+    {
+      "path": "licenses/SPRING-LICENSE.txt",
+      "sha256": "56dfc19e0dc836e30177332f73e8e6fbc297941acf3d906eec6eaaa46c2c452a",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "licenses/UPSTREAM-NOTICES.txt",
+      "sha256": "d4b5aa6ce0d8fd8afabca89d91d64906b984ad5da51fc0eeea6ae08ce9f2dfaa",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "offline.css",
+      "sha256": "5587b9195cc0a3df0d605767abd896320622c6924e33fd29d18e4c1dbdbf2670",
+      "components": [
+        "crux-adaptations"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/DataAccessException.png",
+      "sha256": "4abb799ea295640094f3406d944153a271ade3e6d21edfc99de1cf2a56bcc1fd",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/aop-proxy-call.png",
+      "sha256": "75529ca9b82b6727200be41efbfdd17425240e1aed5b5ac133ef0f0ad5c5db33",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/aop-proxy-plain-pojo-call.png",
+      "sha256": "c0c4080d40101d3b6e4950382b7cea940ecfe71ba8e89c0d39789d2e507c5794",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/container-magic.png",
+      "sha256": "9d84508648b70b695b6171a58b4971d4ad15c704b1aa23693562347e31303e30",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/message-flow-broker-relay.png",
+      "sha256": "9fcf79d97b1680aed43df6e4c96f542f06210fac29600163626bbee9f1a7d44f",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/message-flow-simple-broker.png",
+      "sha256": "b12fdc5f89f3832bb928d60039c77743c535c96942ac526e61a3001bb9a68657",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/mvc-context-hierarchy.png",
+      "sha256": "1f134475613145b0df594ac577bcc6c4aa67dbe1127e844c79f14342161785df",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/oxm-exceptions.png",
+      "sha256": "e5da5c29315fe0d2312d6f4fc90bcfeef399bece25d0ee2a19b833c654002082",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/prototype.png",
+      "sha256": "5a1356cce3475942dee1eb116fbcdbb5b2e0c3aa1f8c4646be1dda400146160e",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/singleton.png",
+      "sha256": "6765e461b36680cd59eafb4b40c70540b59f0ae87d4d9a3d92966e6f1a4be20f",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/spring-mvc-and-webflux-venn.png",
+      "sha256": "c3a2fb550190265521e1aa6cb257ed8a565c91fd8df64aff4e0210261bf8677f",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/tx.png",
+      "sha256": "70d950490d0379b46478a38d7bc7038186c6ba7e989b4030d3c4459bd52b28b4",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/tx_prop_required.png",
+      "sha256": "3ffce23eb2f86ed368083795894a72b1a3ce6a736303d852cdba9ed21b944e53",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    },
+    {
+      "path": "reference/_images/tx_prop_requires_new.png",
+      "sha256": "aa28bd87b50eeb696e30f4d574af0b674010e940bc7d4c89605f8a90c58e0502",
+      "components": [
+        "spring"
+      ],
+      "provenance": {
+        "kind": "qualified-fixed-toolchain-output",
+        "releaseId": "fb06a87116d5875fb2ebadbc491963c6ee4942add833a6353e2476a7fd0446e9"
+      }
+    }
+  ],
+  "notices": [
+    {
+      "path": "DOKKA-LICENSE.txt",
+      "text": "Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,\n      and distribution as defined by Sections 1 through 9 of this document.\n\n      \"Licensor\" shall mean the copyright owner or entity authorized by\n      the copyright owner that is granting the License.\n\n      \"Legal Entity\" shall mean the union of the acting entity and all\n      other entities that control, are controlled by, or are under common\n      control with that entity. For the purposes of this definition,\n      \"control\" means (i) the power, direct or indirect, to cause the\n      direction or management of such entity, whether by contract or\n      otherwise, or (ii) ownership of fifty percent (50%) or more of the\n      outstanding shares, or (iii) beneficial ownership of such entity.\n\n      \"You\" (or \"Your\") shall mean an individual or Legal Entity\n      exercising permissions granted by this License.\n\n      \"Source\" form shall mean the preferred form for making modifications,\n      including but not limited to software source code, documentation\n      source, and configuration files.\n\n      \"Object\" form shall mean any form resulting from mechanical\n      transformation or translation of a Source form, including but\n      not limited to compiled object code, generated documentation,\n      and conversions to other media types.\n\n      \"Work\" shall mean the work of authorship, whether in Source or\n      Object form, made available under the License, as indicated by a\n      copyright notice that is included in or attached to the work\n      (an example is provided in the Appendix below).\n\n      \"Derivative Works\" shall mean any work, whether in Source or Object\n      form, that is based on (or derived from) the Work and for which the\n      editorial revisions, annotations, elaborations, or other modifications\n      represent, as a whole, an original work of authorship. For the purposes\n      of this License, Derivative Works shall not include works that remain\n      separable from, or merely link (or bind by name) to the interfaces of,\n      the Work and Derivative Works thereof.\n\n      \"Contribution\" shall mean any work of authorship, including\n      the original version of the Work and any modifications or additions\n      to that Work or Derivative Works thereof, that is intentionally\n      submitted to Licensor for inclusion in the Work by the copyright owner\n      or by an individual or Legal Entity authorized to submit on behalf of\n      the copyright owner. For the purposes of this definition, \"submitted\"\n      means any form of electronic, verbal, or written communication sent\n      to the Licensor or its representatives, including but not limited to\n      communication on electronic mailing lists, source code control systems,\n      and issue tracking systems that are managed by, or on behalf of, the\n      Licensor for the purpose of discussing and improving the Work, but\n      excluding communication that is conspicuously marked or otherwise\n      designated in writing by the copyright owner as \"Not a Contribution.\"\n\n      \"Contributor\" shall mean Licensor and any individual or Legal Entity\n      on behalf of whom a Contribution has been received by Licensor and\n      subsequently incorporated within the Work.\n\n   2. Grant of Copyright License. Subject to the terms and conditions of\n      this License, each Contributor hereby grants to You a perpetual,\n      worldwide, non-exclusive, no-charge, royalty-free, irrevocable\n      copyright license to reproduce, prepare Derivative Works of,\n      publicly display, publicly perform, sublicense, and distribute the\n      Work and such Derivative Works in Source or Object form.\n\n   3. Grant of Patent License. Subject to the terms and conditions of\n      this License, each Contributor hereby grants to You a perpetual,\n      worldwide, non-exclusive, no-charge, royalty-free, irrevocable\n      (except as stated in this section) patent license to make, have made,\n      use, offer to sell, sell, import, and otherwise transfer the Work,\n      where such license applies only to those patent claims licensable\n      by such Contributor that are necessarily infringed by their\n      Contribution(s) alone or by combination of their Contribution(s)\n      with the Work to which such Contribution(s) was submitted. If You\n      institute patent litigation against any entity (including a\n      cross-claim or counterclaim in a lawsuit) alleging that the Work\n      or a Contribution incorporated within the Work constitutes direct\n      or contributory patent infringement, then any patent licenses\n      granted to You under this License for that Work shall terminate\n      as of the date such litigation is filed.\n\n   4. Redistribution. You may reproduce and distribute copies of the\n      Work or Derivative Works thereof in any medium, with or without\n      modifications, and in Source or Object form, provided that You\n      meet the following conditions:\n\n      (a) You must give any other recipients of the Work or\n          Derivative Works a copy of this License; and\n\n      (b) You must cause any modified files to carry prominent notices\n          stating that You changed the files; and\n\n      (c) You must retain, in the Source form of any Derivative Works\n          that You distribute, all copyright, patent, trademark, and\n          attribution notices from the Source form of the Work,\n          excluding those notices that do not pertain to any part of\n          the Derivative Works; and\n\n      (d) If the Work includes a \"NOTICE\" text file as part of its\n          distribution, then any Derivative Works that You distribute must\n          include a readable copy of the attribution notices contained\n          within such NOTICE file, excluding those notices that do not\n          pertain to any part of the Derivative Works, in at least one\n          of the following places: within a NOTICE text file distributed\n          as part of the Derivative Works; within the Source form or\n          documentation, if provided along with the Derivative Works; or,\n          within a display generated by the Derivative Works, if and\n          wherever such third-party notices normally appear. The contents\n          of the NOTICE file are for informational purposes only and\n          do not modify the License. You may add Your own attribution\n          notices within Derivative Works that You distribute, alongside\n          or as an addendum to the NOTICE text from the Work, provided\n          that such additional attribution notices cannot be construed\n          as modifying the License.\n\n      You may add Your own copyright statement to Your modifications and\n      may provide additional or different license terms and conditions\n      for use, reproduction, or distribution of Your modifications, or\n      for any such Derivative Works as a whole, provided Your use,\n      reproduction, and distribution of the Work otherwise complies with\n      the conditions stated in this License.\n\n   5. Submission of Contributions. Unless You explicitly state otherwise,\n      any Contribution intentionally submitted for inclusion in the Work\n      by You to the Licensor shall be under the terms and conditions of\n      this License, without any additional terms or conditions.\n      Notwithstanding the above, nothing herein shall supersede or modify\n      the terms of any separate license agreement you may have executed\n      with Licensor regarding such Contributions.\n\n   6. Trademarks. This License does not grant permission to use the trade\n      names, trademarks, service marks, or product names of the Licensor,\n      except as required for reasonable and customary use in describing the\n      origin of the Work and reproducing the content of the NOTICE file.\n\n   7. Disclaimer of Warranty. Unless required by applicable law or\n      agreed to in writing, Licensor provides the Work (and each\n      Contributor provides its Contributions) on an \"AS IS\" BASIS,\n      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or\n      implied, including, without limitation, any warranties or conditions\n      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A\n      PARTICULAR PURPOSE. You are solely responsible for determining the\n      appropriateness of using or redistributing the Work and assume any\n      risks associated with Your exercise of permissions under this License.\n\n   8. Limitation of Liability. In no event and under no legal theory,\n      whether in tort (including negligence), contract, or otherwise,\n      unless required by applicable law (such as deliberate and grossly\n      negligent acts) or agreed to in writing, shall any Contributor be\n      liable to You for damages, including any direct, indirect, special,\n      incidental, or consequential damages of any character arising as a\n      result of this License or out of the use or inability to use the\n      Work (including but not limited to damages for loss of goodwill,\n      work stoppage, computer failure or malfunction, or any and all\n      other commercial damages or losses), even if such Contributor\n      has been advised of the possibility of such damages.\n\n   9. Accepting Warranty or Additional Liability. While redistributing\n      the Work or Derivative Works thereof, You may choose to offer,\n      and charge a fee for, acceptance of support, warranty, indemnity,\n      or other liability obligations and/or rights consistent with this\n      License. However, in accepting such obligations, You may act only\n      on Your own behalf and on Your sole responsibility, not on behalf\n      of any other Contributor, and only if You agree to indemnify,\n      defend, and hold each Contributor harmless for any liability\n      incurred by, or claims asserted against, such Contributor by reason\n      of your accepting any such warranty or additional liability.\n\n   END OF TERMS AND CONDITIONS\n\n   APPENDIX: How to apply the Apache License to your work.\n\n      To apply the Apache License to your work, attach the following\n      boilerplate notice, with the fields enclosed by brackets \"{}\"\n      replaced with your own identifying information. (Don't include\n      the brackets!)  The text should be enclosed in the appropriate\n      comment syntax for the file format. We also recommend that a\n      file or class name and description of purpose be included on the\n      same \"printed page\" as the copyright notice for easier\n      identification within third-party archives.\n\n   Copyright 2014-2019 JetBrains s.r.o. and Dokka project contributors.\n\n   Licensed under the Apache License, Version 2.0 (the \"License\");\n   you may not use this file except in compliance with the License.\n   You may obtain a copy of the License at\n\n       http://www.apache.org/licenses/LICENSE-2.0\n\n   Unless required by applicable law or agreed to in writing, software\n   distributed under the License is distributed on an \"AS IS\" BASIS,\n   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n   See the License for the specific language governing permissions and\n   limitations under the License.\n\n",
+      "sha256": "e230dcbf6df796df008e9a7fc916153458c6895814fcb761648ef289cf309673",
+      "source": "https://github.com/Kotlin/dokka/blob/905286d0d31f143bf0627656db1f14ea56fa42d3/LICENSE.txt"
+    },
+    {
+      "path": "DOKKA-NOTICE.txt",
+      "text": "=======================================================================================\n==  NOTICE file corresponding to the section 4 d of the Apache License, Version 2.0, ==\n==  in this case for the Dokka project.                                              ==\n=======================================================================================\n\nDokka project\nCopyright 2014-2024 JetBrains s.r.o\n",
+      "sha256": "c37577ee5a40d4f73e69e54e08220871263012983707d077dc7c48e480dc20f6",
+      "source": "https://github.com/Kotlin/dokka/blob/905286d0d31f143bf0627656db1f14ea56fa42d3/NOTICE.txt"
+    },
+    {
+      "path": "PRISM-LICENSE.txt",
+      "text": "MIT LICENSE\n\nCopyright (c) 2012 Lea Verou\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.\n",
+      "sha256": "2b947f0901a7ffcf08a89957da9783c0e9c6e72cb6ce8e959f501ab5409e4d2b",
+      "source": "https://raw.githubusercontent.com/PrismJS/prism/v1.29.0/LICENSE"
+    }
+  ]
+}
