@@ -24,6 +24,18 @@
       "version": "3.13.16",
       "releaseId": "68c25d4fce4b914da0afdb2cba827d2c7c12cd5aa0c6677da86e5a904d35185f",
       "revision": 1
+    },
+    {
+      "sourceId": "dev.crux",
+      "familyId": "python",
+      "variantId": "python-3-14-en",
+      "versionLine": "3.14",
+      "language": "en",
+      "identifier": "dev.crux.python",
+      "bundleName": "Python",
+      "version": "3.14.8",
+      "releaseId": "b8588672a0c2c9004fa96b5f14946c4de022e2ba9d2597036c3adc34fec98289",
+      "revision": 1
     }
   ],
   "records": [
