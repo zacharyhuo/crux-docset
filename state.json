@@ -82,6 +82,28 @@
       "channel": "stable",
       "support": "supported",
       "status": "published"
+    },
+    {
+      "sourceId": "dev.crux",
+      "familyId": "python",
+      "variantId": "python-3-14-en",
+      "versionLine": "3.14",
+      "language": "en",
+      "identifier": "dev.crux.python",
+      "bundleName": "Python",
+      "version": "3.14.8",
+      "releaseId": "b8588672a0c2c9004fa96b5f14946c4de022e2ba9d2597036c3adc34fec98289",
+      "title": "Python",
+      "revision": 1,
+      "artifact": {
+        "url": "https://github.com/zacharyhuo/crux-docset/releases/download/docset-python-3-14-en-3.14.8-r1-b8588672a0c2c9004fa96b5f14946c4de022e2ba9d2597036c3adc34fec98289/Python.tgz",
+        "sha256": "acb6cb04e123df604809c380d8d2059d3b2ce57d778c4623d018885cf70251a9",
+        "bytes": 12220348
+      },
+      "publishedAt": "2026-10-08T11:33:42.000Z",
+      "channel": "stable",
+      "support": "supported",
+      "status": "published"
     }
   ],
   "catalog": {
@@ -94,7 +116,7 @@
         "identifier": "dev.crux.python",
         "bundleName": "Python",
         "defaultVariantId": "python-3-14-en",
-        "latestReleaseId": "e3853dcd5b62a0efd251cf79670f780559d74a7e49d44059c6b1a99254d75548",
+        "latestReleaseId": "b8588672a0c2c9004fa96b5f14946c4de022e2ba9d2597036c3adc34fec98289",
         "releases": [
           {
             "releaseId": "68c25d4fce4b914da0afdb2cba827d2c7c12cd5aa0c6677da86e5a904d35185f",
@@ -110,6 +132,23 @@
               "bytes": 11532698
             },
             "publishedAt": "2026-10-06T11:00:28.000Z",
+            "channel": "stable",
+            "support": "supported"
+          },
+          {
+            "releaseId": "b8588672a0c2c9004fa96b5f14946c4de022e2ba9d2597036c3adc34fec98289",
+            "variantId": "python-3-14-en",
+            "versionLine": "3.14",
+            "language": "en",
+            "version": "3.14.8",
+            "revision": 1,
+            "identifier": "dev.crux.python",
+            "artifact": {
+              "url": "https://github.com/zacharyhuo/crux-docset/releases/download/docset-python-3-14-en-3.14.8-r1-b8588672a0c2c9004fa96b5f14946c4de022e2ba9d2597036c3adc34fec98289/Python.tgz",
+              "sha256": "acb6cb04e123df604809c380d8d2059d3b2ce57d778c4623d018885cf70251a9",
+              "bytes": 12220348
+            },
+            "publishedAt": "2026-10-08T11:33:42.000Z",
             "channel": "stable",
             "support": "supported"
           },
