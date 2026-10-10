@@ -1,17 +1,22 @@
 # crux-docset
 
-Crux 独立 docset 供应仓库。Node.js CLI、Python 官方文档构建、验证和 GitHub Release 发布流程已在 `main` 跑通；仓库当前仍为 private。
+Crux 独立 docset 供应仓库。Node.js CLI、Python 官方文档构建、验证和 GitHub Release 发布流程已有实现与 `main` 私有发布记录。公开匿名下载仍待验收，仓库当前仍为 private。
 
 负责 recipe、构建 adapter、许可证记录、质量测试、上游变更检测、版本锁定与自动发布。
 
-- [Docset 生产可行性](docs/research/DOCSET-FEASIBILITY.zh-CN.md)
-- [Recipe 与自动更新设计](docs/design/RECIPE-AUTOMATION.zh-CN.md)
-- [调研来源](docs/research/SOURCES.md)
-- [第一阶段：运行、验收与尚未完成的边界](docs/PHASE1.md)
-- [MDN 三页原生生成实验](docs/experiments/MDN-PHASE1.md)
-- [后端服务仓库](../crux-server/README.md)
+- [Crux 消费协议](contracts/crux-consumer.md)：版本化目录、不可变产物、完整性校验与公开验收边界。
+- [Python 发布与恢复](publication/README.md)：现有 main 发布流程、权限与中断恢复。
+- [Recipe 配置](recipes/python/recipe.json)与[发布政策](publication/python.json)：当前默认 Python 供应线。
+- [Spring 构建工具](tools/spring/README.md)：实验性本地构建与资格限制。
+- [Crux 客户端](https://github.com/zacharyhuo/Crux)与[后端服务仓库](https://github.com/zacharyhuo/crux-server)。
 
 Git 保存配方与小型元数据；生成的 `.tgz`、SQLite/HTML bundle 发布到 GitHub Releases 或对象存储。Recipe、adapter 与权限策略变更需人工评审，通过既定验证的常规内容更新由机器人发布。
+
+客户端已实现独立来源设置并通过隔离的原生 Beta 验收，默认 Crux 启用、Zeal 禁用。Crux 的
+`schemaVersion: 1` 目录与 Zeal 原始 JSON 数组分别使用独立协议；后者通过
+`/d/{sourceId}/{name}/latest` 获取压缩包，不能从版本标签推导精确版本供应。
+私有仓库需要认证，客户端、目录与 feed 都不能嵌入 token；服务端认证回读或 Beta 的本地 TLS
+中继验收不能替代公开匿名 HTTPS 验收。
 
 ## 开始
 
@@ -52,7 +57,10 @@ schema-2 状态将版本和指纹放在 `current.json` 的 `release` 中，旧 C
 
 `src/release-catalog.js` 提供 `makeReleaseCatalog(records, latestByFamily)` 和严格的 `validateReleaseCatalog(catalog)`。`latestByFamily` 的键为 `sourceId/familyId`，值为经审核的 releaseId；目录只含 `published` 条目，latest 必须指向默认供应线的 `supported` 稳定版本。历史条目可标记 `archived`，仍可显式下载，不自动推荐。候选/撤回条目不会进入可选列表；缺少有效 latest 会拒绝整个更新，不猜测替代版本。
 
-schemaVersion 1 契约夹具：`test/fixtures/version-catalog/v1.json`。其中版本和 `example.invalid` 地址仅用于协议测试，**不代表真实供应**。客户端对应文件为 `Crux/Packages/CruxCore/Tests/ContractFixtures/version-catalog-v1.json`；两份 SHA-256 均为 `097af598938773ab257a30b09640ce2d26b6ee0c84530053b24801db7d391586`。
+完整字段与选择规则见[消费协议](contracts/crux-consumer.md)。schemaVersion 1
+[契约夹具](test/fixtures/version-catalog/v1.json)中的版本和 `example.invalid` 地址仅用于协议测试，
+不代表真实供应。[客户端对应文件](https://github.com/zacharyhuo/Crux/blob/develop/v1/Packages/CruxCore/Tests/ContractFixtures/version-catalog-v1.json)
+应保持逐字节一致，两份 SHA-256 为 `097af598938773ab257a30b09640ce2d26b6ee0c84530053b24801db7d391586`。
 
 `src/published-store.js` 提供供独立 publisher 组装使用的本地持久状态 API：
 
@@ -79,7 +87,7 @@ SHA-256/字节数。公开仓库还验证无需凭据的下载地址；私有开
 回读同一资产，目录中不含 token 或临时签名参数。随后在一个 Git commit 中更新状态、catalog、feed
 和验证证据；失败时保留旧目录。无变化且已发布时跳过上传，上传中断可从新 runner 恢复。
 
-2026-10-06 已完成 main 上线验收：真实 Actions 发布了 Python 3.14.7 r1 和 3.13.16 r1，
+2026-10-06 的私有 main 发布验收记录：真实 Actions 发布了 Python 3.14.7 r1 和 3.13.16 r1，
 catalog/feed 位于 `docset-publication`；默认推荐仍为 3.14。相同输入重跑跳过 publisher，
 发布分支 head 和五个资产的 ID/摘要均未改变。仓库默认分支已设为 `main`，日更只供应默认线，
 手动运行可选择已审阅的 3.13/3.14。本机开发分支继续使用 `develop/v1`。
@@ -88,7 +96,9 @@ Beta 已从经过 SHA-256/字节数校验的真实 GitHub Release 包完成 HTTP
 固定旧版、损坏包拒绝及恢复验收。由于仓库 private，本次由 GitHub CLI 认证下载后交给本机
 TLS 中继；客户端未持有 token。这证明真实发布包可用，不代表公开地址的匿名 CDN 下载已验收。
 
-CLI/验证器使用 JS；doc2dash 仍是锁定的上游 Python 构建工具，不是自编 Python CLI。Java + Spring 后端保留在 `crux-server`，本阶段不需要常驻服务。
+CLI/验证器使用 JS；doc2dash 是锁定的上游 Python 构建工具。Java + Spring 后端属于
+`crux-server` 的规划，尚无服务实现，本阶段不需要常驻服务。本地生成 agent 也仍在客户端路线图中，
+现有 CLI builder 不代表 agent 已完成。
 
 ## 离线资产许可清单审计（独立检查）
 
@@ -134,5 +144,5 @@ Spring Framework 的官方图标与来源记录在 [Spring assets](recipes/sprin
 与固定资源清单一起纳入 builder 指纹；本地字节验证通过不等同于完整许可审核。
 
 Actions 的 PR/构建任务保持只读，`main` 上的独立 publisher job 使用 `contents: write`
-创建 Release 和提交供应目录；本阶段未增加其他技术栈的定时构建。跨仓库相对链接以三个
-仓库在同一父目录检出为前提。
+创建 Release 和提交供应目录；本阶段未增加其他技术栈的定时构建。客户端代码、生成文档、
+第三方测试夹具和图标各有自己的权利边界，Crux 的许可证调整不会改变本仓库或上游内容的条款。
