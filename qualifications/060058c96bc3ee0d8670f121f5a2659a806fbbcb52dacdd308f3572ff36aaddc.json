@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "060058c96bc3ee0d8670f121f5a2659a806fbbcb52dacdd308f3572ff36aaddc",
+  "version": "3.14.8",
+  "revision": 2,
+  "artifact": {
+    "sha256": "45be52ff432c9543feac57c113adeb1b60d80ea3c4496eacc994c686e6d16834",
+    "bytes": 12223689
+  },
+  "recipePolicy": "cd6390cff9ef8b6730518df88370390c95f7b19963ff8082dad2955875bfd5af",
+  "builderDigest": "174ce19f7fabf47aff88080c60f5654b4876cd78b34a8574c6308f823aab2e18",
+  "validationDigest": "f0b58e73f79486f46bebfcd958380eabd7b3c27f748fb5f7f6350cfa55a9855a",
+  "sourceLockDigest": "746f5e66f44a069e20d51adbf7bbc0e5e5f5ef76448305762ff83e4f71416e23",
+  "passed": true,
+  "report": {
+    "schemaVersion": 1,
+    "passed": true,
+    "errors": [],
+    "warnings": [],
+    "pageCount": 579,
+    "symbolCount": 16898,
+    "documentBytes": 68289264
+  }
+}
