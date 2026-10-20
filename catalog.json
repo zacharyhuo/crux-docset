@@ -8,7 +8,7 @@
       "identifier": "dev.crux.python",
       "bundleName": "Python",
       "defaultVariantId": "python-3-14-en",
-      "latestReleaseId": "060058c96bc3ee0d8670f121f5a2659a806fbbcb52dacdd308f3572ff36aaddc",
+      "latestReleaseId": "f9d3ef451ca52ec9cd8f0ffaba15d877865faf9498c30419ace49c6ff778a44b",
       "releases": [
         {
           "releaseId": "060058c96bc3ee0d8670f121f5a2659a806fbbcb52dacdd308f3572ff36aaddc",
@@ -75,6 +75,23 @@
             "bytes": 12167676
           },
           "publishedAt": "2026-10-06T10:53:11.000Z",
+          "channel": "stable",
+          "support": "supported"
+        },
+        {
+          "releaseId": "f9d3ef451ca52ec9cd8f0ffaba15d877865faf9498c30419ace49c6ff778a44b",
+          "variantId": "python-3-14-en",
+          "versionLine": "3.14",
+          "language": "en",
+          "version": "3.14.8",
+          "revision": 3,
+          "identifier": "dev.crux.python",
+          "artifact": {
+            "url": "https://github.com/zacharyhuo/crux-docset/releases/download/docset-python-3-14-en-3.14.8-r3-f9d3ef451ca52ec9cd8f0ffaba15d877865faf9498c30419ace49c6ff778a44b/Python.tgz",
+            "sha256": "75458e0f487e1eedcf97de435481c8545ae5fcec069a0817ac6e4e5086adbd7c",
+            "bytes": 12230493
+          },
+          "publishedAt": "2026-10-20T09:35:59.000Z",
           "channel": "stable",
           "support": "supported"
         }
