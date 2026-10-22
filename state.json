@@ -218,6 +218,28 @@
       "channel": "stable",
       "support": "supported",
       "status": "published"
+    },
+    {
+      "sourceId": "dev.crux",
+      "familyId": "python",
+      "variantId": "python-3-14-en",
+      "versionLine": "3.14",
+      "language": "en",
+      "identifier": "dev.crux.python",
+      "bundleName": "Python",
+      "version": "3.14.9",
+      "releaseId": "03c6090742ac8617a23f5327b44ff2f6cf4cdba810ab3605ff26d9fde079fe21",
+      "title": "Python",
+      "revision": 1,
+      "artifact": {
+        "url": "https://github.com/zacharyhuo/crux-docset/releases/download/docset-python-3-14-en-3.14.9-r1-03c6090742ac8617a23f5327b44ff2f6cf4cdba810ab3605ff26d9fde079fe21/Python.tgz",
+        "sha256": "6be08c4fb60db6f2c5316d9e7a7bff97dc7d11bc2cb5441e2fe1a162a54d73f7",
+        "bytes": 12280630
+      },
+      "publishedAt": "2026-10-22T16:55:04.000Z",
+      "channel": "stable",
+      "support": "supported",
+      "status": "published"
     }
   ],
   "catalog": {
@@ -230,8 +252,25 @@
         "identifier": "dev.crux.python",
         "bundleName": "Python",
         "defaultVariantId": "python-3-14-en",
-        "latestReleaseId": "f348a8858637b3f31be4c44ceff2255bb0fcac95bd8ca0a8573b90d8037976a4",
+        "latestReleaseId": "03c6090742ac8617a23f5327b44ff2f6cf4cdba810ab3605ff26d9fde079fe21",
         "releases": [
+          {
+            "releaseId": "03c6090742ac8617a23f5327b44ff2f6cf4cdba810ab3605ff26d9fde079fe21",
+            "variantId": "python-3-14-en",
+            "versionLine": "3.14",
+            "language": "en",
+            "version": "3.14.9",
+            "revision": 1,
+            "identifier": "dev.crux.python",
+            "artifact": {
+              "url": "https://github.com/zacharyhuo/crux-docset/releases/download/docset-python-3-14-en-3.14.9-r1-03c6090742ac8617a23f5327b44ff2f6cf4cdba810ab3605ff26d9fde079fe21/Python.tgz",
+              "sha256": "6be08c4fb60db6f2c5316d9e7a7bff97dc7d11bc2cb5441e2fe1a162a54d73f7",
+              "bytes": 12280630
+            },
+            "publishedAt": "2026-10-22T16:55:04.000Z",
+            "channel": "stable",
+            "support": "supported"
+          },
           {
             "releaseId": "060058c96bc3ee0d8670f121f5a2659a806fbbcb52dacdd308f3572ff36aaddc",
             "variantId": "python-3-14-en",
