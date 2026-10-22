@@ -1,5 +1,7 @@
 # crux-docset
 
+[简体中文](README.md) | [English](README.en.md)
+
 Crux 独立 docset 供应仓库。Node.js CLI、Python 官方文档构建、验证和 GitHub Release 发布流程已有实现与 `main` 私有发布记录。公开匿名下载仍待验收，仓库当前仍为 private。
 
 负责 recipe、构建 adapter、许可证记录、质量测试、上游变更检测、版本锁定与自动发布。
